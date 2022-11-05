@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "691202598653",
+    "project_id": "flashcards-32963",
+    "storage_bucket": "flashcards-32963.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691202598653:android:c8bac4fc5f438f3be60094",
+        "android_client_info": {
+          "package_name": "com.marcopla.flashcards"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "691202598653-ds6dkqfrau86fbb0ddcf2rnv7m2p5ner.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAak3R-iA8MeGvuu75PmAcUEuNVZY4XPj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "691202598653-ds6dkqfrau86fbb0ddcf2rnv7m2p5ner.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
