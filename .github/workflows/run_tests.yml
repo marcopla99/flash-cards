@@ -37,6 +37,9 @@ jobs:
         with:
           java-version: 11
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
       - name: Assemble app debug APK
         run: ./gradlew assembleDebug
 
