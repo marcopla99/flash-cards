@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.marcopla.flashcards.data.FlashCard
 import com.marcopla.flashcards.ui.theme.FlashCardsTheme
 
 class MainActivity : ComponentActivity() {
@@ -32,6 +33,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String) {
     Text(text = "Hello $name!")
+}
+
+@Composable
+fun ContentSection(flashCards: List<FlashCard>) {
 }
 
 @Preview(showBackground = true)
