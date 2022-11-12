@@ -18,4 +18,13 @@ class HomePageTest {
             emptyDataTextIsPresent()
         }
     }
+
+    @Test
+    fun homePage__navigateToAddPage() {
+        launchHomePage(homePageTestRule) {
+            clickAddButton()
+        } verify {
+            navigatedToAddPage()
+        }
+    }
 }
