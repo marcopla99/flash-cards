@@ -3,13 +3,9 @@ package com.marcopla.flashcards
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import com.marcopla.flashcards.data.FlashCard
 import com.marcopla.flashcards.ui.theme.FlashCardsTheme
 
@@ -18,31 +14,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FlashCardsTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
+                ContentSection(flashCards = listOf())
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Composable
 fun ContentSection(flashCards: List<FlashCard>) {
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    FlashCardsTheme {
-        Greeting("Android")
+    if (flashCards.isEmpty()) {
+        Text(text = stringResource(id = R.string.noFlashCardsCreated))
+    } else {
+        TODO()
     }
 }
