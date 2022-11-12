@@ -7,8 +7,10 @@ import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.marcopla.flashcards.ADD_PAGE_ROUTE
 import com.marcopla.flashcards.ContentSection
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.FlashCard
@@ -41,6 +43,7 @@ class HomePageRobot(
     fun clickAddButton() {
         rule.setContent {
             navController = TestNavHostController(LocalContext.current)
+            navController!!.navigatorProvider.addNavigator(ComposeNavigator())
             AppNavHost(navController = navController!!)
         }
         val addButtonContentDescription = rule.activity.getString(R.string.addFlashCardButtonCd)
@@ -65,5 +68,3 @@ class HomePageVerification(
         assertEquals(currentRoute, ADD_PAGE_ROUTE)
     }
 }
-
-private const val ADD_PAGE_ROUTE = "Add Flash Card"
