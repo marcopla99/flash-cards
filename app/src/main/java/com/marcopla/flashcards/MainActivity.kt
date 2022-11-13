@@ -21,31 +21,31 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
-            AppNavHost(navController)
+            FlashCardsTheme {
+                val navController = rememberNavController()
+                AppNavHost(navController)
+            }
         }
     }
 }
 
 @Composable
 fun HomePage(onNavigateToAddPage: () -> Unit) {
-    FlashCardsTheme {
-        Scaffold(
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = onNavigateToAddPage
-                ) {
-                    Icon(
-                        contentDescription = stringResource(R.string.addFlashCardButtonCd),
-                        imageVector = Icons.Default.Add
-                    )
-                }
-            }
-        ) {
-            Surface(modifier = Modifier.padding(it)) {
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onNavigateToAddPage
+            ) {
+                Icon(
+                    contentDescription = stringResource(R.string.addFlashCardButtonCd),
+                    imageVector = Icons.Default.Add
+                )
             }
         }
-        ContentSection(flashCards = listOf())
+    ) {
+        Surface(modifier = Modifier.padding(it)) {
+            ContentSection(flashCards = listOf())
+        }
     }
 }
 
