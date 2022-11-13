@@ -17,8 +17,6 @@ import com.marcopla.flashcards.data.FlashCard
 import com.marcopla.flashcards.navigation.AppNavHost
 import com.marcopla.flashcards.ui.theme.FlashCardsTheme
 
-const val ADD_PAGE_ROUTE = "Add Flash Card"
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

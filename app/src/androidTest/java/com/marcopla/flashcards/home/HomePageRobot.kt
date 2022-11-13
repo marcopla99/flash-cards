@@ -10,11 +10,11 @@ import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.marcopla.flashcards.ADD_PAGE_ROUTE
 import com.marcopla.flashcards.ContentSection
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.FlashCard
 import com.marcopla.flashcards.navigation.AppNavHost
+import com.marcopla.flashcards.navigation.Routes
 import org.junit.Assert.assertEquals
 
 typealias ComponentActivityTestRule =
@@ -65,6 +65,6 @@ class HomePageVerification(
     }
     fun navigatedToAddPage() {
         val currentRoute = navController?.currentBackStackEntry?.destination?.route
-        assertEquals(currentRoute, ADD_PAGE_ROUTE)
+        assertEquals(currentRoute, Routes.ADD_PAGE)
     }
 }
