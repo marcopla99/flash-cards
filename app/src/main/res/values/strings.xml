@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FlashCards</string>
+    <string name="noFlashCardsCreated">No flash cards created yet.</string>
+    <string name="addFlashCardButtonCd">Add new flash card</string>
 </resources>
