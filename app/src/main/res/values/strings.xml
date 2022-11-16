@@ -2,4 +2,8 @@
     <string name="app_name">FlashCards</string>
     <string name="noFlashCardsCreated">No flash cards created yet.</string>
     <string name="addFlashCardButtonCd">Add new flash card</string>
+    <string name="frontTextFieldCd">Front text field</string>
+    <string name="backTextFieldCd">Back text field</string>
+    <string name="addCardButtonCd">Add card button</string>
+    <string name="cardAdded">Card added</string>
 </resources>
