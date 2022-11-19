@@ -20,7 +20,7 @@ fun HomeScreen(onNavigateToAddScreen: () -> Unit) {
                 onClick = onNavigateToAddScreen
             ) {
                 Icon(
-                    contentDescription = stringResource(R.string.addFlashCardButtonCd),
+                    contentDescription = stringResource(R.string.navigateToAddScreenButtonCd),
                     imageVector = Icons.Default.Add
                 )
             }

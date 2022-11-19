@@ -45,7 +45,8 @@ class HomeScreenRobot(
             navController!!.navigatorProvider.addNavigator(ComposeNavigator())
             AppNavHost(navController = navController!!)
         }
-        val addButtonContentDescription = rule.activity.getString(R.string.addFlashCardButtonCd)
+        val addButtonContentDescription =
+            rule.activity.getString(R.string.navigateToAddScreenButtonCd)
         rule.onNodeWithContentDescription(addButtonContentDescription).performClick()
     }
 

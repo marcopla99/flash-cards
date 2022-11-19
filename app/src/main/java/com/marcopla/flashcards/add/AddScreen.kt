@@ -42,7 +42,7 @@ fun AddScreen() {
                 TextField(
                     modifier = Modifier.semantics { contentDescription = frontTextFieldCd },
                     value = frontText,
-                    label = { Text(stringResource(R.string.fronTextFieldLabel)) },
+                    label = { Text(stringResource(R.string.frontTextFieldLabel)) },
                     onValueChange = { frontInput -> frontText = frontInput }
                 )
                 val backTextFieldCd = stringResource(R.string.backTextFieldCd)
