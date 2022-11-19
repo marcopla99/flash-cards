@@ -10,7 +10,6 @@ import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.marcopla.flashcards.ContentSection
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.FlashCard
 import com.marcopla.flashcards.navigation.AppNavHost

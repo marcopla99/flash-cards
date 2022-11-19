@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.marcopla.flashcards.AddPage
-import com.marcopla.flashcards.HomePage
+import com.marcopla.flashcards.add.AddPage
+import com.marcopla.flashcards.home.HomePage
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
