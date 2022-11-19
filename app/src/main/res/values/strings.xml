@@ -6,4 +6,6 @@
     <string name="backTextFieldCd">Back text field</string>
     <string name="addCardButtonCd">Add card button</string>
     <string name="cardAdded">Card added</string>
+    <string name="backTextFieldLabel">Back</string>
+    <string name="fronTextFieldLabel">Front</string>
 </resources>

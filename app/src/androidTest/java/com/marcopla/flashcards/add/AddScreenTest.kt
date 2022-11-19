@@ -1,14 +1,14 @@
 package com.marcopla.flashcards.add
 
+import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.marcopla.flashcards.MainActivity
 import org.junit.Rule
 import org.junit.Test
 
 class AddScreenTest {
 
     @get:Rule
-    val addScreenTestRule = createAndroidComposeRule<MainActivity>()
+    val addScreenTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
     fun addScreen_fieldsAreEmpty_and_pressTheAddButton_showErrorMessage() {
@@ -17,7 +17,7 @@ class AddScreenTest {
             typeTextBack("Engels")
             submit()
         } verify {
-            addedCardToastIsDisplayed()
+            addedCardSnackbarIsDisplayed()
         }
     }
 }

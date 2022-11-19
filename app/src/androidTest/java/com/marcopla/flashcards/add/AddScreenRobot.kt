@@ -1,22 +1,26 @@
 package com.marcopla.flashcards.add
 
+import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.marcopla.flashcards.MainActivity
+import com.marcopla.flashcards.AddPage
 import com.marcopla.flashcards.R
 
-typealias MainActivityTestRule =
-    AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>
+typealias ComponentActivityTestRule =
+    AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
 
 fun launchAddScreen(
-    rule: MainActivityTestRule,
+    rule: ComponentActivityTestRule,
     block: AddScreenRobot.() -> Unit
 ): AddScreenRobot {
+    rule.setContent {
+        AddPage()
+    }
     return AddScreenRobot(rule).apply(block)
 }
 
-class AddScreenRobot(private val rule: MainActivityTestRule) {
+class AddScreenRobot(private val rule: ComponentActivityTestRule) {
     fun typeTextFront(frontText: String) {
         rule.onNodeWithContentDescription(rule.activity.getString(R.string.frontTextFieldCd))
             .performTextInput(frontText)
@@ -37,8 +41,8 @@ class AddScreenRobot(private val rule: MainActivityTestRule) {
     }
 }
 
-class AddScreenVerification(private val rule: MainActivityTestRule) {
-    fun addedCardToastIsDisplayed() {
+class AddScreenVerification(private val rule: ComponentActivityTestRule) {
+    fun addedCardSnackbarIsDisplayed() {
         rule.onNodeWithText(rule.activity.getString(R.string.cardAdded)).assertIsDisplayed()
     }
 }
