@@ -4,24 +4,24 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.marcopla.flashcards.add.AddPage
-import com.marcopla.flashcards.home.HomePage
+import com.marcopla.flashcards.add.AddScreen
+import com.marcopla.flashcards.home.HomeScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Routes.HOME_PAGE) {
-        composable(Routes.HOME_PAGE) {
-            HomePage {
-                navController.navigate(Routes.ADD_PAGE)
+    NavHost(navController = navController, startDestination = Routes.HOME_SCREEN) {
+        composable(Routes.HOME_SCREEN) {
+            HomeScreen {
+                navController.navigate(Routes.ADD_SCREEN)
             }
         }
-        composable(Routes.ADD_PAGE) {
-            AddPage()
+        composable(Routes.ADD_SCREEN) {
+            AddScreen()
         }
     }
 }
 
 object Routes {
-    const val HOME_PAGE = "HOME_PAGE"
-    const val ADD_PAGE = "ADD_PAGE"
+    const val HOME_SCREEN = "HOME_SCREEN"
+    const val ADD_SCREEN = "ADD_SCREEN"
 }

@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 @Preview
 @Composable
-fun AddPage() {
+fun AddScreen() {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     val infoMessage = stringResource(R.string.cardAdded)

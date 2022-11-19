@@ -13,11 +13,11 @@ import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.FlashCard
 
 @Composable
-fun HomePage(onNavigateToAddPage: () -> Unit) {
+fun HomeScreen(onNavigateToAddScreen: () -> Unit) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = onNavigateToAddPage
+                onClick = onNavigateToAddScreen
             ) {
                 Icon(
                     contentDescription = stringResource(R.string.addFlashCardButtonCd),

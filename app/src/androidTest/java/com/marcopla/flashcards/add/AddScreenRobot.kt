@@ -14,7 +14,7 @@ fun launchAddScreen(
     block: AddScreenRobot.() -> Unit
 ): AddScreenRobot {
     rule.setContent {
-        AddPage()
+        AddScreen()
     }
     return AddScreenRobot(rule).apply(block)
 }

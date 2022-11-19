@@ -19,14 +19,14 @@ import org.junit.Assert.assertEquals
 typealias ComponentActivityTestRule =
     AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
 
-fun launchHomePage(
+fun launchHomeScreen(
     rule: ComponentActivityTestRule,
-    block: HomePageRobot.() -> Unit
-): HomePageRobot {
-    return HomePageRobot(rule).apply(block)
+    block: HomeScreenRobot.() -> Unit
+): HomeScreenRobot {
+    return HomeScreenRobot(rule).apply(block)
 }
 
-class HomePageRobot(
+class HomeScreenRobot(
     private val rule: ComponentActivityTestRule
 ) {
     private var navController: TestNavHostController? = null
@@ -49,12 +49,12 @@ class HomePageRobot(
         rule.onNodeWithContentDescription(addButtonContentDescription).performClick()
     }
 
-    infix fun verify(block: HomePageVerification.() -> Unit): HomePageVerification {
-        return HomePageVerification(rule, navController).apply(block)
+    infix fun verify(block: HomeScreenVerification.() -> Unit): HomeScreenVerification {
+        return HomeScreenVerification(rule, navController).apply(block)
     }
 }
 
-class HomePageVerification(
+class HomeScreenVerification(
     private val rule: ComponentActivityTestRule,
     private val navController: TestNavHostController?
 ) {
@@ -62,8 +62,8 @@ class HomePageVerification(
         val emptyDataText = rule.activity.getString(R.string.noFlashCardsCreated)
         rule.onNodeWithText(emptyDataText).assertIsDisplayed()
     }
-    fun navigatedToAddPage() {
+    fun navigatedToAddScreen() {
         val currentRoute = navController?.currentBackStackEntry?.destination?.route
-        assertEquals(currentRoute, Routes.ADD_PAGE)
+        assertEquals(currentRoute, Routes.ADD_SCREEN)
     }
 }
