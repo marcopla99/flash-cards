@@ -10,6 +10,9 @@ class NewFlashCardViewModel {
     private val _backTextState = MutableLiveData<BackTextState>()
     val backTextState: LiveData<BackTextState> = _backTextState
 
+    private val _newCardState = MutableLiveData<BackTextState>()
+    val newCardState: LiveData<BackTextState> = _newCardState
+
     fun submit(frontText: String?, backText: String?) {
         if (frontText.isNullOrBlank()) {
             _frontTextState.value = FrontTextState.Invalid
@@ -26,4 +29,8 @@ enum class FrontTextState(val text: String = "") {
 
 enum class BackTextState(val text: String = "") {
     Invalid
+}
+
+enum class NewCardState {
+    Valid
 }
