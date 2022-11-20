@@ -5,14 +5,14 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import org.junit.Rule
 import org.junit.Test
 
-class HomePageTest {
+class HomeScreenTest {
 
     @get:Rule
-    val homePageTestRule = createAndroidComposeRule<ComponentActivity>()
+    val homeScreenTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun homePage_emptyData_showEmptyMessage() {
-        launchHomePage(homePageTestRule) {
+    fun homeScreen_emptyData_showEmptyMessage() {
+        launchHomeScreen(homeScreenTestRule) {
             setFlashCards(listOf())
         } verify {
             emptyDataTextIsPresent()
@@ -20,11 +20,11 @@ class HomePageTest {
     }
 
     @Test
-    fun homePage__navigateToAddPage() {
-        launchHomePage(homePageTestRule) {
+    fun homeScreen__navigateToAddScreen() {
+        launchHomeScreen(homeScreenTestRule) {
             clickAddButton()
         } verify {
-            navigatedToAddPage()
+            navigatedToAddScreen()
         }
     }
 }

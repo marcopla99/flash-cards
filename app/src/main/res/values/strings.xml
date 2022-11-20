@@ -1,5 +1,11 @@
 <resources>
-    <string name="app_name">FlashCards</string>
+    <string name="appName">FlashCards</string>
     <string name="noFlashCardsCreated">No flash cards created yet.</string>
-    <string name="addFlashCardButtonCd">Add new flash card</string>
+    <string name="navigateToAddScreenButtonCd">Navigate to AddScreen</string>
+    <string name="frontTextFieldCd">Front text</string>
+    <string name="backTextFieldCd">Back text</string>
+    <string name="addCardButtonCd">Add new card</string>
+    <string name="cardAdded">Card added</string>
+    <string name="backTextFieldLabel">Back</string>
+    <string name="frontTextFieldLabel">Front</string>
 </resources>
