@@ -11,7 +11,7 @@ class AddScreenTest {
     val addScreenTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun addScreen_fieldsAreEmpty_and_pressTheAddButton_showErrorMessage() {
+    fun addScreen_fieldsNotEmpty_and_pressAddButton_showSnackbarMessage() {
         launchAddScreen(addScreenTestRule) {
             typeTextFront("English")
             typeTextBack("Engels")
