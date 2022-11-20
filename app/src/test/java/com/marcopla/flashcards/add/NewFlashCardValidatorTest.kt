@@ -16,4 +16,13 @@ class NewFlashCardValidatorTest {
 
         assertEquals(FrontTextState.Invalid, viewModel.frontTextState.value)
     }
+
+    @Test
+    fun backText_isEmptyWhenSubmitted_returnInvalidState() {
+        val viewModel = NewFlashCardViewModel()
+
+        viewModel.submit(":frontText:", "")
+
+        assertEquals(BackTextState.Invalid, viewModel.backTextState.value)
+    }
 }
