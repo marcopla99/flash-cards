@@ -1,7 +1,6 @@
 package com.marcopla.flashcards.add
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -11,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.marcopla.flashcards.R
 import kotlinx.coroutines.launch
 
@@ -21,6 +21,7 @@ fun AddScreen() {
     val scope = rememberCoroutineScope()
     val infoMessage = stringResource(R.string.cardAdded)
     Scaffold(
+        modifier = Modifier.padding(8.dp),
         scaffoldState = scaffoldState,
         floatingActionButton = {
             FloatingActionButton(onClick = {
@@ -40,15 +41,20 @@ fun AddScreen() {
                 val frontTextFieldCd = stringResource(R.string.frontTextFieldCd)
                 var frontText by remember { mutableStateOf("") }
                 TextField(
-                    modifier = Modifier.semantics { contentDescription = frontTextFieldCd },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .semantics { contentDescription = frontTextFieldCd },
                     value = frontText,
                     label = { Text(stringResource(R.string.frontTextFieldLabel)) },
                     onValueChange = { frontInput -> frontText = frontInput }
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 val backTextFieldCd = stringResource(R.string.backTextFieldCd)
                 var backText by remember { mutableStateOf("") }
                 TextField(
-                    modifier = Modifier.semantics { contentDescription = backTextFieldCd },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .semantics { contentDescription = backTextFieldCd },
                     value = backText,
                     label = { Text(stringResource(R.string.backTextFieldLabel)) },
                     onValueChange = { backInput -> backText = backInput }
