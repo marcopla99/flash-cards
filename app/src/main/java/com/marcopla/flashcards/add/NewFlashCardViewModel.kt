@@ -8,6 +8,10 @@ class NewFlashCardViewModel {
     val frontTextState: LiveData<FrontTextState> = _frontTextState
 
     fun submit(frontText: String?, backText: String?) {
+        if (frontText.isNullOrBlank() && backText is String) {
+            _frontTextState.value = FrontTextState.Invalid
+            return
+        }
     }
 }
 
