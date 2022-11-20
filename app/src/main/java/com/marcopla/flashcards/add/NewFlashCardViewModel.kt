@@ -10,8 +10,8 @@ class NewFlashCardViewModel {
     private val _backTextState = MutableLiveData<BackTextState>()
     val backTextState: LiveData<BackTextState> = _backTextState
 
-    private val _newCardState = MutableLiveData<BackTextState>()
-    val newCardState: LiveData<BackTextState> = _newCardState
+    private val _newCardState = MutableLiveData<NewCardState>()
+    val newCardState: LiveData<NewCardState> = _newCardState
 
     fun submit(frontText: String?, backText: String?) {
         if (frontText.isNullOrBlank()) {
@@ -19,6 +19,9 @@ class NewFlashCardViewModel {
         }
         if (backText.isNullOrBlank()) {
             _backTextState.value = BackTextState.Invalid
+        }
+        if (!frontText.isNullOrBlank() && !backText.isNullOrBlank()) {
+            _newCardState.value = NewCardState.Valid
         }
     }
 }
