@@ -30,13 +30,4 @@ class NewFlashCardValidatorTest {
 
         assertEquals(BackTextState.Invalid, viewModel.backTextState.value)
     }
-
-    @Test
-    fun frontText_and_backText_areValid_returnValidCardState() {
-        val viewModel = NewFlashCardViewModel(SaveNewCardUseCase())
-
-        viewModel.attemptSubmit("English", "Engels")
-
-        assertEquals(NewCardState.Valid, viewModel.newCardState.value)
-    }
 }
