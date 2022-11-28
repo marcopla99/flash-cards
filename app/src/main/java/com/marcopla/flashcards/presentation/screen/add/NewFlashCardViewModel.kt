@@ -1,7 +1,7 @@
 package com.marcopla.flashcards.presentation.screen.add
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import com.marcopla.flashcards.domain.use_case.InvalidBackException
 import com.marcopla.flashcards.domain.use_case.InvalidFrontException
 import com.marcopla.flashcards.domain.use_case.SaveNewCardUseCase
@@ -9,40 +9,38 @@ import com.marcopla.flashcards.domain.use_case.SaveNewCardUseCase
 class NewFlashCardViewModel(
     private val saveNewCard: SaveNewCardUseCase
 ) {
-    private val _frontTextState = MutableLiveData<FrontTextState>()
-    val frontTextState: LiveData<FrontTextState> = _frontTextState
+    private val _frontTextState = mutableStateOf(FrontTextState())
+    val frontTextState: State<FrontTextState> = _frontTextState
 
-    private val _backTextState = MutableLiveData<BackTextState>()
-    val backTextState: LiveData<BackTextState> = _backTextState
-
-    private val _newCardState = MutableLiveData<NewCardState>()
-    val newCardState: LiveData<NewCardState> = _newCardState
+    private val _backTextState = mutableStateOf(BackTextState())
+    val backTextState: State<BackTextState> = _backTextState
 
     fun attemptSubmit(frontText: String?, backText: String?) {
         try {
             saveNewCard(frontText, backText)
-            _newCardState.value = NewCardState.Valid
         } catch (exception: IllegalStateException) {
             when (exception) {
                 is InvalidFrontException -> {
-                    _frontTextState.value = FrontTextState.Invalid
+                    _frontTextState.value = _frontTextState.value.copy(
+                        showError = true
+                    )
                 }
                 is InvalidBackException -> {
-                    _backTextState.value = BackTextState.Invalid
+                    _backTextState.value = _backTextState.value.copy(
+                        showError = true
+                    )
                 }
             }
         }
     }
 }
 
-enum class FrontTextState {
-    Invalid
-}
+data class FrontTextState(
+    val text: String = "",
+    val showError: Boolean = false,
+)
 
-enum class BackTextState {
-    Invalid
-}
-
-enum class NewCardState {
-    Valid
-}
+data class BackTextState(
+    val text: String = "",
+    val showError: Boolean = false,
+)

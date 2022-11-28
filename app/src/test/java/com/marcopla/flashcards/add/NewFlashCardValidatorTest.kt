@@ -4,7 +4,6 @@ import com.marcopla.flashcards.InstantTaskExecutorExtension
 import com.marcopla.flashcards.domain.use_case.SaveNewCardUseCase
 import com.marcopla.flashcards.presentation.screen.add.BackTextState
 import com.marcopla.flashcards.presentation.screen.add.FrontTextState
-import com.marcopla.flashcards.presentation.screen.add.NewCardState
 import com.marcopla.flashcards.presentation.screen.add.NewFlashCardViewModel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -16,18 +15,23 @@ class NewFlashCardValidatorTest {
     @Test
     fun frontText_isEmptyWhenSubmitted_returnInvalidState() {
         val viewModel = NewFlashCardViewModel(SaveNewCardUseCase())
+        val emptyFrontText = ""
 
-        viewModel.attemptSubmit("", ":backText:")
+        viewModel.attemptSubmit(emptyFrontText, ":backText:")
 
-        assertEquals(FrontTextState.Invalid, viewModel.frontTextState.value)
+        assertEquals(
+            FrontTextState(emptyFrontText, showError = true),
+            viewModel.frontTextState.value,
+        )
     }
 
     @Test
     fun backText_isEmptyWhenSubmitted_returnInvalidState() {
         val viewModel = NewFlashCardViewModel(SaveNewCardUseCase())
+        val emptyBackText = ""
 
-        viewModel.attemptSubmit(":frontText:", "")
+        viewModel.attemptSubmit(":frontText:", emptyBackText)
 
-        assertEquals(BackTextState.Invalid, viewModel.backTextState.value)
+        assertEquals(BackTextState(emptyBackText, showError = true), viewModel.backTextState.value)
     }
 }
