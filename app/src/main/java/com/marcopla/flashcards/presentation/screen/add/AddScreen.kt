@@ -1,4 +1,4 @@
-package com.marcopla.flashcards.add
+package com.marcopla.flashcards.presentation.screen.add
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*

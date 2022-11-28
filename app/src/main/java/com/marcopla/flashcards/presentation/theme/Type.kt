@@ -1,4 +1,4 @@
-package com.marcopla.flashcards.ui.theme
+package com.marcopla.flashcards.presentation.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

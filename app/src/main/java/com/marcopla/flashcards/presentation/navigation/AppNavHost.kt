@@ -1,11 +1,11 @@
-package com.marcopla.flashcards.navigation
+package com.marcopla.flashcards.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.marcopla.flashcards.add.AddScreen
-import com.marcopla.flashcards.home.HomeScreen
+import com.marcopla.flashcards.presentation.screen.add.AddScreen
+import com.marcopla.flashcards.presentation.screen.home.HomeScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController) {

@@ -1,4 +1,4 @@
-package com.marcopla.flashcards.home
+package com.marcopla.flashcards.presentation.screen.home
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
