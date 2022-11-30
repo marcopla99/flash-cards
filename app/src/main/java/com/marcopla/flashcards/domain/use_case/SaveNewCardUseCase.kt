@@ -1,8 +1,9 @@
 package com.marcopla.flashcards.domain.use_case
 
 import com.marcopla.flashcards.data.FlashCard
+import javax.inject.Inject
 
-class SaveNewCardUseCase {
+class SaveNewCardUseCase @Inject constructor() {
     @Throws(InvalidBackException::class, InvalidFrontException::class)
     operator fun invoke(frontText: String?, backText: String?) {
         if (frontText.isNullOrBlank()) {

@@ -2,13 +2,18 @@ package com.marcopla.flashcards.presentation.screen.add
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 import com.marcopla.flashcards.domain.use_case.InvalidBackException
 import com.marcopla.flashcards.domain.use_case.InvalidFrontException
 import com.marcopla.flashcards.domain.use_case.SaveNewCardUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class NewFlashCardViewModel(
+@HiltViewModel
+class NewFlashCardViewModel @Inject constructor(
     private val saveNewCard: SaveNewCardUseCase
-) {
+) : ViewModel() {
+
     private val _frontTextState = mutableStateOf(FrontTextState())
     val frontTextState: State<FrontTextState> = _frontTextState
 
