@@ -1,3 +1,6 @@
 package com.marcopla.flashcards.data
 
-class FlashCard
+data class FlashCard(
+    val frontText: String,
+    val backText: String
+)
