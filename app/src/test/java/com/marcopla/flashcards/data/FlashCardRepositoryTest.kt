@@ -17,10 +17,13 @@ class FlashCardRepositoryTest {
 }
 
 class FlashCardRepository {
+    private val flashCardsList = mutableListOf<FlashCard>()
+
     fun getFlashCards(): List<FlashCard> {
-        return emptyList()
+        return flashCardsList
     }
 
     fun add(newFlashCards: FlashCard) {
+        flashCardsList.add(newFlashCards)
     }
 }
