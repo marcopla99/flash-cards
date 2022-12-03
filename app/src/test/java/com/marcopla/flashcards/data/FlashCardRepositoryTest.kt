@@ -1,5 +1,6 @@
 package com.marcopla.flashcards.data
 
+import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

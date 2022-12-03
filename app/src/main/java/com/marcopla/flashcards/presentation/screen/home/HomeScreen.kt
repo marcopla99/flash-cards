@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.marcopla.flashcards.R
-import com.marcopla.flashcards.data.FlashCard
+import com.marcopla.flashcards.data.model.FlashCard
 
 @Composable
 fun HomeScreen(onNavigateToAddScreen: () -> Unit) {

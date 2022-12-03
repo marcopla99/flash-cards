@@ -1,6 +1,6 @@
 package com.marcopla.flashcards.domain.use_case
 
-import com.marcopla.flashcards.data.FlashCard
+import com.marcopla.flashcards.data.model.FlashCard
 import javax.inject.Inject
 
 class SaveNewCardUseCase @Inject constructor() {

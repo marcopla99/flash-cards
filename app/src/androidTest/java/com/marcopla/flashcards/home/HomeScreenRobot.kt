@@ -11,7 +11,7 @@ import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
-import com.marcopla.flashcards.data.FlashCard
+import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.presentation.navigation.AppNavHost
 import com.marcopla.flashcards.presentation.navigation.Routes
 import com.marcopla.flashcards.presentation.screen.home.ContentSection

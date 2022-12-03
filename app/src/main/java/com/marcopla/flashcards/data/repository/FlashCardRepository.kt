@@ -1,6 +1,6 @@
 package com.marcopla.flashcards.data.repository
 
-import com.marcopla.flashcards.data.FlashCard
+import com.marcopla.flashcards.data.model.FlashCard
 
 class FlashCardRepository {
     private val flashCardsList = mutableListOf<FlashCard>()
