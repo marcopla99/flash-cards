@@ -1,5 +1,6 @@
 package com.marcopla.flashcards.data
 
+import com.marcopla.flashcards.data.repository.FlashCardRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -13,17 +14,5 @@ class FlashCardRepositoryTest {
         repository.add(newFlashCards)
 
         assertEquals(true, repository.getFlashCards().contains(newFlashCards))
-    }
-}
-
-class FlashCardRepository {
-    private val flashCardsList = mutableListOf<FlashCard>()
-
-    fun getFlashCards(): List<FlashCard> {
-        return flashCardsList
-    }
-
-    fun add(newFlashCards: FlashCard) {
-        flashCardsList.add(newFlashCards)
     }
 }
