@@ -37,7 +37,8 @@ fun AddScreen(
                     scope.launch {
                         scaffoldState.snackbarHostState.showSnackbar(infoMessage)
                     }
-                }) {
+                }
+            ) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = stringResource(R.string.addCardButtonCd)
