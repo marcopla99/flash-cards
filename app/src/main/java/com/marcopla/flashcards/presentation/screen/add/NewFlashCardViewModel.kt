@@ -38,6 +38,14 @@ class NewFlashCardViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateFrontText(frontInput: String) {
+        _frontTextState.value = _frontTextState.value.copy(text = frontInput, showError = false)
+    }
+
+    fun updateBackText(backInput: String) {
+        _backTextState.value = _backTextState.value.copy(text = backInput, showError = false)
+    }
 }
 
 data class FrontTextState(
