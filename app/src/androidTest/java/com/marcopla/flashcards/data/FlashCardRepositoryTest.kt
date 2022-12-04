@@ -17,7 +17,7 @@ class FlashCardRepositoryTest {
     lateinit var repository: FlashCardRepository
 
     @get:Rule(order = 0)
-    var hiltRule = HiltAndroidRule(this)
+    val hiltRule = HiltAndroidRule(this)
 
     @Before
     fun init() {

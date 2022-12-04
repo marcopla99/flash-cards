@@ -47,4 +47,9 @@ class AddScreenVerification(private val rule: ComponentActivityTestRule) {
     fun addedCardSnackbarIsDisplayed() {
         rule.onNodeWithText(rule.activity.getString(R.string.cardAdded)).assertIsDisplayed()
     }
+
+    fun duplicateErrorMessageIsDisplayed() {
+        rule.onNodeWithText(rule.activity.getString(R.string.duplicateCardError))
+            .assertIsDisplayed()
+    }
 }
