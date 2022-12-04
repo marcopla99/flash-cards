@@ -2,15 +2,31 @@ package com.marcopla.flashcards.data
 
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepository
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import javax.inject.Inject
 
+@HiltAndroidTest
 class FlashCardRepositoryTest {
+
+    @Inject
+    lateinit var repository: FlashCardRepository
+
+    @get:Rule(order = 0)
+    var hiltRule = HiltAndroidRule(this)
+
+    @Before
+    fun init() {
+        hiltRule.inject()
+    }
 
     @Test
     fun validNewFlashCard_afterIsInserted_isPossibleToReadIt() {
         val newFlashCards = FlashCard("Engels", "English")
-        val repository = FlashCardRepository()
 
         repository.add(newFlashCards)
 

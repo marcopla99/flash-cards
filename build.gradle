@@ -4,6 +4,7 @@ buildscript {
         jUnitVersion = '5.9.1'
         navigationVersion = '2.5.3'
         hiltVersion = '2.44'
+        roomVersion = '2.4.3'
     }
 
     dependencies {
