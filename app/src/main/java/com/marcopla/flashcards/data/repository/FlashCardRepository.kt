@@ -1,18 +1,21 @@
 package com.marcopla.flashcards.data.repository
 
+import android.database.sqlite.SQLiteConstraintException
 import com.marcopla.flashcards.data.data_source.FlashCardDao
 import com.marcopla.flashcards.data.model.FlashCard
 
 class FlashCardRepository(
     private val flashCardDao: FlashCardDao
 ) {
-    private val flashCardsList = mutableListOf<FlashCard>()
 
     fun getFlashCards(): List<FlashCard> {
-        return flashCardsList
+        return flashCardDao.fetchAll()
     }
 
     fun add(newFlashCards: FlashCard) {
-        flashCardsList.add(newFlashCards)
+        try {
+            flashCardDao.insert(newFlashCards)
+        } catch (_: SQLiteConstraintException) {
+        }
     }
 }
