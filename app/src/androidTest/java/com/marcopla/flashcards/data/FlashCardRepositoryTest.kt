@@ -32,4 +32,20 @@ class FlashCardRepositoryTest {
 
         assertEquals(true, repository.getFlashCards().contains(newFlashCards))
     }
+
+    @Test
+    fun duplicatedFlashCard_isAdded_noDuplicatesAreRead() {
+        val alreadyExistentFlashCard = FlashCard("Engels", "English")
+        repository.add(alreadyExistentFlashCard)
+
+        repository.add(alreadyExistentFlashCard)
+
+        val storedFlashCards: List<FlashCard> = repository.getFlashCards()
+        assertEquals(
+            true,
+            storedFlashCards.filter {
+                it == alreadyExistentFlashCard
+            }.size == 1
+        )
+    }
 }
