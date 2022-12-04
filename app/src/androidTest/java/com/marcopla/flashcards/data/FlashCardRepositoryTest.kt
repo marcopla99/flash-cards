@@ -34,7 +34,7 @@ class FlashCardRepositoryTest {
     }
 
     @Test
-    fun duplicatedFlashCard_isAdded_noDuplicatesAreRead() {
+    fun duplicatedFlashCard_isInserted_noDuplicatesAreRead() {
         val alreadyExistentFlashCard = FlashCard("Engels", "English")
         repository.add(alreadyExistentFlashCard)
 
