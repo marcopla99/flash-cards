@@ -6,23 +6,21 @@ import com.marcopla.flashcards.data.data_source.FlashCardDatabase
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dagger.hilt.testing.TestInstallIn
 import javax.inject.Singleton
 
 @Module
-@TestInstallIn(
-    components = [SingletonComponent::class],
-    replaces = [AppModule::class],
-)
-object TestAppModule {
+@InstallIn(SingletonComponent::class)
+class AppModule {
 
     @Provides
     @Singleton
     fun provideFlashCardDatabase(application: Application): FlashCardDatabase {
-        return Room.inMemoryDatabaseBuilder(
+        return Room.databaseBuilder(
             application,
             FlashCardDatabase::class.java,
+            "flash_card_db"
         ).build()
     }
 

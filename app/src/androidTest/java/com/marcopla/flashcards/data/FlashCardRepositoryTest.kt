@@ -4,12 +4,15 @@ import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import javax.inject.Inject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
 class FlashCardRepositoryTest {
 
@@ -25,7 +28,7 @@ class FlashCardRepositoryTest {
     }
 
     @Test
-    fun validNewFlashCard_afterIsInserted_isPossibleToReadIt() {
+    fun validNewFlashCard_afterIsInserted_isPossibleToReadIt() = runTest {
         val newFlashCards = FlashCard("Engels", "English")
 
         repository.add(newFlashCards)
@@ -34,7 +37,7 @@ class FlashCardRepositoryTest {
     }
 
     @Test
-    fun duplicatedFlashCard_isInserted_noDuplicatesAreRead() {
+    fun duplicatedFlashCard_isInserted_noDuplicatesAreRead() = runTest {
         val alreadyExistentFlashCard = FlashCard("Engels", "English")
         repository.add(alreadyExistentFlashCard)
 

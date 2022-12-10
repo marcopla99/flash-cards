@@ -8,8 +8,8 @@ import com.marcopla.flashcards.data.model.FlashCard
 @Dao
 interface FlashCardDao {
     @Query("SELECT * FROM flashCard")
-    fun fetchAll(): List<FlashCard>
+    suspend fun fetchAll(): List<FlashCard>
 
     @Insert
-    fun insert(flashCard: FlashCard)
+    suspend fun insert(flashCard: FlashCard)
 }

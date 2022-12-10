@@ -5,6 +5,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,6 +25,17 @@ fun AddScreen(
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     val infoMessage = stringResource(R.string.cardAdded)
+    val duplicateErrorMessage = stringResource(R.string.duplicateCardError)
+    val error = remember { viewModel.errorState } // FIXME it works, but is it ok? + refactor
+    if (error.value == AddScreenInfoState.DUPLICATE) {
+        scope.launch {
+            scaffoldState.snackbarHostState.showSnackbar(duplicateErrorMessage)
+        }
+    } else if (error.value == AddScreenInfoState.VALID) {
+        scope.launch {
+            scaffoldState.snackbarHostState.showSnackbar(infoMessage)
+        }
+    }
     Scaffold(
         modifier = Modifier.padding(8.dp),
         scaffoldState = scaffoldState,
@@ -34,9 +46,6 @@ fun AddScreen(
                         frontText = viewModel.frontTextState.value.text,
                         backText = viewModel.backTextState.value.text,
                     )
-                    scope.launch {
-                        scaffoldState.snackbarHostState.showSnackbar(infoMessage)
-                    }
                 }
             ) {
                 Icon(

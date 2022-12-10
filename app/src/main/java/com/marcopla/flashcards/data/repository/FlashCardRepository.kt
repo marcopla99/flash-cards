@@ -8,14 +8,18 @@ class FlashCardRepository(
     private val flashCardDao: FlashCardDao
 ) {
 
-    fun getFlashCards(): List<FlashCard> {
+    suspend fun getFlashCards(): List<FlashCard> {
         return flashCardDao.fetchAll()
     }
 
-    fun add(newFlashCards: FlashCard) {
+    @Throws(DuplicateInsertionException::class)
+    suspend fun add(newFlashCards: FlashCard) {
         try {
             flashCardDao.insert(newFlashCards)
         } catch (_: SQLiteConstraintException) {
+            throw DuplicateInsertionException()
         }
     }
 }
+
+class DuplicateInsertionException : IllegalStateException()
