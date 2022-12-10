@@ -5,8 +5,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -15,7 +15,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marcopla.flashcards.R
-import kotlinx.coroutines.launch
 
 @Preview
 @Composable
@@ -23,16 +22,15 @@ fun AddScreen(
     viewModel: NewFlashCardViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberScaffoldState()
-    val scope = rememberCoroutineScope()
     val infoMessage = stringResource(R.string.cardAdded)
     val duplicateErrorMessage = stringResource(R.string.duplicateCardError)
     val error = remember { viewModel.errorState } // FIXME it works, but is it ok? + refactor
     if (error.value == AddScreenInfoState.DUPLICATE) {
-        scope.launch {
+        LaunchedEffect(key1 = scaffoldState.snackbarHostState) {
             scaffoldState.snackbarHostState.showSnackbar(duplicateErrorMessage)
         }
     } else if (error.value == AddScreenInfoState.VALID) {
-        scope.launch {
+        LaunchedEffect(key1 = scaffoldState.snackbarHostState) {
             scaffoldState.snackbarHostState.showSnackbar(infoMessage)
         }
     }
