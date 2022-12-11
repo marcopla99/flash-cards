@@ -6,7 +6,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -22,18 +21,11 @@ fun AddScreen(
     viewModel: NewFlashCardViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberScaffoldState()
-    val infoMessage = stringResource(R.string.cardAdded)
-    val duplicateErrorMessage = stringResource(R.string.duplicateCardError)
-    val error = remember { viewModel.errorState } // FIXME it works, but is it ok? + refactor
-    if (error.value == AddScreenInfoState.DUPLICATE) {
-        LaunchedEffect(key1 = scaffoldState.snackbarHostState) {
-            scaffoldState.snackbarHostState.showSnackbar(duplicateErrorMessage)
-        }
-    } else if (error.value == AddScreenInfoState.VALID) {
-        LaunchedEffect(key1 = scaffoldState.snackbarHostState) {
-            scaffoldState.snackbarHostState.showSnackbar(infoMessage)
-        }
-    }
+    HandleInfoTextEffect(
+        viewModel.infoTextState.value.messageStringRes,
+        scaffoldState.snackbarHostState
+    )
+
     Scaffold(
         modifier = Modifier.padding(8.dp),
         scaffoldState = scaffoldState,
@@ -78,5 +70,17 @@ fun AddScreen(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun HandleInfoTextEffect(
+    infoTextStringRes: Int?,
+    snackbarHostState: SnackbarHostState
+) {
+    if (infoTextStringRes == null) return
+    val infoText = stringResource(infoTextStringRes)
+    LaunchedEffect(key1 = snackbarHostState) {
+        snackbarHostState.showSnackbar(infoText)
     }
 }
