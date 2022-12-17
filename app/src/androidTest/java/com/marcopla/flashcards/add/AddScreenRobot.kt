@@ -14,44 +14,49 @@ typealias ComponentActivityTestRule =
     AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
 
 fun launchAddScreen(
-    rule: ComponentActivityTestRule,
-    repository: FlashCardRepository, // FIXME: pass the viewmodel instead
+    composeRule: ComponentActivityTestRule,
+    repository: FlashCardRepository,
     block: AddScreenRobot.() -> Unit
 ): AddScreenRobot {
-    rule.setContent {
+    composeRule.setContent {
         AddScreen(NewFlashCardViewModel(SaveNewCardUseCase(repository)))
     }
-    return AddScreenRobot(rule).apply(block)
+    return AddScreenRobot(composeRule).apply(block)
 }
 
-class AddScreenRobot(private val rule: ComponentActivityTestRule) {
+class AddScreenRobot(private val composeRule: ComponentActivityTestRule) {
     fun typeTextFront(frontText: String) {
-        rule.onNodeWithContentDescription(rule.activity.getString(R.string.frontTextFieldCd))
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.frontTextFieldCd))
             .performTextInput(frontText)
     }
 
     fun typeTextBack(backText: String) {
-        rule.onNodeWithContentDescription(rule.activity.getString(R.string.backTextFieldCd))
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.backTextFieldCd))
             .performTextInput(backText)
     }
 
     fun submit() {
-        rule.onNodeWithContentDescription(rule.activity.getString(R.string.addCardButtonCd))
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.addCardButtonCd))
             .performClick()
     }
 
     infix fun verify(block: AddScreenVerification.() -> Unit): AddScreenVerification {
-        return AddScreenVerification(rule).apply(block)
+        return AddScreenVerification(composeRule).apply(block)
     }
 }
 
-class AddScreenVerification(private val rule: ComponentActivityTestRule) {
+class AddScreenVerification(private val composeRule: ComponentActivityTestRule) {
     fun addedCardSnackbarIsDisplayed() {
-        rule.onNodeWithText(rule.activity.getString(R.string.cardAdded)).assertIsDisplayed()
+        composeRule
+            .onNodeWithText(composeRule.activity.getString(R.string.cardAdded))
+            .assertIsDisplayed()
     }
 
     fun duplicateErrorMessageIsDisplayed() {
-        rule.onNodeWithText(rule.activity.getString(R.string.duplicateCardError))
+        composeRule.onNodeWithText(composeRule.activity.getString(R.string.duplicateCardError))
             .assertIsDisplayed()
     }
 }

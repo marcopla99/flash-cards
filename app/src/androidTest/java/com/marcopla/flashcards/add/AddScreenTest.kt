@@ -6,12 +6,12 @@ import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
@@ -24,7 +24,7 @@ class AddScreenTest {
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    val addScreenTestRule = createAndroidComposeRule<ComponentActivity>()
+    val composeRule = createAndroidComposeRule<ComponentActivity>()
 
     @Before
     fun init() {
@@ -33,7 +33,7 @@ class AddScreenTest {
 
     @Test
     fun addScreen_fieldsNotEmpty_and_pressAddButton_showSnackbarMessage() {
-        launchAddScreen(addScreenTestRule, repository) {
+        launchAddScreen(composeRule, repository) {
             typeTextFront("Engels")
             typeTextBack("English")
             submit()
@@ -46,7 +46,7 @@ class AddScreenTest {
     fun duplicateFlashCard_pressAddButton_showDuplicateErrorMessage() = runTest {
         repository.add(FlashCard("Engels", "English"))
 
-        launchAddScreen(addScreenTestRule, repository) {
+        launchAddScreen(composeRule, repository) {
             typeTextFront("Engels")
             typeTextBack("English")
             submit()
