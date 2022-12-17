@@ -11,8 +11,8 @@ import com.marcopla.flashcards.domain.use_case.InvalidBackException
 import com.marcopla.flashcards.domain.use_case.InvalidFrontException
 import com.marcopla.flashcards.domain.use_case.SaveNewCardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class NewFlashCardViewModel @Inject constructor(

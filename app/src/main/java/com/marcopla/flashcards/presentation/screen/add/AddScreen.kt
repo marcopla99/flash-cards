@@ -80,7 +80,7 @@ private fun HandleInfoTextEffect(
 ) {
     if (infoTextStringRes == null) return
     val infoText = stringResource(infoTextStringRes)
-    LaunchedEffect(key1 = snackbarHostState) {
+    LaunchedEffect(infoTextStringRes) {
         snackbarHostState.showSnackbar(infoText)
     }
 }
