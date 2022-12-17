@@ -49,7 +49,7 @@ class AddScreenRobot(private val composeRule: ComponentActivityTestRule) {
 }
 
 class AddScreenVerification(private val composeRule: ComponentActivityTestRule) {
-    fun addedCardSnackbarIsDisplayed() {
+    fun addedCardInfoMessageIsDisplayed() {
         composeRule
             .onNodeWithText(composeRule.activity.getString(R.string.cardAdded))
             .assertIsDisplayed()

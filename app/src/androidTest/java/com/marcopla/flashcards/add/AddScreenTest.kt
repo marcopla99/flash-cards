@@ -32,13 +32,13 @@ class AddScreenTest {
     }
 
     @Test
-    fun addScreen_fieldsNotEmpty_and_pressAddButton_showSnackbarMessage() {
+    fun addScreen_fieldsNotEmpty_and_pressAddButton_showInfoMessage() {
         launchAddScreen(composeRule, repository) {
             typeTextFront("Engels")
             typeTextBack("English")
             submit()
         } verify {
-            addedCardSnackbarIsDisplayed()
+            addedCardInfoMessageIsDisplayed()
         }
     }
 
