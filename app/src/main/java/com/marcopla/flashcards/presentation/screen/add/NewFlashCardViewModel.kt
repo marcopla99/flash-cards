@@ -32,11 +32,7 @@ class NewFlashCardViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 saveNewCard(frontText, backText)
-                _infoTextState.value = _infoTextState.value.copy(
-                    messageStringRes = R.string.cardAdded
-                )
-                _frontTextState.value = _frontTextState.value.copy(text = "")
-                _backTextState.value = _backTextState.value.copy(text = "")
+                handleSuccessState()
             } catch (exception: IllegalStateException) {
                 when (exception) {
                     is InvalidFrontException -> {
@@ -57,6 +53,14 @@ class NewFlashCardViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun handleSuccessState() {
+        _infoTextState.value = _infoTextState.value.copy(
+            messageStringRes = R.string.cardAdded
+        )
+        _frontTextState.value = _frontTextState.value.copy(text = "")
+        _backTextState.value = _backTextState.value.copy(text = "")
     }
 
     fun updateFrontText(frontInput: String) {
