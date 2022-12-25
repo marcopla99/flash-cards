@@ -69,7 +69,7 @@ class AddScreenTest {
     }
 
     @Test
-    fun newFlashCard_successfullyCreated_theFrontTextFieldIsEnabled() {
+    fun newFlashCard_successfullyCreated_theFrontTextFieldIsFocused() {
         launchAddScreen(composeRule, repository) {
             typeTextFront("Engels")
             typeTextBack("English")
