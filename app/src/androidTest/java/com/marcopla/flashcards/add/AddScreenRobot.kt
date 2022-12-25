@@ -64,4 +64,10 @@ class AddScreenVerification(private val composeRule: ComponentActivityTestRule) 
         composeRule.onNodeWithText(frontText).assertDoesNotExist()
         composeRule.onNodeWithText(backText).assertDoesNotExist()
     }
+
+    fun frontTextFieldIsEnabled() {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.frontTextFieldCd))
+            .assertIsFocused()
+    }
 }

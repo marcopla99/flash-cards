@@ -6,7 +6,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -48,15 +51,22 @@ fun AddScreen(
         Surface(modifier = Modifier.padding(it)) {
             Column {
                 val frontTextFieldCd = stringResource(R.string.frontTextFieldCd)
+                val focusRequester = remember { FocusRequester() }
                 TextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .semantics { contentDescription = frontTextFieldCd },
+                        .semantics { contentDescription = frontTextFieldCd }
+                        .focusRequester(focusRequester),
                     value = viewModel.frontTextState.value.text,
                     isError = viewModel.frontTextState.value.showError,
                     label = { Text(stringResource(R.string.frontTextFieldLabel)) },
                     onValueChange = { frontInput -> viewModel.updateFrontText(frontInput) }
                 )
+                if (viewModel.infoTextState.value.messageStringRes == R.string.cardAdded) {
+                    LaunchedEffect(key1 = Unit) {
+                        focusRequester.requestFocus()
+                    }
+                }
                 Spacer(modifier = Modifier.height(8.dp))
                 val backTextFieldCd = stringResource(R.string.backTextFieldCd)
                 TextField(

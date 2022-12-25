@@ -67,4 +67,15 @@ class AddScreenTest {
             textFieldsAreEmpty(frontText, backText)
         }
     }
+
+    @Test
+    fun newFlashCard_successfullyCreated_theFrontTextFieldIsEnabled() {
+        launchAddScreen(composeRule, repository) {
+            typeTextFront("Engels")
+            typeTextBack("English")
+            submit()
+        } verify {
+            frontTextFieldIsEnabled()
+        }
+    }
 }
