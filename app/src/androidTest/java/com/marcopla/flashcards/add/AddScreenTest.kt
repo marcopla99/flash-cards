@@ -54,4 +54,17 @@ class AddScreenTest {
             duplicateErrorMessageIsDisplayed()
         }
     }
+
+    @Test
+    fun newFlashCard_successfullyCreated_clearTextFields() {
+        val frontText = "Nieuwe"
+        val backText = "New"
+        launchAddScreen(composeRule, repository) {
+            typeTextFront(frontText)
+            typeTextBack(backText)
+            submit()
+        } verify {
+            textFieldsAreEmpty(frontText, backText)
+        }
+    }
 }

@@ -35,6 +35,8 @@ class NewFlashCardViewModel @Inject constructor(
                 _infoTextState.value = _infoTextState.value.copy(
                     messageStringRes = R.string.cardAdded
                 )
+                _frontTextState.value = _frontTextState.value.copy(text = "")
+                _backTextState.value = _backTextState.value.copy(text = "")
             } catch (exception: IllegalStateException) {
                 when (exception) {
                     is InvalidFrontException -> {
