@@ -1,11 +1,15 @@
 package com.marcopla.flashcards.domain.use_case
 
-import com.marcopla.flashcards.data.FlashCard
+import com.marcopla.flashcards.data.model.FlashCard
+import com.marcopla.flashcards.data.repository.DuplicateInsertionException
+import com.marcopla.flashcards.data.repository.FlashCardRepository
 import javax.inject.Inject
 
-class SaveNewCardUseCase @Inject constructor() {
+class SaveNewCardUseCase @Inject constructor(
+    private val repository: FlashCardRepository
+) {
     @Throws(InvalidBackException::class, InvalidFrontException::class)
-    operator fun invoke(frontText: String?, backText: String?) {
+    suspend operator fun invoke(frontText: String?, backText: String?) {
         if (frontText.isNullOrBlank()) {
             throw InvalidFrontException()
         }
@@ -16,7 +20,9 @@ class SaveNewCardUseCase @Inject constructor() {
         storeCard(card)
     }
 
-    private fun storeCard(card: FlashCard) {
+    @Throws(DuplicateInsertionException::class)
+    private suspend fun storeCard(flashCard: FlashCard) {
+        repository.add(flashCard)
     }
 }
 

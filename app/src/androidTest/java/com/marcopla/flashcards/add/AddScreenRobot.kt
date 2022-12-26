@@ -5,6 +5,7 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
+import com.marcopla.flashcards.data.repository.FlashCardRepository
 import com.marcopla.flashcards.domain.use_case.SaveNewCardUseCase
 import com.marcopla.flashcards.presentation.screen.add.AddScreen
 import com.marcopla.flashcards.presentation.screen.add.NewFlashCardViewModel
@@ -13,38 +14,60 @@ typealias ComponentActivityTestRule =
     AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
 
 fun launchAddScreen(
-    rule: ComponentActivityTestRule,
+    composeRule: ComponentActivityTestRule,
+    repository: FlashCardRepository,
     block: AddScreenRobot.() -> Unit
 ): AddScreenRobot {
-    rule.setContent {
-        AddScreen(NewFlashCardViewModel(SaveNewCardUseCase()))
+    composeRule.setContent {
+        AddScreen(NewFlashCardViewModel(SaveNewCardUseCase(repository)))
     }
-    return AddScreenRobot(rule).apply(block)
+    return AddScreenRobot(composeRule).apply(block)
 }
 
-class AddScreenRobot(private val rule: ComponentActivityTestRule) {
+class AddScreenRobot(private val composeRule: ComponentActivityTestRule) {
     fun typeTextFront(frontText: String) {
-        rule.onNodeWithContentDescription(rule.activity.getString(R.string.frontTextFieldCd))
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.frontTextFieldCd))
             .performTextInput(frontText)
     }
 
     fun typeTextBack(backText: String) {
-        rule.onNodeWithContentDescription(rule.activity.getString(R.string.backTextFieldCd))
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.backTextFieldCd))
             .performTextInput(backText)
     }
 
     fun submit() {
-        rule.onNodeWithContentDescription(rule.activity.getString(R.string.addCardButtonCd))
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.addCardButtonCd))
             .performClick()
     }
 
     infix fun verify(block: AddScreenVerification.() -> Unit): AddScreenVerification {
-        return AddScreenVerification(rule).apply(block)
+        return AddScreenVerification(composeRule).apply(block)
     }
 }
 
-class AddScreenVerification(private val rule: ComponentActivityTestRule) {
-    fun addedCardSnackbarIsDisplayed() {
-        rule.onNodeWithText(rule.activity.getString(R.string.cardAdded)).assertIsDisplayed()
+class AddScreenVerification(private val composeRule: ComponentActivityTestRule) {
+    fun addedCardInfoMessageIsDisplayed() {
+        composeRule
+            .onNodeWithText(composeRule.activity.getString(R.string.cardAdded))
+            .assertIsDisplayed()
+    }
+
+    fun duplicateErrorMessageIsDisplayed() {
+        composeRule.onNodeWithText(composeRule.activity.getString(R.string.duplicateCardError))
+            .assertIsDisplayed()
+    }
+
+    fun textFieldsAreEmpty(frontText: String, backText: String) {
+        composeRule.onNodeWithText(frontText).assertDoesNotExist()
+        composeRule.onNodeWithText(backText).assertDoesNotExist()
+    }
+
+    fun frontTextFieldIsFocused() {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.frontTextFieldCd))
+            .assertIsFocused()
     }
 }
