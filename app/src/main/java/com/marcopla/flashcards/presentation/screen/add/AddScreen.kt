@@ -50,37 +50,65 @@ fun AddScreen(
     ) {
         Surface(modifier = Modifier.padding(it)) {
             Column {
-                val frontTextFieldCd = stringResource(R.string.frontTextFieldCd)
-                val focusRequester = remember { FocusRequester() }
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .semantics { contentDescription = frontTextFieldCd }
-                        .focusRequester(focusRequester),
+                FontTextField(
                     value = viewModel.frontTextState.value.text,
                     isError = viewModel.frontTextState.value.showError,
-                    label = { Text(stringResource(R.string.frontTextFieldLabel)) },
+                    isAfterSuccessfulAdd = viewModel.screenState.value.isValid,
                     onValueChange = { frontInput -> viewModel.updateFrontText(frontInput) }
                 )
-                if (viewModel.screenState.value.isValid) {
-                    LaunchedEffect(key1 = Unit) {
-                        focusRequester.requestFocus()
-                    }
-                }
                 Spacer(modifier = Modifier.height(8.dp))
-                val backTextFieldCd = stringResource(R.string.backTextFieldCd)
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .semantics { contentDescription = backTextFieldCd },
-                    value = viewModel.backTextState.value.text,
+                BackTextField(
+                    viewModel.backTextState.value.text,
                     isError = viewModel.backTextState.value.showError,
-                    label = { Text(stringResource(R.string.backTextFieldLabel)) },
                     onValueChange = { backInput -> viewModel.updateBackText(backInput) }
                 )
             }
         }
     }
+}
+
+@Composable
+private fun FontTextField(
+    value: String,
+    isError: Boolean,
+    isAfterSuccessfulAdd: Boolean,
+    onValueChange: (String) -> Unit
+) {
+    val frontTextFieldCd = stringResource(R.string.frontTextFieldCd)
+    val focusRequester = remember { FocusRequester() }
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .semantics { contentDescription = frontTextFieldCd }
+            .focusRequester(focusRequester),
+        value = value,
+        isError = isError,
+        label = { Text(stringResource(R.string.frontTextFieldLabel)) },
+        onValueChange = onValueChange
+    )
+    if (isAfterSuccessfulAdd) {
+        LaunchedEffect(key1 = Unit) {
+            focusRequester.requestFocus()
+        }
+    }
+}
+
+@Composable
+private fun BackTextField(
+    value: String,
+    isError: Boolean,
+    onValueChange: (String) -> Unit
+) {
+    val backTextFieldCd = stringResource(R.string.backTextFieldCd)
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .semantics { contentDescription = backTextFieldCd },
+        value = value,
+        isError = isError,
+        label = { Text(stringResource(R.string.backTextFieldLabel)) },
+        onValueChange = onValueChange
+    )
 }
 
 @Composable
