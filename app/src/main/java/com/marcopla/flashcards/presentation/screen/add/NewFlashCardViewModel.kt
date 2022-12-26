@@ -37,24 +37,7 @@ class NewFlashCardViewModel @Inject constructor(
                 saveNewCard(frontText, backText)
                 handleSuccessState()
             } catch (exception: IllegalStateException) {
-                _screenState.value = _screenState.value.copy(isValid = true)
-                when (exception) {
-                    is InvalidFrontException -> {
-                        _frontTextState.value = _frontTextState.value.copy(
-                            showError = true
-                        )
-                    }
-                    is InvalidBackException -> {
-                        _backTextState.value = _backTextState.value.copy(
-                            showError = true
-                        )
-                    }
-                    is DuplicateInsertionException -> {
-                        _infoTextState.value = _infoTextState.value.copy(
-                            messageStringRes = R.string.duplicateCardError
-                        )
-                    }
-                }
+                handleFailureState(exception)
             }
         }
     }
@@ -66,6 +49,27 @@ class NewFlashCardViewModel @Inject constructor(
         )
         _frontTextState.value = _frontTextState.value.copy(text = "")
         _backTextState.value = _backTextState.value.copy(text = "")
+    }
+
+    private fun handleFailureState(exception: IllegalStateException) {
+        _screenState.value = _screenState.value.copy(isValid = true)
+        when (exception) {
+            is InvalidFrontException -> {
+                _frontTextState.value = _frontTextState.value.copy(
+                    showError = true
+                )
+            }
+            is InvalidBackException -> {
+                _backTextState.value = _backTextState.value.copy(
+                    showError = true
+                )
+            }
+            is DuplicateInsertionException -> {
+                _infoTextState.value = _infoTextState.value.copy(
+                    messageStringRes = R.string.duplicateCardError
+                )
+            }
+        }
     }
 
     fun updateFrontText(frontInput: String) {
