@@ -62,7 +62,7 @@ fun AddScreen(
                     label = { Text(stringResource(R.string.frontTextFieldLabel)) },
                     onValueChange = { frontInput -> viewModel.updateFrontText(frontInput) }
                 )
-                if (viewModel.infoTextState.value.messageStringRes == R.string.cardAdded) {
+                if (viewModel.screenState.value.isValid) {
                     LaunchedEffect(key1 = Unit) {
                         focusRequester.requestFocus()
                     }

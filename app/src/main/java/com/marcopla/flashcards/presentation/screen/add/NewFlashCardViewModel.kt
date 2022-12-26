@@ -28,12 +28,16 @@ class NewFlashCardViewModel @Inject constructor(
     private val _infoTextState = mutableStateOf(InfoTextState())
     val infoTextState: State<InfoTextState> = _infoTextState
 
+    private val _screenState = mutableStateOf(ScreenState())
+    val screenState: State<ScreenState> = _screenState
+
     fun attemptSubmit(frontText: String?, backText: String?) {
         viewModelScope.launch {
             try {
                 saveNewCard(frontText, backText)
                 handleSuccessState()
             } catch (exception: IllegalStateException) {
+                _screenState.value = _screenState.value.copy(isValid = true)
                 when (exception) {
                     is InvalidFrontException -> {
                         _frontTextState.value = _frontTextState.value.copy(
@@ -56,6 +60,7 @@ class NewFlashCardViewModel @Inject constructor(
     }
 
     private fun handleSuccessState() {
+        _screenState.value = _screenState.value.copy(isValid = true)
         _infoTextState.value = _infoTextState.value.copy(
             messageStringRes = R.string.cardAdded
         )
@@ -71,6 +76,8 @@ class NewFlashCardViewModel @Inject constructor(
         _backTextState.value = _backTextState.value.copy(text = backInput, showError = false)
     }
 }
+
+data class ScreenState(val isValid: Boolean = false)
 
 data class InfoTextState(
     @StringRes val messageStringRes: Int? = null
