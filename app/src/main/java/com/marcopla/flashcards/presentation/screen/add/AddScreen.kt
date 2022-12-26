@@ -53,7 +53,7 @@ fun AddScreen(
                 FontTextField(
                     value = viewModel.frontTextState.value.text,
                     isError = viewModel.frontTextState.value.showError,
-                    isAfterSuccessfulAdd = viewModel.screenState.value.isValid,
+                    isFocused = viewModel.screenState.value == ScreenState.SUCCESSFUL_SAVE,
                     onValueChange = { frontInput -> viewModel.updateFrontText(frontInput) }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -71,7 +71,7 @@ fun AddScreen(
 private fun FontTextField(
     value: String,
     isError: Boolean,
-    isAfterSuccessfulAdd: Boolean,
+    isFocused: Boolean,
     onValueChange: (String) -> Unit
 ) {
     val frontTextFieldCd = stringResource(R.string.frontTextFieldCd)
@@ -86,7 +86,7 @@ private fun FontTextField(
         label = { Text(stringResource(R.string.frontTextFieldLabel)) },
         onValueChange = onValueChange
     )
-    if (isAfterSuccessfulAdd) {
+    if (isFocused) {
         LaunchedEffect(key1 = Unit) {
             focusRequester.requestFocus()
         }

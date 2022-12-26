@@ -28,7 +28,7 @@ class NewFlashCardViewModel @Inject constructor(
     private val _infoTextState = mutableStateOf(InfoTextState())
     val infoTextState: State<InfoTextState> = _infoTextState
 
-    private val _screenState = mutableStateOf(ScreenState())
+    private val _screenState = mutableStateOf(ScreenState.FAILED_SAVE)
     val screenState: State<ScreenState> = _screenState
 
     fun attemptSubmit(frontText: String?, backText: String?) {
@@ -43,7 +43,7 @@ class NewFlashCardViewModel @Inject constructor(
     }
 
     private fun handleSuccessState() {
-        _screenState.value = _screenState.value.copy(isValid = true)
+        _screenState.value = ScreenState.SUCCESSFUL_SAVE
         _infoTextState.value = _infoTextState.value.copy(
             messageStringRes = R.string.cardAdded
         )
@@ -52,7 +52,7 @@ class NewFlashCardViewModel @Inject constructor(
     }
 
     private fun handleFailureState(exception: IllegalStateException) {
-        _screenState.value = _screenState.value.copy(isValid = true)
+        _screenState.value = ScreenState.FAILED_SAVE
         when (exception) {
             is InvalidFrontException -> {
                 _frontTextState.value = _frontTextState.value.copy(
@@ -73,15 +73,21 @@ class NewFlashCardViewModel @Inject constructor(
     }
 
     fun updateFrontText(frontInput: String) {
+        _screenState.value = ScreenState.EDITING
         _frontTextState.value = _frontTextState.value.copy(text = frontInput, showError = false)
     }
 
     fun updateBackText(backInput: String) {
+        _screenState.value = ScreenState.EDITING
         _backTextState.value = _backTextState.value.copy(text = backInput, showError = false)
     }
 }
 
-data class ScreenState(val isValid: Boolean = false)
+enum class ScreenState {
+    SUCCESSFUL_SAVE,
+    FAILED_SAVE,
+    EDITING
+}
 
 data class InfoTextState(
     @StringRes val messageStringRes: Int? = null
