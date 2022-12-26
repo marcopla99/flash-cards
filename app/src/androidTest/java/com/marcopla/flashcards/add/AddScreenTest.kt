@@ -75,7 +75,7 @@ class AddScreenTest {
             typeTextBack("English")
             submit()
         } verify {
-            frontTextFieldIsEnabled()
+            frontTextFieldIsFocused()
         }
     }
 }
