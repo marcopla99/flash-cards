@@ -73,19 +73,20 @@ class NewFlashCardViewModel @Inject constructor(
     }
 
     fun updateFrontText(frontInput: String) {
-        _screenState.value = ScreenState.EDITING
-        _infoTextState.value = _infoTextState.value.copy(
-            messageStringRes = null
-        )
+        setEditingState()
         _frontTextState.value = _frontTextState.value.copy(text = frontInput, showError = false)
     }
 
     fun updateBackText(backInput: String) {
+        setEditingState()
+        _backTextState.value = _backTextState.value.copy(text = backInput, showError = false)
+    }
+
+    private fun setEditingState() {
         _screenState.value = ScreenState.EDITING
         _infoTextState.value = _infoTextState.value.copy(
             messageStringRes = null
         )
-        _backTextState.value = _backTextState.value.copy(text = backInput, showError = false)
     }
 }
 
