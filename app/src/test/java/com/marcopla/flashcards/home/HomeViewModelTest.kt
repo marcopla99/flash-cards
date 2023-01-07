@@ -2,9 +2,8 @@ package com.marcopla.flashcards.home
 
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.R
-import com.marcopla.flashcards.data.data_source.FakeFlashCardDao
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
+import com.marcopla.flashcards.data.repository.FlashCardRepository
 import com.marcopla.flashcards.domain.use_case.LoadCardsUseCase
 import com.marcopla.flashcards.presentation.screen.home.CardsState
 import com.marcopla.flashcards.presentation.screen.home.EmptyState
@@ -21,28 +20,31 @@ class HomeViewModelTest {
 
     @Test
     fun homeViewModel_isCreated_and_noFlashCardsAreRetrieved_emitEmptyFlashCardsState() = runTest {
-        val viewModel = HomeViewModel(LoadCardsUseCase(FlashCardRepositoryImpl(FakeFlashCardDao())))
+        val initialData = emptyList<FlashCard>()
+
+        val viewModel = HomeViewModel(LoadCardsUseCase(TestFlashCardRepository(initialData)))
 
         assertEquals(EmptyState(R.string.noFlashCardsCreated), viewModel.errorState.value)
     }
 
     @Test
     fun homeViewModel_isCreated_and_fetchedListOfFlashCards_returnStateWithFlashCards() = runTest {
-        val viewModel = HomeViewModel(
-            LoadCardsUseCase(
-                FlashCardRepositoryImpl(
-                    FakeFlashCardDao(
-                        mutableListOf(
-                            FlashCard(
-                                "Engels",
-                                "English"
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        )
+        val storedFlashCards = listOf(FlashCard("Engels", "English"))
 
-        assertEquals(CardsState(listOf(FlashCard("Engels", "English"))), viewModel.cardsState.value)
+        val viewModel = HomeViewModel(LoadCardsUseCase(TestFlashCardRepository(storedFlashCards)))
+
+        assertEquals(CardsState(storedFlashCards), viewModel.cardsState.value)
+    }
+}
+
+class TestFlashCardRepository(initialTestData: List<FlashCard>) : FlashCardRepository {
+    private val flashCards = initialTestData.toMutableList()
+
+    override suspend fun getFlashCards(): List<FlashCard> {
+        return flashCards
+    }
+
+    override suspend fun add(newFlashCard: FlashCard) {
+        flashCards.add(newFlashCard)
     }
 }
