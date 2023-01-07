@@ -8,9 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.domain.use_case.LoadCardsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(private val loadCardsUseCase: LoadCardsUseCase) : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val loadCardsUseCase: LoadCardsUseCase,
+) : ViewModel() {
     private val _errorState = mutableStateOf(EmptyState(-1))
     val errorState: State<EmptyState> = _errorState
 

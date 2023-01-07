@@ -2,7 +2,7 @@ package com.marcopla.flashcards.data
 
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
-import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
+import com.marcopla.flashcards.data.repository.FlashCardRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class FlashCardRepositoryTest {
 
     @Inject
-    lateinit var repository: FlashCardRepositoryImpl
+    lateinit var repository: FlashCardRepository
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)

@@ -10,11 +10,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 
 @Composable
-fun HomeScreen(onNavigateToAddScreen: () -> Unit) {
+fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel(),
+    onNavigateToAddScreen: () -> Unit
+) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -28,7 +32,7 @@ fun HomeScreen(onNavigateToAddScreen: () -> Unit) {
         }
     ) {
         Surface(modifier = Modifier.padding(it)) {
-            ContentSection(flashCards = listOf())
+            ContentSection(flashCards = viewModel.cardsState.value.flashCards)
         }
     }
 }
