@@ -21,7 +21,7 @@ import com.marcopla.flashcards.R
 @Preview
 @Composable
 fun AddScreen(
-    viewModel: NewFlashCardViewModel = hiltViewModel()
+    viewModel: NewFlashCardViewModel = hiltViewModel(),
 ) {
     val scaffoldState = rememberScaffoldState()
     HandleInfoTextEffect(
@@ -32,6 +32,9 @@ fun AddScreen(
     Scaffold(
         modifier = Modifier.padding(8.dp),
         scaffoldState = scaffoldState,
+        topBar = {
+            TopAppBar(title = { Text(stringResource(R.string.addScreenTitle)) })
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
@@ -72,7 +75,7 @@ private fun FontTextField(
     value: String,
     isError: Boolean,
     isFocused: Boolean,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
 ) {
     val frontTextFieldCd = stringResource(R.string.frontTextFieldCd)
     val focusRequester = remember { FocusRequester() }
@@ -97,7 +100,7 @@ private fun FontTextField(
 private fun BackTextField(
     value: String,
     isError: Boolean,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
 ) {
     val backTextFieldCd = stringResource(R.string.backTextFieldCd)
     TextField(
@@ -114,7 +117,7 @@ private fun BackTextField(
 @Composable
 private fun HandleInfoTextEffect(
     infoTextStringRes: Int?,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
 ) {
     if (infoTextStringRes == null) return
     val infoText = stringResource(infoTextStringRes)

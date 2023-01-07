@@ -9,4 +9,5 @@
     <string name="backTextFieldLabel">Back</string>
     <string name="frontTextFieldLabel">Front</string>
     <string name="duplicateCardError">This card already exists</string>
+    <string name="addScreenTitle">Add new flash card</string>
 </resources>

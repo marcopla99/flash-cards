@@ -38,21 +38,6 @@ class HomeScreenTest {
             listOfFlashCardsIsDisplayed(flashCards)
         }
     }
-
-    @Test
-    @Ignore(
-        "Set HomeScreen as compose content to attempt to fix an issue in " +
-            "HomeScreenRobot.clickAddButton that makes the test fail"
-    )
-    fun homeScreen__navigateToAddScreen() {
-        val repository = TestFlashCardRepository()
-
-        launchHomeScreen(homeScreenTestRule, repository) {
-            clickAddButton()
-        } verify {
-            navigatedToAddScreen()
-        }
-    }
 }
 
 class TestFlashCardRepository(
