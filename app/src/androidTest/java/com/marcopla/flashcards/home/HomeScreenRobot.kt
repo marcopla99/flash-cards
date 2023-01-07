@@ -64,8 +64,15 @@ class HomeScreenVerification(
         val emptyDataText = rule.activity.getString(R.string.noFlashCardsCreated)
         rule.onNodeWithText(emptyDataText).assertIsDisplayed()
     }
+
     fun navigatedToAddScreen() {
         val currentRoute = navController?.currentBackStackEntry?.destination?.route
         assertEquals(currentRoute, Routes.ADD_SCREEN)
+    }
+
+    fun listOfFlashCardsIsDisplayed(flashCards: List<FlashCard>) {
+        flashCards.forEach {
+            rule.onNodeWithText(it.frontText).assertIsDisplayed()
+        }
     }
 }

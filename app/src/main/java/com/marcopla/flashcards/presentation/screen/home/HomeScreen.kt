@@ -2,6 +2,7 @@ package com.marcopla.flashcards.presentation.screen.home
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -41,6 +42,10 @@ fun ContentSection(flashCards: List<FlashCard>) {
             textAlign = TextAlign.Center
         )
     } else {
-        TODO()
+        LazyColumn {
+            items(flashCards.size) { index ->
+                Text(text = flashCards[index].frontText)
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.marcopla.flashcards.home
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import com.marcopla.flashcards.data.model.FlashCard
 import org.junit.Rule
 import org.junit.Test
 
@@ -16,6 +17,21 @@ class HomeScreenTest {
             setFlashCards(listOf())
         } verify {
             emptyDataTextIsPresent()
+        }
+    }
+
+    @Test
+    fun homeScreen_dataIsNotEmpty_showListOfFlashCards() {
+        val flashCards = listOf(
+            FlashCard("front1", "back1"),
+            FlashCard("front2", "back2"),
+            FlashCard("front3", "back3"),
+        )
+
+        launchHomeScreen(homeScreenTestRule) {
+            setFlashCards(flashCards)
+        } verify {
+            listOfFlashCardsIsDisplayed(flashCards)
         }
     }
 
