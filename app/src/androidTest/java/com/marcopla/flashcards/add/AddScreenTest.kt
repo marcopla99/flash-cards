@@ -3,22 +3,22 @@ package com.marcopla.flashcards.add
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.data.repository.FlashCardRepository
+import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
 class AddScreenTest {
 
     @Inject
-    lateinit var repository: FlashCardRepository
+    lateinit var repository: FlashCardRepositoryImpl
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)

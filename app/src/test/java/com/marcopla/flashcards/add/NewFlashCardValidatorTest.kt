@@ -2,7 +2,7 @@ package com.marcopla.flashcards.add
 
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.data.data_source.FakeFlashCardDao
-import com.marcopla.flashcards.data.repository.FlashCardRepository
+import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
 import com.marcopla.flashcards.domain.use_case.SaveNewCardUseCase
 import com.marcopla.flashcards.presentation.screen.add.BackTextState
 import com.marcopla.flashcards.presentation.screen.add.FrontTextState
@@ -20,7 +20,7 @@ class NewFlashCardValidatorTest {
     @Test
     fun frontText_isEmptyWhenSubmitted_returnInvalidState() = runTest {
         val viewModel =
-            NewFlashCardViewModel(SaveNewCardUseCase(FlashCardRepository(FakeFlashCardDao())))
+            NewFlashCardViewModel(SaveNewCardUseCase(FlashCardRepositoryImpl(FakeFlashCardDao())))
         val emptyFrontText = ""
 
         viewModel.attemptSubmit(emptyFrontText, ":backText:")
@@ -34,7 +34,7 @@ class NewFlashCardValidatorTest {
     @Test
     fun backText_isEmptyWhenSubmitted_returnInvalidState() = runTest {
         val viewModel =
-            NewFlashCardViewModel(SaveNewCardUseCase(FlashCardRepository(FakeFlashCardDao())))
+            NewFlashCardViewModel(SaveNewCardUseCase(FlashCardRepositoryImpl(FakeFlashCardDao())))
         val emptyBackText = ""
 
         viewModel.attemptSubmit(":frontText:", emptyBackText)

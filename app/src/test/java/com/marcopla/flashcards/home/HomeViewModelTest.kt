@@ -4,7 +4,7 @@ import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.data_source.FakeFlashCardDao
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.data.repository.FlashCardRepository
+import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
 import com.marcopla.flashcards.domain.use_case.LoadCardsUseCase
 import com.marcopla.flashcards.presentation.screen.home.CardsState
 import com.marcopla.flashcards.presentation.screen.home.EmptyState
@@ -21,7 +21,7 @@ class HomeViewModelTest {
 
     @Test
     fun homeViewModel_isCreated_and_noFlashCardsAreRetrieved_emitEmptyFlashCardsState() = runTest {
-        val viewModel = HomeViewModel(LoadCardsUseCase(FlashCardRepository(FakeFlashCardDao())))
+        val viewModel = HomeViewModel(LoadCardsUseCase(FlashCardRepositoryImpl(FakeFlashCardDao())))
 
         assertEquals(EmptyState(R.string.noFlashCardsCreated), viewModel.errorState.value)
     }
@@ -30,7 +30,7 @@ class HomeViewModelTest {
     fun homeViewModel_isCreated_and_fetchedListOfFlashCards_returnStateWithFlashCards() = runTest {
         val viewModel = HomeViewModel(
             LoadCardsUseCase(
-                FlashCardRepository(
+                FlashCardRepositoryImpl(
                     FakeFlashCardDao(
                         mutableListOf(
                             FlashCard(
