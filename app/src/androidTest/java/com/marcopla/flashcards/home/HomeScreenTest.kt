@@ -3,7 +3,7 @@ package com.marcopla.flashcards.home
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.marcopla.flashcards.data.model.FlashCard
-import org.junit.Ignore
+import com.marcopla.flashcards.data.repository.FlashCardRepository
 import org.junit.Rule
 import org.junit.Test
 
@@ -14,8 +14,10 @@ class HomeScreenTest {
 
     @Test
     fun homeScreen_emptyData_showEmptyMessage() {
-        launchHomeScreen(homeScreenTestRule) {
-            setFlashCards(listOf())
+        val repository = TestFlashCardRepository(emptyList())
+
+        launchHomeScreen(homeScreenTestRule, repository) {
+            // Empty
         } verify {
             emptyDataTextIsPresent()
         }
@@ -28,9 +30,10 @@ class HomeScreenTest {
             FlashCard("front2", "back2"),
             FlashCard("front3", "back3"),
         )
+        val repository = TestFlashCardRepository(flashCards)
 
-        launchHomeScreen(homeScreenTestRule) {
-            setFlashCards(flashCards)
+        launchHomeScreen(homeScreenTestRule, repository) {
+            // Empty
         } verify {
             listOfFlashCardsIsDisplayed(flashCards)
         }
@@ -42,10 +45,26 @@ class HomeScreenTest {
             "HomeScreenRobot.clickAddButton that makes the test fail"
     )
     fun homeScreen__navigateToAddScreen() {
-        launchHomeScreen(homeScreenTestRule) {
+        val repository = TestFlashCardRepository()
+
+        launchHomeScreen(homeScreenTestRule, repository) {
             clickAddButton()
         } verify {
             navigatedToAddScreen()
         }
+    }
+}
+
+class TestFlashCardRepository(
+    initialTestData: List<FlashCard> = emptyList()
+) : FlashCardRepository {
+    private val flashCards = initialTestData.toMutableList()
+
+    override suspend fun getFlashCards(): List<FlashCard> {
+        return flashCards
+    }
+
+    override suspend fun add(newFlashCard: FlashCard) {
+        flashCards.add(newFlashCard)
     }
 }
