@@ -1,17 +1,15 @@
 package com.marcopla.flashcards.home
 
-import androidx.annotation.StringRes
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.data_source.FakeFlashCardDao
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepository
+import com.marcopla.flashcards.domain.use_case.LoadCardsUseCase
+import com.marcopla.flashcards.presentation.screen.home.CardsState
+import com.marcopla.flashcards.presentation.screen.home.EmptyState
+import com.marcopla.flashcards.presentation.screen.home.HomeViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -53,36 +51,5 @@ class HomeViewModelTest {
         advanceUntilIdle()
 
         assertEquals(CardsState(listOf(FlashCard("Engels", "English"))), viewModel.cardsState.value)
-    }
-}
-
-data class CardsState(val flashCards: List<FlashCard>)
-
-data class EmptyState(@StringRes val errorStringRes: Int)
-
-class HomeViewModel(private val loadCardsUseCase: LoadCardsUseCase) : ViewModel() {
-    private val _errorState = mutableStateOf(EmptyState(-1))
-    val errorState: State<EmptyState> = _errorState
-
-    private val _cardsState = mutableStateOf(CardsState(emptyList()))
-    val cardsState: State<CardsState> = _cardsState
-
-    fun loadCards() {
-        viewModelScope.launch {
-            val loadedFlashCards = loadCardsUseCase.invoke()
-            if (loadedFlashCards.isEmpty()) {
-                _errorState.value = _errorState.value.copy(
-                    errorStringRes = R.string.noFlashCardsCreated
-                )
-            } else {
-                _cardsState.value = _cardsState.value.copy(flashCards = loadedFlashCards)
-            }
-        }
-    }
-}
-
-class LoadCardsUseCase(private val repository: FlashCardRepository) {
-    suspend fun invoke(): List<FlashCard> {
-        return repository.getFlashCards()
     }
 }
