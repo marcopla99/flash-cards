@@ -17,6 +17,10 @@ class HomeViewModel(private val loadCardsUseCase: LoadCardsUseCase) : ViewModel(
     private val _cardsState = mutableStateOf(CardsState(emptyList()))
     val cardsState: State<CardsState> = _cardsState
 
+    init {
+        loadCards()
+    }
+
     fun loadCards() {
         viewModelScope.launch {
             val loadedFlashCards = loadCardsUseCase.invoke()

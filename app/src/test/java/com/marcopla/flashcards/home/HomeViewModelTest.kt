@@ -20,16 +20,14 @@ import org.junit.jupiter.api.extension.ExtendWith
 class HomeViewModelTest {
 
     @Test
-    fun cardsList_isEmpty_returnNoCardsState() = runTest {
+    fun homeViewModel_isCreated_and_noFlashCardsAreRetrieved_emitEmptyFlashCardsState() = runTest {
         val viewModel = HomeViewModel(LoadCardsUseCase(FlashCardRepository(FakeFlashCardDao())))
-
-        viewModel.loadCards()
 
         assertEquals(EmptyState(R.string.noFlashCardsCreated), viewModel.errorState.value)
     }
 
     @Test
-    fun cardsList_hasData_returnStateWithFlashCards() = runTest {
+    fun homeViewModel_isCreated_and_fetchedListOfFlashCards_returnStateWithFlashCards() = runTest {
         val viewModel = HomeViewModel(
             LoadCardsUseCase(
                 FlashCardRepository(
@@ -44,8 +42,6 @@ class HomeViewModelTest {
                 ),
             ),
         )
-
-        viewModel.loadCards()
 
         assertEquals(CardsState(listOf(FlashCard("Engels", "English"))), viewModel.cardsState.value)
     }
