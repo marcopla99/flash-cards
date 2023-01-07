@@ -10,7 +10,6 @@ import com.marcopla.flashcards.presentation.screen.home.CardsState
 import com.marcopla.flashcards.presentation.screen.home.EmptyState
 import com.marcopla.flashcards.presentation.screen.home.HomeViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -25,7 +24,6 @@ class HomeViewModelTest {
         val viewModel = HomeViewModel(LoadCardsUseCase(FlashCardRepository(FakeFlashCardDao())))
 
         viewModel.loadCards()
-        advanceUntilIdle()
 
         assertEquals(EmptyState(R.string.noFlashCardsCreated), viewModel.errorState.value)
     }
@@ -48,7 +46,6 @@ class HomeViewModelTest {
         )
 
         viewModel.loadCards()
-        advanceUntilIdle()
 
         assertEquals(CardsState(listOf(FlashCard("Engels", "English"))), viewModel.cardsState.value)
     }

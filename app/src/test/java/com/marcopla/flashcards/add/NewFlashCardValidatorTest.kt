@@ -24,7 +24,6 @@ class NewFlashCardValidatorTest {
         val emptyFrontText = ""
 
         viewModel.attemptSubmit(emptyFrontText, ":backText:")
-        advanceUntilIdle()
 
         assertEquals(
             FrontTextState(emptyFrontText, showError = true),
@@ -39,7 +38,6 @@ class NewFlashCardValidatorTest {
         val emptyBackText = ""
 
         viewModel.attemptSubmit(":frontText:", emptyBackText)
-        advanceUntilIdle()
 
         assertEquals(
             BackTextState(emptyBackText, showError = true),
