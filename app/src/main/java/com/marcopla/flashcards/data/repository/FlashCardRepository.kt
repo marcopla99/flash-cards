@@ -6,5 +6,5 @@ interface FlashCardRepository {
     suspend fun getFlashCards(): List<FlashCard>
 
     @Throws(DuplicateInsertionException::class)
-    suspend fun add(newFlashCards: FlashCard)
+    suspend fun add(newFlashCard: FlashCard)
 }

@@ -13,9 +13,9 @@ class FlashCardRepositoryImpl(
     }
 
     @Throws(DuplicateInsertionException::class)
-    override suspend fun add(newFlashCards: FlashCard) {
+    override suspend fun add(newFlashCard: FlashCard) {
         try {
-            flashCardDao.insert(newFlashCards)
+            flashCardDao.insert(newFlashCard)
         } catch (_: SQLiteConstraintException) {
             throw DuplicateInsertionException()
         }
