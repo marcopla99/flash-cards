@@ -4,7 +4,7 @@ import android.database.sqlite.SQLiteConstraintException
 import com.marcopla.flashcards.data.data_source.FlashCardDao
 import com.marcopla.flashcards.data.model.FlashCard
 
-class FlashCardRepository(
+open class FlashCardRepository(
     private val flashCardDao: FlashCardDao
 ) {
 
