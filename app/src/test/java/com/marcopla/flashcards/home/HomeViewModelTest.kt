@@ -3,11 +3,11 @@ package com.marcopla.flashcards.home
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.data.repository.FlashCardRepository
 import com.marcopla.flashcards.domain.use_case.LoadCardsUseCase
 import com.marcopla.flashcards.presentation.screen.home.CardsState
 import com.marcopla.flashcards.presentation.screen.home.EmptyState
 import com.marcopla.flashcards.presentation.screen.home.HomeViewModel
+import com.marcopla.testing.TestFlashCardRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -34,17 +34,5 @@ class HomeViewModelTest {
         val viewModel = HomeViewModel(LoadCardsUseCase(TestFlashCardRepository(storedFlashCards)))
 
         assertEquals(CardsState(storedFlashCards), viewModel.cardsState.value)
-    }
-}
-
-class TestFlashCardRepository(initialTestData: List<FlashCard>) : FlashCardRepository {
-    private val flashCards = initialTestData.toMutableList()
-
-    override suspend fun getFlashCards(): List<FlashCard> {
-        return flashCards
-    }
-
-    override suspend fun add(newFlashCard: FlashCard) {
-        flashCards.add(newFlashCard)
     }
 }

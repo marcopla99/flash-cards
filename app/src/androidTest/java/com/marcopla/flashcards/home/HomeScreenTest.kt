@@ -3,7 +3,7 @@ package com.marcopla.flashcards.home
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.data.repository.FlashCardRepository
+import com.marcopla.testing.TestFlashCardRepository
 import org.junit.Rule
 import org.junit.Test
 
@@ -37,19 +37,5 @@ class HomeScreenTest {
         } verify {
             listOfFlashCardsIsDisplayed(flashCards)
         }
-    }
-}
-
-class TestFlashCardRepository(
-    initialTestData: List<FlashCard> = emptyList()
-) : FlashCardRepository {
-    private val flashCards = initialTestData.toMutableList()
-
-    override suspend fun getFlashCards(): List<FlashCard> {
-        return flashCards
-    }
-
-    override suspend fun add(newFlashCard: FlashCard) {
-        flashCards.add(newFlashCard)
     }
 }
