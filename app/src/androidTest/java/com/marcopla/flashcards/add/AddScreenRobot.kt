@@ -9,13 +9,14 @@ import com.marcopla.flashcards.data.repository.FlashCardRepository
 import com.marcopla.flashcards.domain.use_case.SaveNewCardUseCase
 import com.marcopla.flashcards.presentation.screen.add.AddScreen
 import com.marcopla.flashcards.presentation.screen.add.NewFlashCardViewModel
+import com.marcopla.testing.TestFlashCardRepository
 
 typealias ComponentActivityTestRule =
     AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
 
 fun launchAddScreen(
     composeRule: ComponentActivityTestRule,
-    repository: FlashCardRepository,
+    repository: FlashCardRepository = TestFlashCardRepository(),
     block: AddScreenRobot.() -> Unit
 ): AddScreenRobot {
     composeRule.setContent {
@@ -58,6 +59,7 @@ class AddScreenVerification(private val composeRule: ComponentActivityTestRule) 
     fun duplicateErrorMessageIsDisplayed() {
         composeRule.onNodeWithText(composeRule.activity.getString(R.string.duplicateCardError))
             .assertIsDisplayed()
+//        Thread.sleep(1000)
     }
 
     fun textFieldsAreEmpty(frontText: String, backText: String) {
