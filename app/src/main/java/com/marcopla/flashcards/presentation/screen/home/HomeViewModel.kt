@@ -5,11 +5,10 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.domain.use_case.LoadCardsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,24 +18,14 @@ class HomeViewModel @Inject constructor(
     private val _errorState = mutableStateOf(EmptyState(-1))
     val errorState: State<EmptyState> = _errorState
 
-    private val _cardsState = mutableStateOf(CardsState(emptyList()))
-    val cardsState: State<CardsState> = _cardsState
+    val cardsState: StateFlow<CardsState> = loadCardsStateStream().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = CardsState(emptyList()),
+    )
 
-    init {
-        loadCards()
-    }
-
-    fun loadCards() {
-        viewModelScope.launch {
-            val loadedFlashCards = loadCardsUseCase.invoke()
-            if (loadedFlashCards.isEmpty()) {
-                _errorState.value = _errorState.value.copy(
-                    errorStringRes = R.string.noFlashCardsCreated
-                )
-            } else {
-                _cardsState.value = _cardsState.value.copy(flashCards = loadedFlashCards)
-            }
-        }
+    private fun loadCardsStateStream(): Flow<CardsState> {
+        return loadCardsUseCase.invoke().map { CardsState(it) }
     }
 }
 

@@ -6,10 +6,10 @@ import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class AddScreenTest {
@@ -66,7 +66,7 @@ class AddScreenTest {
 }
 
 class DuplicateFlashCardRepository : FlashCardRepository {
-    override suspend fun getFlashCards(): List<FlashCard> {
+    override fun getFlashCards(): Flow<List<FlashCard>> {
         TODO("Not yet implemented")
     }
 

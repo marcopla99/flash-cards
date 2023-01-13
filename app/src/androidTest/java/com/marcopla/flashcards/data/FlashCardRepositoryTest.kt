@@ -6,6 +6,7 @@ import com.marcopla.flashcards.data.repository.FlashCardRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -36,7 +37,7 @@ class FlashCardRepositoryTest {
 
         repository.add(newFlashCards)
 
-        assertEquals(true, repository.getFlashCards().contains(newFlashCards))
+        assertEquals(listOf(newFlashCards), repository.getFlashCards().first())
     }
 
     @Test
@@ -50,7 +51,7 @@ class FlashCardRepositoryTest {
             }
         }
 
-        val hasNoDuplicates = repository.getFlashCards().filter {
+        val hasNoDuplicates = repository.getFlashCards().first().filter {
             it == alreadyExistentFlashCard
         }.size == 1
         assertEquals(true, hasNoDuplicates)

@@ -3,12 +3,13 @@ package com.marcopla.flashcards.data.repository
 import android.database.sqlite.SQLiteConstraintException
 import com.marcopla.flashcards.data.data_source.FlashCardDao
 import com.marcopla.flashcards.data.model.FlashCard
+import kotlinx.coroutines.flow.Flow
 
 class FlashCardRepositoryImpl(
     private val flashCardDao: FlashCardDao
 ) : FlashCardRepository {
 
-    override suspend fun getFlashCards(): List<FlashCard> {
+    override fun getFlashCards(): Flow<List<FlashCard>> {
         return flashCardDao.fetchAll()
     }
 

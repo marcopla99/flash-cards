@@ -1,9 +1,10 @@
 package com.marcopla.flashcards.data.repository
 
 import com.marcopla.flashcards.data.model.FlashCard
+import kotlinx.coroutines.flow.Flow
 
 interface FlashCardRepository {
-    suspend fun getFlashCards(): List<FlashCard>
+    fun getFlashCards(): Flow<List<FlashCard>>
 
     @Throws(DuplicateInsertionException::class)
     suspend fun add(newFlashCard: FlashCard)
