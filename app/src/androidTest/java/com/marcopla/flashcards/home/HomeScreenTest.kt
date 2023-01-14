@@ -13,6 +13,15 @@ class HomeScreenTest {
     val homeScreenTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
+    fun homeScreen_whenLaunched_thenShowLoading() {
+        launchHomeScreen(homeScreenTestRule, TestFlashCardRepository()) {
+            // Empty
+        } verify {
+            showLoadingIndicator()
+        }
+    }
+
+    @Test
     fun homeScreen_emptyData_showEmptyMessage() {
         val repository = TestFlashCardRepository(emptyList())
 

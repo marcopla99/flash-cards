@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -36,10 +38,25 @@ fun HomeScreen(
             }
         }
     ) {
-        val cardsState: CardsState by viewModel.cardsState.collectAsStateWithLifecycle()
+        val screenState: ScreenState by viewModel.screenState.collectAsStateWithLifecycle()
 
         Surface(modifier = Modifier.padding(it)) {
-            ContentSection(flashCards = cardsState.flashCards)
+            when (screenState) {
+                is ScreenState.Loading -> {
+                    val loadingContentDescription = stringResource(
+                        id = R.string.loadingIndicator
+                    )
+                    CircularProgressIndicator(
+                        modifier = Modifier.semantics {
+                            contentDescription =
+                                loadingContentDescription
+                        }
+                    )
+                }
+                is ScreenState.Empty -> {}
+                is ScreenState.Cards -> {}
+            }
+//            ContentSection(flashCards = cardsState.flashCards)
         }
     }
 }

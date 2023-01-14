@@ -3,6 +3,7 @@ package com.marcopla.flashcards.home
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
@@ -47,5 +48,10 @@ class HomeScreenVerification(
         flashCards.forEach {
             rule.onNodeWithText(it.frontText).assertIsDisplayed()
         }
+    }
+
+    fun showLoadingIndicator() {
+        rule.onNodeWithContentDescription(rule.activity.getString(R.string.loadingIndicator))
+            .assertIsDisplayed()
     }
 }
