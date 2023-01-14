@@ -12,11 +12,11 @@ import org.junit.Test
 class HomeScreenTest {
 
     @get:Rule
-    val homeScreenTestRule = createAndroidComposeRule<ComponentActivity>()
+    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
     fun homeScreen_whenLaunched_thenShowLoading() = runTest {
-        launchHomeScreen(homeScreenTestRule) {
+        launchHomeScreen(composeTestRule) {
             // Empty
         } verify {
             showLoadingIndicator()
@@ -25,7 +25,7 @@ class HomeScreenTest {
 
     @Test
     fun homeScreen_whenGettingEmptyState_showEmptyMessage() = runTest {
-        launchHomeScreen(homeScreenTestRule) {
+        launchHomeScreen(composeTestRule) {
             waitForEmptyDataToLoad()
         } verify {
             emptyMessageIsDisplayed()
@@ -40,7 +40,7 @@ class HomeScreenTest {
             FlashCard("front3", "back3"),
         )
 
-        launchHomeScreen(homeScreenTestRule) {
+        launchHomeScreen(composeTestRule) {
             waitForFlashCardsToLoad(flashCards)
         } verify {
             listOfFlashCardsIsDisplayed(flashCards)
