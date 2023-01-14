@@ -1,8 +1,5 @@
 package com.marcopla.flashcards.presentation.screen.home
 
-import androidx.annotation.StringRes
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.data.model.FlashCard
@@ -15,19 +12,25 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val loadCardsUseCase: LoadCardsUseCase,
 ) : ViewModel() {
-    private val _errorState = mutableStateOf(EmptyState(-1))
-    val errorState: State<EmptyState> = _errorState
-
-    val cardsState: StateFlow<CardsState> = loadCardsStateStream().stateIn(
+    val screenState: StateFlow<ScreenState> = loadCardsStateStream().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = CardsState(emptyList()),
+        initialValue = ScreenState.Loading,
     )
 
-    private fun loadCardsStateStream(): Flow<CardsState> {
-        return loadCardsUseCase.invoke().map { CardsState(it) }
+    private fun loadCardsStateStream(): Flow<ScreenState> {
+        return loadCardsUseCase.invoke().map {
+            if (it.isEmpty()) {
+                ScreenState.Empty
+            } else {
+                ScreenState.Cards(it)
+            }
+        }
     }
 }
 
-data class CardsState(val flashCards: List<FlashCard>)
-data class EmptyState(@StringRes val errorStringRes: Int)
+sealed interface ScreenState {
+    data class Cards(val flashCards: List<FlashCard>) : ScreenState
+    object Empty : ScreenState
+    object Loading : ScreenState
+}
