@@ -8,28 +8,37 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.data.repository.FlashCardRepository
 import com.marcopla.flashcards.domain.use_case.LoadCardsUseCase
 import com.marcopla.flashcards.presentation.screen.home.HomeScreen
 import com.marcopla.flashcards.presentation.screen.home.HomeViewModel
+import com.marcopla.testing.TestFlashCardRepository
 
 typealias ComponentActivityTestRule =
     AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
 
-fun launchHomeScreen(
+suspend fun launchHomeScreen(
     rule: ComponentActivityTestRule,
-    repository: FlashCardRepository,
-    block: HomeScreenRobot.() -> Unit
+    block: suspend HomeScreenRobot.() -> Unit
 ): HomeScreenRobot {
+    val repository = TestFlashCardRepository()
     rule.setContent {
         HomeScreen(HomeViewModel(LoadCardsUseCase(repository))) {}
     }
-    return HomeScreenRobot(rule).apply(block)
+    return HomeScreenRobot(rule, repository).apply { block() }
 }
 
 class HomeScreenRobot(
-    private val rule: ComponentActivityTestRule
+    private val rule: ComponentActivityTestRule,
+    private val repository: TestFlashCardRepository
 ) {
+
+    suspend fun waitForEmptyDataToLoad() {
+        repository.emit(emptyList())
+    }
+
+    suspend fun waitForFlashCardsToLoad(flashCards: List<FlashCard>) {
+        repository.emit(flashCards)
+    }
 
     infix fun verify(block: HomeScreenVerification.() -> Unit): HomeScreenVerification {
         return HomeScreenVerification(rule).apply(block)
@@ -39,9 +48,9 @@ class HomeScreenRobot(
 class HomeScreenVerification(
     private val rule: ComponentActivityTestRule
 ) {
-    fun emptyDataTextIsPresent() {
-        val emptyDataText = rule.activity.getString(R.string.noFlashCardsCreated)
-        rule.onNodeWithText(emptyDataText).assertIsDisplayed()
+    fun emptyMessageIsDisplayed() {
+        val emptyMessage = rule.activity.getString(R.string.noFlashCardsCreated)
+        rule.onNodeWithText(emptyMessage).assertIsDisplayed()
     }
 
     fun listOfFlashCardsIsDisplayed(flashCards: List<FlashCard>) {

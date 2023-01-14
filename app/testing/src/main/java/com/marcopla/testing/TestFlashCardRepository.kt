@@ -5,11 +5,10 @@ import com.marcopla.flashcards.data.repository.FlashCardRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 
-class TestFlashCardRepository(
-    initialTestData: List<FlashCard> = emptyList()
-) : FlashCardRepository {
-    private val flashCards = initialTestData.toMutableList()
-
+/**
+ * Repository used in tests to mock data retrieval.
+ */
+class TestFlashCardRepository : FlashCardRepository {
     private val mutableFlow = MutableSharedFlow<List<FlashCard>>()
 
     override fun getFlashCards(): Flow<List<FlashCard>> {
@@ -17,7 +16,7 @@ class TestFlashCardRepository(
     }
 
     override suspend fun add(newFlashCard: FlashCard) {
-        flashCards.add(newFlashCard)
+        // Not used
     }
 
     suspend fun emit(value: List<FlashCard>) {

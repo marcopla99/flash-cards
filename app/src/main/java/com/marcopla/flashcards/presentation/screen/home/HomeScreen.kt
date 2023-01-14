@@ -1,6 +1,5 @@
 package com.marcopla.flashcards.presentation.screen.home
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,7 +17,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.marcopla.flashcards.R
-import com.marcopla.flashcards.data.model.FlashCard
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -53,26 +51,21 @@ fun HomeScreen(
                         }
                     )
                 }
-                is ScreenState.Empty -> {}
-                is ScreenState.Cards -> {}
-            }
-//            ContentSection(flashCards = cardsState.flashCards)
-        }
-    }
-}
-
-@Composable
-fun ContentSection(flashCards: List<FlashCard>) {
-    if (flashCards.isEmpty()) {
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = stringResource(id = R.string.noFlashCardsCreated),
-            textAlign = TextAlign.Center
-        )
-    } else {
-        LazyColumn {
-            items(flashCards.size) { index ->
-                Text(text = flashCards[index].frontText)
+                is ScreenState.Empty -> {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = stringResource(id = R.string.noFlashCardsCreated),
+                        textAlign = TextAlign.Center
+                    )
+                }
+                is ScreenState.Cards -> {
+                    val flashCards = (screenState as ScreenState.Cards).flashCards
+                    LazyColumn {
+                        items(flashCards.size) { index ->
+                            Text(text = flashCards[index].frontText)
+                        }
+                    }
+                }
             }
         }
     }

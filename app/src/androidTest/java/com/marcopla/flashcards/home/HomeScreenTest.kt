@@ -3,18 +3,20 @@ package com.marcopla.flashcards.home
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.testing.TestFlashCardRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class HomeScreenTest {
 
     @get:Rule
     val homeScreenTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun homeScreen_whenLaunched_thenShowLoading() {
-        launchHomeScreen(homeScreenTestRule, TestFlashCardRepository()) {
+    fun homeScreen_whenLaunched_thenShowLoading() = runTest {
+        launchHomeScreen(homeScreenTestRule) {
             // Empty
         } verify {
             showLoadingIndicator()
@@ -22,27 +24,24 @@ class HomeScreenTest {
     }
 
     @Test
-    fun homeScreen_emptyData_showEmptyMessage() {
-        val repository = TestFlashCardRepository(emptyList())
-
-        launchHomeScreen(homeScreenTestRule, repository) {
-            // Empty
+    fun homeScreen_whenGettingEmptyState_showEmptyMessage() = runTest {
+        launchHomeScreen(homeScreenTestRule) {
+            waitForEmptyDataToLoad()
         } verify {
-            emptyDataTextIsPresent()
+            emptyMessageIsDisplayed()
         }
     }
 
     @Test
-    fun homeScreen_dataIsNotEmpty_showListOfFlashCards() {
+    fun homeScreen_whenDataIsNotEmpty_showListOfFlashCards() = runTest {
         val flashCards = listOf(
             FlashCard("front1", "back1"),
             FlashCard("front2", "back2"),
             FlashCard("front3", "back3"),
         )
-        val repository = TestFlashCardRepository(flashCards)
 
-        launchHomeScreen(homeScreenTestRule, repository) {
-            // Empty
+        launchHomeScreen(homeScreenTestRule) {
+            waitForFlashCardsToLoad(flashCards)
         } verify {
             listOfFlashCardsIsDisplayed(flashCards)
         }
