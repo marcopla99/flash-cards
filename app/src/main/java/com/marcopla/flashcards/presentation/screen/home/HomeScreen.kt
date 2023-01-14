@@ -1,6 +1,7 @@
 package com.marcopla.flashcards.presentation.screen.home
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.marcopla.flashcards.R
+import com.marcopla.flashcards.data.model.FlashCard
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -39,47 +41,57 @@ fun HomeScreen(
         }
     ) {
         val screenState: ScreenState by viewModel.screenState.collectAsStateWithLifecycle()
+        ScreenContent(it, screenState)
+    }
+}
 
-        Surface(modifier = Modifier.padding(it)) {
-            when (screenState) {
-                is ScreenState.Loading -> {
-                    val loadingContentDescription = stringResource(
-                        id = R.string.loadingIndicator
-                    )
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .semantics {
-                                    contentDescription =
-                                        loadingContentDescription
-                                }
-                        )
-                    }
-                }
-                is ScreenState.Empty -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.noFlashCardsCreated),
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-                is ScreenState.Cards -> {
-                    val flashCards = (screenState as ScreenState.Cards).flashCards
-                    LazyColumn {
-                        items(flashCards.size) { index ->
-                            Text(text = flashCards[index].frontText)
-                        }
-                    }
-                }
-            }
+@Composable
+private fun ScreenContent(
+    paddingValues: PaddingValues,
+    screenState: ScreenState,
+) {
+    Surface(modifier = Modifier.padding(paddingValues)) {
+        when (screenState) {
+            is ScreenState.Loading -> LoadingIndicator()
+            is ScreenState.Empty -> EmptyMessage()
+            is ScreenState.Cards -> CardsList(screenState.flashCards)
+        }
+    }
+}
+
+@Composable
+private fun LoadingIndicator() {
+    val loadingContentDescription = stringResource(
+        id = R.string.loadingIndicator
+    )
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier.semantics { contentDescription = loadingContentDescription }
+        )
+    }
+}
+
+@Composable
+private fun EmptyMessage() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = stringResource(id = R.string.noFlashCardsCreated),
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+private fun CardsList(flashCards: List<FlashCard>) {
+    LazyColumn {
+        items(flashCards.size) { index ->
+            Text(text = flashCards[index].frontText)
         }
     }
 }

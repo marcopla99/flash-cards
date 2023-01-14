@@ -2,8 +2,8 @@ package com.marcopla.flashcards.domain.use_case
 
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 class LoadCardsUseCase @Inject constructor(
     private val repository: FlashCardRepository
