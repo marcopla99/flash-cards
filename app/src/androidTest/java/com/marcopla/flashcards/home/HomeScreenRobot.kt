@@ -18,7 +18,7 @@ typealias ComponentActivityTestRule =
 
 suspend fun launchHomeScreen(
     rule: ComponentActivityTestRule,
-    block: suspend HomeScreenRobot.() -> Unit
+    block: suspend HomeScreenRobot.() -> Unit,
 ): HomeScreenRobot {
     val repository = TestFlashCardRepository()
     rule.setContent {
@@ -29,7 +29,7 @@ suspend fun launchHomeScreen(
 
 class HomeScreenRobot(
     private val rule: ComponentActivityTestRule,
-    private val repository: TestFlashCardRepository
+    private val repository: TestFlashCardRepository,
 ) {
 
     suspend fun waitForEmptyDataToLoad() {
@@ -46,7 +46,7 @@ class HomeScreenRobot(
 }
 
 class HomeScreenVerification(
-    private val rule: ComponentActivityTestRule
+    private val rule: ComponentActivityTestRule,
 ) {
     fun emptyMessageIsDisplayed() {
         val emptyMessage = rule.activity.getString(R.string.noFlashCardsCreated)
@@ -55,7 +55,10 @@ class HomeScreenVerification(
 
     fun listOfFlashCardsIsDisplayed(flashCards: List<FlashCard>) {
         flashCards.forEach {
-            rule.onNodeWithText(it.frontText).assertIsDisplayed()
+            val itemContentDescription =
+                rule.activity.getString(R.string.flashCardItem, it.frontText)
+            rule.onNodeWithContentDescription(itemContentDescription)
+                .assertIsDisplayed()
         }
     }
 

@@ -91,7 +91,17 @@ private fun EmptyMessage() {
 private fun CardsList(flashCards: List<FlashCard>) {
     LazyColumn {
         items(flashCards.size) { index ->
-            Text(text = flashCards[index].frontText)
+            val itemContentDescription =
+                stringResource(R.string.flashCardItem, flashCards[index].frontText)
+            Box(
+                modifier = Modifier.semantics {
+                    contentDescription = itemContentDescription
+                }
+            ) {
+                Text(
+                    text = flashCards[index].frontText,
+                )
+            }
         }
     }
 }
