@@ -29,20 +29,30 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun homeViewModel_isCreated_and_noFlashCardsAreRetrieved_emitEmptyFlashCardsState() = runTest {
-        val initialData = emptyList<FlashCard>()
+    fun homeViewModel_whenNoFlashCardsAreRetrieved_showEmptyState() = runTest {
+        val repository = TestFlashCardRepository()
+        val viewModel = HomeViewModel(LoadCardsUseCase(repository))
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.screenState.collect {} }
 
-        val viewModel = HomeViewModel(LoadCardsUseCase(TestFlashCardRepository(initialData)))
+        repository.emit(emptyList())
 
-        assertEquals(EmptyState(R.string.noFlashCardsCreated), viewModel.errorState.value)
+        assertEquals(
+            ScreenState.Empty,
+            viewModel.screenState.value,
+        )
+        collectJob.cancel()
     }
 
     @Test
-    fun homeViewModel_isCreated_and_fetchedListOfFlashCards_returnStateWithFlashCards() = runTest {
+    fun homeViewModel_whenFetchedListOfFlashCards_thenShowFlashCards() = runTest {
         val storedFlashCards = listOf(FlashCard("Engels", "English"))
+        val repository = TestFlashCardRepository()
+        val viewModel = HomeViewModel(LoadCardsUseCase(repository))
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.screenState.collect {} }
 
-        val viewModel = HomeViewModel(LoadCardsUseCase(TestFlashCardRepository(storedFlashCards)))
+        repository.emit(storedFlashCards)
 
-        assertEquals(CardsState(storedFlashCards), viewModel.cardsState.value)
+        assertEquals(ScreenState.Cards(storedFlashCards), viewModel.screenState.value)
+        collectJob.cancel()
     }
 }
