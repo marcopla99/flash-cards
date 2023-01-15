@@ -59,7 +59,6 @@ class AddScreenVerification(private val composeRule: ComponentActivityTestRule) 
     fun duplicateErrorMessageIsDisplayed() {
         composeRule.onNodeWithText(composeRule.activity.getString(R.string.duplicateCardError))
             .assertIsDisplayed()
-//        Thread.sleep(1000)
     }
 
     fun textFieldsAreEmpty(frontText: String, backText: String) {
