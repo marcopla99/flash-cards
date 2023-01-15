@@ -1,9 +1,6 @@
 package com.marcopla.flashcards.presentation.screen.home
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -12,10 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -89,18 +88,30 @@ private fun EmptyMessage() {
 
 @Composable
 private fun CardsList(flashCards: List<FlashCard>) {
-    LazyColumn {
+    LazyColumn(modifier = Modifier.fillMaxWidth()) {
         items(flashCards.size) { index ->
             val itemContentDescription =
                 stringResource(R.string.flashCardItem, flashCards[index].frontText)
-            Box(
-                modifier = Modifier.semantics {
-                    contentDescription = itemContentDescription
-                }
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(4.dp)
+                    .semantics {
+                        contentDescription = itemContentDescription
+                    },
+                elevation = 4.dp,
             ) {
-                Text(
-                    text = flashCards[index].frontText,
-                )
+                Column(modifier = Modifier.padding(4.dp)) {
+                    Text(
+                        text = flashCards[index].frontText,
+                        style = MaterialTheme.typography.h5
+                    )
+                    Text(
+                        text = flashCards[index].backText,
+                        style = MaterialTheme.typography.h6,
+                        color = Color.Gray
+                    )
+                }
             }
         }
     }
