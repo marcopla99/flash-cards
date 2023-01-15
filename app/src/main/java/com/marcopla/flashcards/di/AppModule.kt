@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.marcopla.flashcards.data.data_source.FlashCardDatabase
 import com.marcopla.flashcards.data.repository.FlashCardRepository
+import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,6 +28,6 @@ class AppModule {
     @Provides
     @Singleton
     fun provideFlashCardRepository(db: FlashCardDatabase): FlashCardRepository {
-        return FlashCardRepository(db.flashCardDao)
+        return FlashCardRepositoryImpl(db.flashCardDao)
     }
 }

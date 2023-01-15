@@ -1,71 +1,69 @@
 package com.marcopla.flashcards.home
 
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.navigation.compose.ComposeNavigator
-import androidx.navigation.testing.TestNavHostController
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.presentation.navigation.AppNavHost
-import com.marcopla.flashcards.presentation.navigation.Routes
-import com.marcopla.flashcards.presentation.screen.home.ContentSection
-import org.junit.Assert.assertEquals
+import com.marcopla.flashcards.domain.use_case.LoadCardsUseCase
+import com.marcopla.flashcards.presentation.screen.home.HomeScreen
+import com.marcopla.flashcards.presentation.screen.home.HomeViewModel
+import com.marcopla.testing.TestFlashCardRepository
 
 typealias ComponentActivityTestRule =
     AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
 
-fun launchHomeScreen(
+suspend fun launchHomeScreen(
     rule: ComponentActivityTestRule,
-    block: HomeScreenRobot.() -> Unit
+    block: suspend HomeScreenRobot.() -> Unit,
 ): HomeScreenRobot {
-    return HomeScreenRobot(rule).apply(block)
+    val repository = TestFlashCardRepository()
+    rule.setContent {
+        HomeScreen(viewModel = HomeViewModel(LoadCardsUseCase(repository))) {}
+    }
+    return HomeScreenRobot(rule, repository).apply { block() }
 }
 
 class HomeScreenRobot(
-    private val rule: ComponentActivityTestRule
+    private val rule: ComponentActivityTestRule,
+    private val repository: TestFlashCardRepository,
 ) {
-    private var navController: TestNavHostController? = null
 
-    fun setFlashCards(flashCards: List<FlashCard>) {
-        rule.setContent {
-            ContentSection(
-                flashCards = flashCards
-            )
-        }
+    suspend fun waitForEmptyDataToLoad() {
+        repository.emit(emptyList())
     }
 
-    fun clickAddButton() {
-        rule.setContent {
-            navController = TestNavHostController(LocalContext.current)
-            navController!!.navigatorProvider.addNavigator(ComposeNavigator())
-            AppNavHost(navController = navController!!)
-        }
-        val addButtonContentDescription =
-            rule.activity.getString(R.string.navigateToAddScreenButtonCd)
-        rule.onNodeWithContentDescription(addButtonContentDescription).performClick()
+    suspend fun waitForFlashCardsToLoad(flashCards: List<FlashCard>) {
+        repository.emit(flashCards)
     }
 
     infix fun verify(block: HomeScreenVerification.() -> Unit): HomeScreenVerification {
-        return HomeScreenVerification(rule, navController).apply(block)
+        return HomeScreenVerification(rule).apply(block)
     }
 }
 
 class HomeScreenVerification(
     private val rule: ComponentActivityTestRule,
-    private val navController: TestNavHostController?
 ) {
-    fun emptyDataTextIsPresent() {
-        val emptyDataText = rule.activity.getString(R.string.noFlashCardsCreated)
-        rule.onNodeWithText(emptyDataText).assertIsDisplayed()
+    fun emptyMessageIsDisplayed() {
+        val emptyMessage = rule.activity.getString(R.string.noFlashCardsCreated)
+        rule.onNodeWithText(emptyMessage).assertIsDisplayed()
     }
-    fun navigatedToAddScreen() {
-        val currentRoute = navController?.currentBackStackEntry?.destination?.route
-        assertEquals(currentRoute, Routes.ADD_SCREEN)
+
+    fun listOfFlashCardsIsDisplayed(flashCards: List<FlashCard>) {
+        flashCards.forEach {
+            val itemContentDescription =
+                rule.activity.getString(R.string.flashCardItem, it.frontText)
+            rule.onNodeWithContentDescription(itemContentDescription)
+                .assertIsDisplayed()
+        }
+    }
+
+    fun showLoadingIndicator() {
+        rule.onNodeWithContentDescription(rule.activity.getString(R.string.loadingIndicator))
+            .assertIsDisplayed()
     }
 }

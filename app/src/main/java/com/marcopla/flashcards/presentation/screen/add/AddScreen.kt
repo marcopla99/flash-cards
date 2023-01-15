@@ -13,15 +13,15 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marcopla.flashcards.R
 
-@Preview
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun AddScreen(
-    viewModel: NewFlashCardViewModel = hiltViewModel()
+    modifier: Modifier = Modifier,
+    viewModel: NewFlashCardViewModel = hiltViewModel(),
 ) {
     val scaffoldState = rememberScaffoldState()
     HandleInfoTextEffect(
@@ -30,8 +30,10 @@ fun AddScreen(
     )
 
     Scaffold(
-        modifier = Modifier.padding(8.dp),
         scaffoldState = scaffoldState,
+        topBar = {
+            TopAppBar(title = { Text(stringResource(R.string.addScreenTitle)) })
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
@@ -43,26 +45,26 @@ fun AddScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.addCardButtonCd)
+                    contentDescription = stringResource(R.string.addCardButton)
                 )
             }
         }
-    ) {
-        Surface(modifier = Modifier.padding(it)) {
-            Column {
-                FontTextField(
-                    value = viewModel.frontTextState.value.text,
-                    isError = viewModel.frontTextState.value.showError,
-                    isFocused = viewModel.screenState.value == ScreenState.SUCCESSFUL_SAVE,
-                    onValueChange = { frontInput -> viewModel.updateFrontText(frontInput) }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                BackTextField(
-                    viewModel.backTextState.value.text,
-                    isError = viewModel.backTextState.value.showError,
-                    onValueChange = { backInput -> viewModel.updateBackText(backInput) }
-                )
-            }
+    ) { paddingValues: PaddingValues ->
+        Column(modifier = modifier.padding(4.dp).consumedWindowInsets(paddingValues)) {
+            FontTextField(
+                value = viewModel.frontTextState.value.text,
+                isError = viewModel.frontTextState.value.showError,
+                isFocused = viewModel.screenState.value == ScreenState.SUCCESSFUL_SAVE,
+                modifier = modifier,
+                onValueChange = { frontInput -> viewModel.updateFrontText(frontInput) }
+            )
+            Spacer(modifier = modifier.height(8.dp))
+            BackTextField(
+                value = viewModel.backTextState.value.text,
+                isError = viewModel.backTextState.value.showError,
+                modifier = modifier,
+                onValueChange = { backInput -> viewModel.updateBackText(backInput) }
+            )
         }
     }
 }
@@ -72,14 +74,15 @@ private fun FontTextField(
     value: String,
     isError: Boolean,
     isFocused: Boolean,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    val frontTextFieldCd = stringResource(R.string.frontTextFieldCd)
+    val fieldContentDescription = stringResource(R.string.frontTextField)
     val focusRequester = remember { FocusRequester() }
     TextField(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .semantics { contentDescription = frontTextFieldCd }
+            .semantics { contentDescription = fieldContentDescription }
             .focusRequester(focusRequester),
         value = value,
         isError = isError,
@@ -97,13 +100,14 @@ private fun FontTextField(
 private fun BackTextField(
     value: String,
     isError: Boolean,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    val backTextFieldCd = stringResource(R.string.backTextFieldCd)
+    val fieldContentDescription = stringResource(R.string.backTextField)
     TextField(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .semantics { contentDescription = backTextFieldCd },
+            .semantics { contentDescription = fieldContentDescription },
         value = value,
         isError = isError,
         label = { Text(stringResource(R.string.backTextFieldLabel)) },
@@ -114,7 +118,7 @@ private fun BackTextField(
 @Composable
 private fun HandleInfoTextEffect(
     infoTextStringRes: Int?,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
 ) {
     if (infoTextStringRes == null) return
     val infoText = stringResource(infoTextStringRes)

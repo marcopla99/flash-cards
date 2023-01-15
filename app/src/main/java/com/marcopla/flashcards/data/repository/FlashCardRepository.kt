@@ -1,25 +1,11 @@
 package com.marcopla.flashcards.data.repository
 
-import android.database.sqlite.SQLiteConstraintException
-import com.marcopla.flashcards.data.data_source.FlashCardDao
 import com.marcopla.flashcards.data.model.FlashCard
+import kotlinx.coroutines.flow.Flow
 
-class FlashCardRepository(
-    private val flashCardDao: FlashCardDao
-) {
-
-    suspend fun getFlashCards(): List<FlashCard> {
-        return flashCardDao.fetchAll()
-    }
+interface FlashCardRepository {
+    fun getFlashCards(): Flow<List<FlashCard>>
 
     @Throws(DuplicateInsertionException::class)
-    suspend fun add(newFlashCards: FlashCard) {
-        try {
-            flashCardDao.insert(newFlashCards)
-        } catch (_: SQLiteConstraintException) {
-            throw DuplicateInsertionException()
-        }
-    }
+    suspend fun add(newFlashCard: FlashCard)
 }
-
-class DuplicateInsertionException : IllegalStateException()

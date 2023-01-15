@@ -9,17 +9,18 @@ import com.marcopla.flashcards.data.repository.FlashCardRepository
 import com.marcopla.flashcards.domain.use_case.SaveNewCardUseCase
 import com.marcopla.flashcards.presentation.screen.add.AddScreen
 import com.marcopla.flashcards.presentation.screen.add.NewFlashCardViewModel
+import com.marcopla.testing.TestFlashCardRepository
 
 typealias ComponentActivityTestRule =
     AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
 
 fun launchAddScreen(
     composeRule: ComponentActivityTestRule,
-    repository: FlashCardRepository,
+    repository: FlashCardRepository = TestFlashCardRepository(),
     block: AddScreenRobot.() -> Unit
 ): AddScreenRobot {
     composeRule.setContent {
-        AddScreen(NewFlashCardViewModel(SaveNewCardUseCase(repository)))
+        AddScreen(viewModel = NewFlashCardViewModel(SaveNewCardUseCase(repository)))
     }
     return AddScreenRobot(composeRule).apply(block)
 }
@@ -27,19 +28,19 @@ fun launchAddScreen(
 class AddScreenRobot(private val composeRule: ComponentActivityTestRule) {
     fun typeTextFront(frontText: String) {
         composeRule
-            .onNodeWithContentDescription(composeRule.activity.getString(R.string.frontTextFieldCd))
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.frontTextField))
             .performTextInput(frontText)
     }
 
     fun typeTextBack(backText: String) {
         composeRule
-            .onNodeWithContentDescription(composeRule.activity.getString(R.string.backTextFieldCd))
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.backTextField))
             .performTextInput(backText)
     }
 
     fun submit() {
         composeRule
-            .onNodeWithContentDescription(composeRule.activity.getString(R.string.addCardButtonCd))
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.addCardButton))
             .performClick()
     }
 
@@ -67,7 +68,7 @@ class AddScreenVerification(private val composeRule: ComponentActivityTestRule) 
 
     fun frontTextFieldIsFocused() {
         composeRule
-            .onNodeWithContentDescription(composeRule.activity.getString(R.string.frontTextFieldCd))
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.frontTextField))
             .assertIsFocused()
     }
 }

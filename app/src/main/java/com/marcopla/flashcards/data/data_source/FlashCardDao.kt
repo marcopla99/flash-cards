@@ -4,11 +4,12 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.marcopla.flashcards.data.model.FlashCard
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FlashCardDao {
     @Query("SELECT * FROM flashCard")
-    suspend fun fetchAll(): List<FlashCard>
+    fun fetchAll(): Flow<List<FlashCard>>
 
     @Insert
     suspend fun insert(flashCard: FlashCard)

@@ -2,29 +2,48 @@ package com.marcopla.flashcards.home
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import com.marcopla.flashcards.data.model.FlashCard
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class HomeScreenTest {
 
     @get:Rule
-    val homeScreenTestRule = createAndroidComposeRule<ComponentActivity>()
+    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun homeScreen_emptyData_showEmptyMessage() {
-        launchHomeScreen(homeScreenTestRule) {
-            setFlashCards(listOf())
+    fun homeScreen_whenLaunched_thenShowLoading() = runTest {
+        launchHomeScreen(composeTestRule) {
+            // Empty
         } verify {
-            emptyDataTextIsPresent()
+            showLoadingIndicator()
         }
     }
 
     @Test
-    fun homeScreen__navigateToAddScreen() {
-        launchHomeScreen(homeScreenTestRule) {
-            clickAddButton()
+    fun homeScreen_whenGettingEmptyState_thenShowEmptyMessage() = runTest {
+        launchHomeScreen(composeTestRule) {
+            waitForEmptyDataToLoad()
         } verify {
-            navigatedToAddScreen()
+            emptyMessageIsDisplayed()
+        }
+    }
+
+    @Test
+    fun homeScreen_whenDataIsNotEmpty_thenShowListOfFlashCards() = runTest {
+        val flashCards = listOf(
+            FlashCard("front1", "back1"),
+            FlashCard("front2", "back2"),
+            FlashCard("front3", "back3"),
+        )
+
+        launchHomeScreen(composeTestRule) {
+            waitForFlashCardsToLoad(flashCards)
+        } verify {
+            listOfFlashCardsIsDisplayed(flashCards)
         }
     }
 }

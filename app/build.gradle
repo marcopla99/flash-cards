@@ -30,24 +30,30 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
     buildFeatures {
         compose true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion '1.3.2'
     }
+
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
     testOptions.unitTests.all {
         useJUnitPlatform()
         testLogging {
@@ -87,6 +93,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
     implementation 'androidx.test:core-ktx:1.5.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha03'
 
     kapt "androidx.room:room-compiler:$roomVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
@@ -94,10 +101,11 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
 
     androidTestImplementation composeBom
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4"
     androidTestImplementation "androidx.navigation:navigation-testing:$navigationVersion"
     androidTestImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
+    androidTestImplementation project(path: ':app:testing')
 
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
 
@@ -107,10 +115,11 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:$jUnitVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$jUnitVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    testImplementation project(path: ':app:testing')
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion"
 
-    androidTestImplementation "androidx.test:runner:1.5.1"
+    androidTestImplementation "androidx.test:runner:1.5.2"
 }
 
 kapt {

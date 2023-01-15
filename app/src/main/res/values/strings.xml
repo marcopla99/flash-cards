@@ -1,12 +1,15 @@
 <resources>
     <string name="appName">FlashCards</string>
     <string name="noFlashCardsCreated">No flash cards created yet.</string>
-    <string name="navigateToAddScreenButtonCd">Navigate to AddScreen</string>
-    <string name="frontTextFieldCd">Front text</string>
-    <string name="backTextFieldCd">Back text</string>
-    <string name="addCardButtonCd">Add new card</string>
+    <string name="navigateToAddScreenButton">Navigate to AddScreen</string>
+    <string name="frontTextField">Front text</string>
+    <string name="backTextField">Back text</string>
+    <string name="addCardButton">Add new card</string>
     <string name="cardAdded">Card added</string>
     <string name="backTextFieldLabel">Back</string>
     <string name="frontTextFieldLabel">Front</string>
     <string name="duplicateCardError">This card already exists</string>
+    <string name="addScreenTitle">Add new flash card</string>
+    <string name="loadingIndicator">Loading indicator</string>
+    <string name="flashCardItem">Flash card of %1$s</string>
 </resources>

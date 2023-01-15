@@ -7,6 +7,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -31,16 +32,16 @@ class FlashCardRepositoryTest {
     }
 
     @Test
-    fun validNewFlashCard_afterIsInserted_isPossibleToReadIt() = runTest {
+    fun validNewFlashCard_whenAfterIsInserted_thenIsPossibleToReadIt() = runTest {
         val newFlashCards = FlashCard("Engels", "English")
 
         repository.add(newFlashCards)
 
-        assertEquals(true, repository.getFlashCards().contains(newFlashCards))
+        assertEquals(listOf(newFlashCards), repository.getFlashCards().first())
     }
 
     @Test
-    fun duplicatedFlashCard_isInserted_noDuplicatesAreRead() = runTest {
+    fun duplicatedFlashCard_whenIsInserted_thenNoDuplicatesAreRead() = runTest {
         val alreadyExistentFlashCard = FlashCard("Engels", "English")
         repository.add(alreadyExistentFlashCard)
 
@@ -50,7 +51,7 @@ class FlashCardRepositoryTest {
             }
         }
 
-        val hasNoDuplicates = repository.getFlashCards().filter {
+        val hasNoDuplicates = repository.getFlashCards().first().filter {
             it == alreadyExistentFlashCard
         }.size == 1
         assertEquals(true, hasNoDuplicates)
