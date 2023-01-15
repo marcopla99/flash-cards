@@ -18,7 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 class NewFlashCardValidatorTest {
 
     @Test
-    fun frontText_isEmptyWhenSubmitted_returnInvalidState() = runTest {
+    fun frontText_whenIsEmptyWhenSubmitted_thenReturnInvalidState() = runTest {
         val viewModel =
             NewFlashCardViewModel(SaveNewCardUseCase(FlashCardRepositoryImpl(FakeFlashCardDao())))
         val emptyFrontText = ""
@@ -32,7 +32,7 @@ class NewFlashCardValidatorTest {
     }
 
     @Test
-    fun backText_isEmptyWhenSubmitted_returnInvalidState() = runTest {
+    fun backText_whenIsEmptyWhenSubmitted_thenReturnInvalidState() = runTest {
         val viewModel =
             NewFlashCardViewModel(SaveNewCardUseCase(FlashCardRepositoryImpl(FakeFlashCardDao())))
         val emptyBackText = ""

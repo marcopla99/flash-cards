@@ -60,7 +60,7 @@ fun AddScreen(
             )
             Spacer(modifier = modifier.height(8.dp))
             BackTextField(
-                viewModel.backTextState.value.text,
+                value = viewModel.backTextState.value.text,
                 isError = viewModel.backTextState.value.showError,
                 modifier = modifier,
                 onValueChange = { backInput -> viewModel.updateBackText(backInput) }

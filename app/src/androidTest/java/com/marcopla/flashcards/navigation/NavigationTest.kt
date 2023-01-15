@@ -23,7 +23,7 @@ class NavigationTest {
     }
 
     @Test
-    fun homeScreen_isOpen_andAfterClickingTheAddButton_goToAddScreen() {
+    fun homeScreen_whenIsOpen_andAfterClickingTheAddButton_thenGoToAddScreen() {
         launchApp(composeRule) {
             clickAddButton()
         } verify {

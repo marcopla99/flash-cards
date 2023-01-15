@@ -29,7 +29,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun homeViewModel_whenNoFlashCardsAreRetrieved_showEmptyState() = runTest {
+    fun homeViewModel_whenNoFlashCardsAreRetrieved_thenShowEmptyState() = runTest {
         val repository = TestFlashCardRepository()
         val viewModel = HomeViewModel(LoadCardsUseCase(repository))
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.screenState.collect {} }

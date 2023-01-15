@@ -24,7 +24,7 @@ class HomeScreenTest {
     }
 
     @Test
-    fun homeScreen_whenGettingEmptyState_showEmptyMessage() = runTest {
+    fun homeScreen_whenGettingEmptyState_thenShowEmptyMessage() = runTest {
         launchHomeScreen(composeTestRule) {
             waitForEmptyDataToLoad()
         } verify {
@@ -33,7 +33,7 @@ class HomeScreenTest {
     }
 
     @Test
-    fun homeScreen_whenDataIsNotEmpty_showListOfFlashCards() = runTest {
+    fun homeScreen_whenDataIsNotEmpty_thenShowListOfFlashCards() = runTest {
         val flashCards = listOf(
             FlashCard("front1", "back1"),
             FlashCard("front2", "back2"),

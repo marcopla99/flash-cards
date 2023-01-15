@@ -32,7 +32,7 @@ class FlashCardRepositoryTest {
     }
 
     @Test
-    fun validNewFlashCard_afterIsInserted_isPossibleToReadIt() = runTest {
+    fun validNewFlashCard_whenAfterIsInserted_thenIsPossibleToReadIt() = runTest {
         val newFlashCards = FlashCard("Engels", "English")
 
         repository.add(newFlashCards)
@@ -41,7 +41,7 @@ class FlashCardRepositoryTest {
     }
 
     @Test
-    fun duplicatedFlashCard_isInserted_noDuplicatesAreRead() = runTest {
+    fun duplicatedFlashCard_whenIsInserted_thenNoDuplicatesAreRead() = runTest {
         val alreadyExistentFlashCard = FlashCard("Engels", "English")
         repository.add(alreadyExistentFlashCard)
 

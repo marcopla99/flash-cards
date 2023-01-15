@@ -18,7 +18,7 @@ class AddScreenTest {
     val composeRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun addScreen_fieldsNotEmpty_and_pressAddButton_showInfoMessage() {
+    fun addScreen_whenFieldsNotEmpty_andPressAddButton_thenShowInfoMessage() {
         launchAddScreen(composeRule) {
             typeTextFront("Engels")
             typeTextBack("English")
@@ -29,7 +29,7 @@ class AddScreenTest {
     }
 
     @Test
-    fun duplicateFlashCard_pressAddButton_showDuplicateErrorMessage() = runTest {
+    fun duplicateFlashCard_whenPressAddButton_thenShowDuplicateErrorMessage() = runTest {
         launchAddScreen(composeRule, DuplicateFlashCardRepository()) {
             typeTextFront("Engels")
             typeTextBack("English")
@@ -40,7 +40,7 @@ class AddScreenTest {
     }
 
     @Test
-    fun newFlashCard_successfullyCreated_clearTextFields() {
+    fun newFlashCard_whenSuccessfullyCreated_thenClearTextFields() {
         val frontText = "Nieuwe"
         val backText = "New"
 
@@ -54,7 +54,7 @@ class AddScreenTest {
     }
 
     @Test
-    fun newFlashCard_successfullyCreated_theFrontTextFieldIsFocused() {
+    fun newFlashCard_whenSuccessfullyCreated_thenTheFrontTextFieldIsFocused() {
         launchAddScreen(composeRule) {
             typeTextFront("Engels")
             typeTextBack("English")
