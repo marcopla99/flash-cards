@@ -45,7 +45,7 @@ fun AddScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.addCardButtonCd)
+                    contentDescription = stringResource(R.string.addCardButton)
                 )
             }
         }
@@ -77,12 +77,12 @@ private fun FontTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val frontTextFieldCd = stringResource(R.string.frontTextFieldCd)
+    val fieldContentDescription = stringResource(R.string.frontTextField)
     val focusRequester = remember { FocusRequester() }
     TextField(
         modifier = modifier
             .fillMaxWidth()
-            .semantics { contentDescription = frontTextFieldCd }
+            .semantics { contentDescription = fieldContentDescription }
             .focusRequester(focusRequester),
         value = value,
         isError = isError,
@@ -103,11 +103,11 @@ private fun BackTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val backTextFieldCd = stringResource(R.string.backTextFieldCd)
+    val fieldContentDescription = stringResource(R.string.backTextField)
     TextField(
         modifier = modifier
             .fillMaxWidth()
-            .semantics { contentDescription = backTextFieldCd },
+            .semantics { contentDescription = fieldContentDescription },
         value = value,
         isError = isError,
         label = { Text(stringResource(R.string.backTextFieldLabel)) },

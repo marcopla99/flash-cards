@@ -34,7 +34,7 @@ fun HomeScreen(
                 onClick = onNavigateToAddScreen
             ) {
                 Icon(
-                    contentDescription = stringResource(R.string.navigateToAddScreenButtonCd),
+                    contentDescription = stringResource(R.string.navigateToAddScreenButton),
                     imageVector = Icons.Default.Add
                 )
             }

@@ -24,7 +24,7 @@ class NavigationRobot(
 ) {
     fun clickAddButton() {
         val addButtonContentDescription = composeRule.activity.getString(
-            R.string.navigateToAddScreenButtonCd
+            R.string.navigateToAddScreenButton
         )
         composeRule.onNodeWithContentDescription(addButtonContentDescription).performClick()
     }

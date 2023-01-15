@@ -28,19 +28,19 @@ fun launchAddScreen(
 class AddScreenRobot(private val composeRule: ComponentActivityTestRule) {
     fun typeTextFront(frontText: String) {
         composeRule
-            .onNodeWithContentDescription(composeRule.activity.getString(R.string.frontTextFieldCd))
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.frontTextField))
             .performTextInput(frontText)
     }
 
     fun typeTextBack(backText: String) {
         composeRule
-            .onNodeWithContentDescription(composeRule.activity.getString(R.string.backTextFieldCd))
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.backTextField))
             .performTextInput(backText)
     }
 
     fun submit() {
         composeRule
-            .onNodeWithContentDescription(composeRule.activity.getString(R.string.addCardButtonCd))
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.addCardButton))
             .performClick()
     }
 
@@ -69,7 +69,7 @@ class AddScreenVerification(private val composeRule: ComponentActivityTestRule) 
 
     fun frontTextFieldIsFocused() {
         composeRule
-            .onNodeWithContentDescription(composeRule.activity.getString(R.string.frontTextFieldCd))
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.frontTextField))
             .assertIsFocused()
     }
 }
