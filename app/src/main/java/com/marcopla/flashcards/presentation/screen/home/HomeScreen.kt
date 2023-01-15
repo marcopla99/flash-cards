@@ -24,6 +24,7 @@ import com.marcopla.flashcards.data.model.FlashCard
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun HomeScreen(
+    modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToAddScreen: () -> Unit,
 ) {
@@ -38,45 +39,47 @@ fun HomeScreen(
                 )
             }
         }
-    ) {
+    ) { padding ->
         val screenState: ScreenState by viewModel.screenState.collectAsStateWithLifecycle()
-        ScreenContent(it, screenState)
+        ScreenContent(screenState, modifier = modifier.padding(padding))
     }
 }
 
 @Composable
 private fun ScreenContent(
-    paddingValues: PaddingValues,
     screenState: ScreenState,
+    modifier: Modifier = Modifier
 ) {
-    Surface(modifier = Modifier.padding(paddingValues)) {
-        when (screenState) {
-            is ScreenState.Loading -> LoadingIndicator()
-            is ScreenState.Empty -> EmptyMessage()
-            is ScreenState.Cards -> CardsList(screenState.flashCards)
-        }
+    when (screenState) {
+        is ScreenState.Loading -> LoadingIndicator(modifier = modifier)
+        is ScreenState.Empty -> EmptyMessage(modifier = modifier)
+        is ScreenState.Cards -> CardsList(screenState.flashCards, modifier = modifier)
     }
 }
 
 @Composable
-private fun LoadingIndicator() {
+private fun LoadingIndicator(
+    modifier: Modifier = Modifier
+) {
     val loadingContentDescription = stringResource(
         id = R.string.loadingIndicator
     )
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(
-            modifier = Modifier.semantics { contentDescription = loadingContentDescription }
+            modifier = modifier.semantics { contentDescription = loadingContentDescription }
         )
     }
 }
 
 @Composable
-private fun EmptyMessage() {
+private fun EmptyMessage(
+    modifier: Modifier = Modifier
+) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -87,13 +90,16 @@ private fun EmptyMessage() {
 }
 
 @Composable
-private fun CardsList(flashCards: List<FlashCard>) {
-    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+private fun CardsList(
+    flashCards: List<FlashCard>,
+    modifier: Modifier = Modifier,
+) {
+    LazyColumn(modifier = modifier.fillMaxSize()) {
         items(flashCards.size) { index ->
             val itemContentDescription =
                 stringResource(R.string.flashCardItem, flashCards[index].frontText)
             Card(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxWidth()
                     .padding(4.dp)
                     .semantics {
@@ -101,7 +107,7 @@ private fun CardsList(flashCards: List<FlashCard>) {
                     },
                 elevation = 4.dp,
             ) {
-                Column(modifier = Modifier.padding(4.dp)) {
+                Column(modifier = modifier.padding(4.dp)) {
                     Text(
                         text = flashCards[index].frontText,
                         style = MaterialTheme.typography.h5

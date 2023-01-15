@@ -22,7 +22,7 @@ suspend fun launchHomeScreen(
 ): HomeScreenRobot {
     val repository = TestFlashCardRepository()
     rule.setContent {
-        HomeScreen(HomeViewModel(LoadCardsUseCase(repository))) {}
+        HomeScreen(viewModel = HomeViewModel(LoadCardsUseCase(repository))) {}
     }
     return HomeScreenRobot(rule, repository).apply { block() }
 }

@@ -20,7 +20,7 @@ fun launchAddScreen(
     block: AddScreenRobot.() -> Unit
 ): AddScreenRobot {
     composeRule.setContent {
-        AddScreen(NewFlashCardViewModel(SaveNewCardUseCase(repository)))
+        AddScreen(viewModel = NewFlashCardViewModel(SaveNewCardUseCase(repository)))
     }
     return AddScreenRobot(composeRule).apply(block)
 }

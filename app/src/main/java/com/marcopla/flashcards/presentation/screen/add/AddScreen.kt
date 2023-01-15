@@ -21,6 +21,7 @@ import com.marcopla.flashcards.R
 @Preview
 @Composable
 fun AddScreen(
+    modifier: Modifier = Modifier,
     viewModel: NewFlashCardViewModel = hiltViewModel(),
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -30,7 +31,7 @@ fun AddScreen(
     )
 
     Scaffold(
-        modifier = Modifier.padding(8.dp),
+        modifier = modifier.padding(8.dp),
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(title = { Text(stringResource(R.string.addScreenTitle)) })
@@ -50,22 +51,22 @@ fun AddScreen(
                 )
             }
         }
-    ) {
-        Surface(modifier = Modifier.padding(it)) {
-            Column {
-                FontTextField(
-                    value = viewModel.frontTextState.value.text,
-                    isError = viewModel.frontTextState.value.showError,
-                    isFocused = viewModel.screenState.value == ScreenState.SUCCESSFUL_SAVE,
-                    onValueChange = { frontInput -> viewModel.updateFrontText(frontInput) }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                BackTextField(
-                    viewModel.backTextState.value.text,
-                    isError = viewModel.backTextState.value.showError,
-                    onValueChange = { backInput -> viewModel.updateBackText(backInput) }
-                )
-            }
+    ) { padding ->
+        Column(modifier = modifier.padding(padding)) {
+            FontTextField(
+                value = viewModel.frontTextState.value.text,
+                isError = viewModel.frontTextState.value.showError,
+                isFocused = viewModel.screenState.value == ScreenState.SUCCESSFUL_SAVE,
+                modifier = modifier,
+                onValueChange = { frontInput -> viewModel.updateFrontText(frontInput) }
+            )
+            Spacer(modifier = modifier.height(8.dp))
+            BackTextField(
+                viewModel.backTextState.value.text,
+                isError = viewModel.backTextState.value.showError,
+                modifier = modifier,
+                onValueChange = { backInput -> viewModel.updateBackText(backInput) }
+            )
         }
     }
 }
@@ -76,11 +77,12 @@ private fun FontTextField(
     isError: Boolean,
     isFocused: Boolean,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val frontTextFieldCd = stringResource(R.string.frontTextFieldCd)
     val focusRequester = remember { FocusRequester() }
     TextField(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .semantics { contentDescription = frontTextFieldCd }
             .focusRequester(focusRequester),
@@ -101,10 +103,11 @@ private fun BackTextField(
     value: String,
     isError: Boolean,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val backTextFieldCd = stringResource(R.string.backTextFieldCd)
     TextField(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .semantics { contentDescription = backTextFieldCd },
         value = value,
