@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marcopla.flashcards.R
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun AddScreen(
     modifier: Modifier = Modifier,
@@ -29,7 +30,6 @@ fun AddScreen(
     )
 
     Scaffold(
-        modifier = modifier.padding(8.dp),
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(title = { Text(stringResource(R.string.addScreenTitle)) })
@@ -49,8 +49,8 @@ fun AddScreen(
                 )
             }
         }
-    ) { padding ->
-        Column(modifier = modifier.padding(padding)) {
+    ) { paddingValues: PaddingValues ->
+        Column(modifier = modifier.padding(4.dp).consumedWindowInsets(paddingValues)) {
             FontTextField(
                 value = viewModel.frontTextState.value.text,
                 isError = viewModel.frontTextState.value.showError,
