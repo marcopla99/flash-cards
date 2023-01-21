@@ -3,7 +3,7 @@ package com.marcopla.flashcards.add
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.data.data_source.FakeFlashCardDao
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
-import com.marcopla.flashcards.domain.use_case.SaveNewCardUseCase
+import com.marcopla.flashcards.domain.use_case.add.SaveNewCardUseCase
 import com.marcopla.flashcards.presentation.screen.add.BackTextState
 import com.marcopla.flashcards.presentation.screen.add.FrontTextState
 import com.marcopla.flashcards.presentation.screen.add.NewFlashCardViewModel

@@ -1,4 +1,4 @@
-package com.marcopla.flashcards.domain.use_case
+package com.marcopla.flashcards.domain.use_case.home
 
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepository
