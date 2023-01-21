@@ -1,7 +1,7 @@
 package com.marcopla.flashcards.edit
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import com.marcopla.flashcards.presentation.screen.edit.EditFrontTextState
+import com.marcopla.flashcards.presentation.screen.edit.EditViewModel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -16,17 +16,3 @@ class EditViewModelTest {
         assertEquals(EditFrontTextState("", true), viewModel.frontTextState.value)
     }
 }
-
-class EditViewModel {
-    private val _frontTextState = mutableStateOf(EditFrontTextState())
-    val frontTextState: State<EditFrontTextState> = _frontTextState
-
-    fun attemptSubmit(frontText: String, backText: String) {
-        _frontTextState.value = _frontTextState.value.copy(showError = true)
-    }
-}
-
-data class EditFrontTextState(
-    val value: String = "",
-    val showError: Boolean = false,
-)
