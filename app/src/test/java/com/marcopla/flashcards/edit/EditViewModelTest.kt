@@ -2,6 +2,7 @@ package com.marcopla.flashcards.edit
 
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.R
+import com.marcopla.flashcards.domain.use_case.edit.EditUseCase
 import com.marcopla.flashcards.presentation.screen.edit.*
 import com.marcopla.testing.DuplicateFlashCardRepository
 import com.marcopla.testing.TestFlashCardRepository

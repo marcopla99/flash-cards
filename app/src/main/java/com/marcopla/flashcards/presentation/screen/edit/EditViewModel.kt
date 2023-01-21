@@ -6,9 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.R
-import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
-import com.marcopla.flashcards.data.repository.FlashCardRepository
+import com.marcopla.flashcards.domain.use_case.edit.EditUseCase
 import kotlinx.coroutines.launch
 
 class EditViewModel(private val editUseCase: EditUseCase) : ViewModel() {
@@ -56,13 +55,6 @@ data class EditBackTextState(
 )
 
 data class EditInfoState(@StringRes val errorStringRes: Int = -1)
-
-class EditUseCase(private val flashCardRepository: FlashCardRepository) {
-    @Throws(DuplicateInsertionException::class)
-    suspend fun invoke(frontText: String, backText: String) {
-        flashCardRepository.add(FlashCard(frontText, backText))
-    }
-}
 
 enum class EditScreenState {
     Success,
