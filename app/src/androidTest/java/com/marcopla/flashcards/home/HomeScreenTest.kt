@@ -35,9 +35,9 @@ class HomeScreenTest {
     @Test
     fun homeScreen_whenDataIsNotEmpty_thenShowListOfFlashCards() = runTest {
         val flashCards = listOf(
-            FlashCard("front1", "back1"),
-            FlashCard("front2", "back2"),
-            FlashCard("front3", "back3"),
+            FlashCard(frontText = "front1", backText = "back1"),
+            FlashCard(frontText = "front2", backText = "back2"),
+            FlashCard(frontText = "front3", backText = "back3"),
         )
 
         launchHomeScreen(composeTestRule) {

@@ -19,6 +19,10 @@ class TestFlashCardRepository : FlashCardRepository {
         // Not used
     }
 
+    override suspend fun edit(flashCard: FlashCard) {
+        // Not used
+    }
+
     suspend fun emit(value: List<FlashCard>) {
         mutableFlow.emit(value)
     }

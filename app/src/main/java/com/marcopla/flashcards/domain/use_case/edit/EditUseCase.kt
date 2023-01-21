@@ -7,6 +7,6 @@ import com.marcopla.flashcards.data.repository.FlashCardRepository
 class EditUseCase(private val flashCardRepository: FlashCardRepository) {
     @Throws(DuplicateInsertionException::class)
     suspend fun invoke(frontText: String, backText: String) {
-        flashCardRepository.add(FlashCard(frontText, backText))
+        flashCardRepository.add(FlashCard(frontText = frontText, backText = backText))
     }
 }

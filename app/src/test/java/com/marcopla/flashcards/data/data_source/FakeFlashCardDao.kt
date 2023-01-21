@@ -14,4 +14,8 @@ class FakeFlashCardDao(initialFlashCards: List<FlashCard> = listOf()) : FlashCar
     override suspend fun insert(flashCard: FlashCard) {
         flashCards.add(flashCard)
     }
+
+    override suspend fun edit(flashCard: FlashCard) {
+        TODO()
+    }
 }

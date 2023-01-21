@@ -21,6 +21,10 @@ class FlashCardRepositoryImpl(
             throw DuplicateInsertionException()
         }
     }
+
+    override suspend fun edit(flashCard: FlashCard) {
+        flashCardDao.edit(flashCard)
+    }
 }
 
 class DuplicateInsertionException : IllegalStateException()

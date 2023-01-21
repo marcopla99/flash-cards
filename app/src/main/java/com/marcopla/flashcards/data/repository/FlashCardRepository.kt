@@ -8,4 +8,7 @@ interface FlashCardRepository {
 
     @Throws(DuplicateInsertionException::class)
     suspend fun add(newFlashCard: FlashCard)
+
+    @Throws(DuplicateInsertionException::class)
+    suspend fun edit(flashCard: FlashCard)
 }

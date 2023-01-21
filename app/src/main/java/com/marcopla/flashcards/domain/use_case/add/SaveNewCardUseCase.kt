@@ -16,7 +16,7 @@ class SaveNewCardUseCase @Inject constructor(
         if (backText.isNullOrBlank()) {
             throw InvalidBackException()
         }
-        val card = FlashCard(frontText, backText)
+        val card = FlashCard(frontText = frontText, backText = backText)
         storeCard(card)
     }
 

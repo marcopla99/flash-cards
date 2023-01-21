@@ -45,7 +45,7 @@ class HomeViewModelTest {
 
     @Test
     fun homeViewModel_whenFetchedListOfFlashCards_thenShowFlashCards() = runTest {
-        val storedFlashCards = listOf(FlashCard("Engels", "English"))
+        val storedFlashCards = listOf(FlashCard(frontText = "Engels", backText = "English"))
         val repository = TestFlashCardRepository()
         val viewModel = HomeViewModel(LoadCardsUseCase(repository))
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.screenState.collect {} }

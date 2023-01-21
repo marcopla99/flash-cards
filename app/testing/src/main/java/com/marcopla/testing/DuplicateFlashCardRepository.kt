@@ -7,10 +7,14 @@ import kotlinx.coroutines.flow.Flow
 
 class DuplicateFlashCardRepository : FlashCardRepository {
     override fun getFlashCards(): Flow<List<FlashCard>> {
-        TODO("Not yet implemented")
+        TODO("Not used")
     }
 
     override suspend fun add(newFlashCard: FlashCard) {
+        throw DuplicateInsertionException()
+    }
+
+    override suspend fun edit(flashCard: FlashCard) {
         throw DuplicateInsertionException()
     }
 }
