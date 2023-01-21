@@ -5,16 +5,15 @@ import com.marcopla.flashcards.data.repository.DuplicateInsertionException
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
@@ -32,7 +31,6 @@ class FlashCardRepositoryTest {
     }
 
     @Test
-    @Ignore("fix unique constraint")
     fun validNewFlashCard_whenIsInserted_thenIsPossibleToReadIt() = runTest {
         val newFlashCards = FlashCard(frontText = "Engels", backText = "English")
 
@@ -42,7 +40,6 @@ class FlashCardRepositoryTest {
     }
 
     @Test
-    @Ignore("fix unique constraint")
     fun duplicatedFlashCard_whenIsInserted_thenNoDuplicatesAreRead() = runTest {
         val alreadyExistentFlashCard = FlashCard(frontText = "Engels", backText = "English")
         repository.add(alreadyExistentFlashCard)
