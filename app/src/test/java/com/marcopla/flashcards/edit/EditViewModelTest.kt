@@ -1,12 +1,9 @@
 package com.marcopla.flashcards.edit
 
 import com.marcopla.flashcards.R
-import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.data.repository.DuplicateInsertionException
-import com.marcopla.flashcards.data.repository.FlashCardRepository
 import com.marcopla.flashcards.presentation.screen.edit.*
+import com.marcopla.testing.DuplicateFlashCardRepository
 import com.marcopla.testing.TestFlashCardRepository
-import kotlinx.coroutines.flow.Flow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -37,15 +34,5 @@ class EditViewModelTest {
         viewModel.attemptSubmit("Engels", "English")
 
         assertEquals(EditInfoState(R.string.duplicateCardError), viewModel.infoState.value)
-    }
-}
-
-class DuplicateFlashCardRepository : FlashCardRepository {
-    override fun getFlashCards(): Flow<List<FlashCard>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun add(newFlashCard: FlashCard) {
-        throw DuplicateInsertionException()
     }
 }
