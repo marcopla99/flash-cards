@@ -1,4 +1,4 @@
-package com.marcopla.flashcards.edit
+package com.marcopla.flashcards.presentation.edit
 
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.R

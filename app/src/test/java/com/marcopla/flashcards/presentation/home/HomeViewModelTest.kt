@@ -1,4 +1,4 @@
-package com.marcopla.flashcards.home
+package com.marcopla.flashcards.presentation.home
 
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.data.model.FlashCard
