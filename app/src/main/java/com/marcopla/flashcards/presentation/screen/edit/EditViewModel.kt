@@ -20,7 +20,7 @@ class EditViewModel(private val editUseCase: EditUseCase) : ViewModel() {
     private val _frontTextState = mutableStateOf(EditFrontTextState())
     val frontTextState: State<EditFrontTextState> = _frontTextState
 
-    private val _screenState = mutableStateOf(EditScreenState.Editing)
+    private val _screenState = mutableStateOf<EditScreenState>(EditScreenState.Editing)
     val screenState: State<EditScreenState> = _screenState
 
     fun attemptSubmit(frontText: String, backText: String) {
@@ -56,7 +56,8 @@ data class EditBackTextState(
 
 data class EditInfoState(@StringRes val errorStringRes: Int = -1)
 
-enum class EditScreenState {
-    Success,
-    Editing
+sealed interface EditScreenState {
+    object Editing : EditScreenState
+    object Success : EditScreenState
+    data class Error(@StringRes val errorStringRes: Int = -1) : EditScreenState
 }
