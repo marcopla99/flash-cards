@@ -16,12 +16,10 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
