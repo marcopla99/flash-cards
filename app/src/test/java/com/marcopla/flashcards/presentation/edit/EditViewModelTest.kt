@@ -40,7 +40,10 @@ class EditViewModelTest {
 
         viewModel.attemptSubmit("Engels", "English")
 
-        assertEquals(EditInfoState(R.string.duplicateCardError), viewModel.infoState.value)
+        assertEquals(
+            EditScreenState.Error(R.string.duplicateCardError),
+            viewModel.screenState.value,
+        )
     }
 
     @Test

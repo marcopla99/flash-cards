@@ -11,8 +11,6 @@ import com.marcopla.flashcards.domain.use_case.edit.EditUseCase
 import kotlinx.coroutines.launch
 
 class EditViewModel(private val editUseCase: EditUseCase) : ViewModel() {
-    private val _infoState = mutableStateOf(EditInfoState())
-    val infoState: State<EditInfoState> = _infoState
 
     private val _backTextState = mutableStateOf(EditBackTextState())
     val backTextState: State<EditBackTextState> = _backTextState
@@ -36,9 +34,7 @@ class EditViewModel(private val editUseCase: EditUseCase) : ViewModel() {
                 editUseCase.invoke(frontText, backText)
                 _screenState.value = EditScreenState.Success
             } catch (e: DuplicateInsertionException) {
-                _infoState.value = _infoState.value.copy(
-                    errorStringRes = R.string.duplicateCardError,
-                )
+                _screenState.value = EditScreenState.Error(R.string.duplicateCardError)
             }
         }
     }
@@ -53,8 +49,6 @@ data class EditBackTextState(
     val value: String = "",
     val showError: Boolean = false,
 )
-
-data class EditInfoState(@StringRes val errorStringRes: Int = -1)
 
 sealed interface EditScreenState {
     object Editing : EditScreenState
