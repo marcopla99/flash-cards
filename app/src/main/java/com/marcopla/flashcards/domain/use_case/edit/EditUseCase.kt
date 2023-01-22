@@ -15,6 +15,6 @@ class EditUseCase(private val flashCardRepository: FlashCardRepository) {
         if (backText.isBlank()) {
             throw InvalidBackTextException()
         }
-        flashCardRepository.add(FlashCard(frontText = frontText, backText = backText))
+        flashCardRepository.edit(FlashCard(frontText = frontText, backText = backText))
     }
 }

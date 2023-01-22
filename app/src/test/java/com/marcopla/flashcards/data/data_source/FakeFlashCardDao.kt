@@ -16,6 +16,12 @@ class FakeFlashCardDao(initialFlashCards: List<FlashCard> = listOf()) : FlashCar
     }
 
     override suspend fun edit(flashCard: FlashCard) {
-        TODO()
+        this.flashCards.replaceAll {
+            if (it.id == flashCard.id) {
+                flashCard
+            } else {
+                it
+            }
+        }
     }
 }
