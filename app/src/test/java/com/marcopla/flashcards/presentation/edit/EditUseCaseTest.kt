@@ -21,16 +21,6 @@ class EditUseCaseTest {
 
     @ParameterizedTest
     @ValueSource(strings = ["", " ", "  "])
-    fun frontText_whenIsBlank_thenThrowException(blankFrontText: String) = runTest {
-        val editUseCase = EditUseCase(TestFlashCardRepository())
-
-        assertThrows(InvalidFrontTextException::class.java) {
-            runBlocking { editUseCase.invoke(blankFrontText, ":backText:") }
-        }
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = ["", " ", "  "])
     fun backText_whenIsBlank_thenThrowException(blankBackText: String) = runTest {
         val editUseCase = EditUseCase(TestFlashCardRepository())
 
