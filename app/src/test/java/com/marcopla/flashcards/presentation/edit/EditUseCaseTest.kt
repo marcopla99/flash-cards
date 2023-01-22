@@ -41,4 +41,17 @@ class EditUseCaseTest {
 
         assertEquals(emptyList<FlashCard>(), repository.getFlashCards().first())
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["", " ", "  "])
+    fun backText_whenIsBlank_thenFlashCardIsNotInserted(blankBackText: String) = runTest {
+        val repository = FlashCardRepositoryImpl(FakeFlashCardDao())
+        val editUseCase = EditUseCase(repository)
+
+        assertThrows(InvalidBackTextException::class.java) {
+            runBlocking { editUseCase.invoke(":frontText:", blankBackText) }
+        }
+
+        assertEquals(emptyList<FlashCard>(), repository.getFlashCards().first())
+    }
 }
