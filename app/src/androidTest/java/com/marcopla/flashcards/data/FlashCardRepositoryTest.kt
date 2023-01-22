@@ -75,11 +75,8 @@ class FlashCardRepositoryTest {
             it == flashCardToEdit
         }.id
 
-        val editedFlashCard = FlashCard(
-            frontText = alreadyExistentFlashCard.frontText,
-            backText = alreadyExistentFlashCard.backText
-        ).also {
-            it.id = flashCardToEditId
+        val editedFlashCard = alreadyExistentFlashCard.copy().apply {
+            id = flashCardToEditId
         }
         assertThrows(DuplicateInsertionException::class.java) {
             runBlocking { repository.edit(editedFlashCard) }
