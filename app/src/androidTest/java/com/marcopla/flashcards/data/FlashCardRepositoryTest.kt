@@ -87,4 +87,20 @@ class FlashCardRepositoryTest {
         }.size == 1
         assertTrue(hasNoDuplicates)
     }
+
+    @Test
+    fun flashCard_whenUpdatingItSuccessfully_thenIsPossibleToReadIt() = runTest {
+        repository.add(FlashCard(frontText = "Engels", backText = "English"))
+        val flashCardId = repository.getFlashCards().first()[0].id
+
+        val updatedFlashCard = FlashCard(frontText = "Nederlands", backText = "Dutch").apply {
+            id = flashCardId
+        }
+        repository.edit(updatedFlashCard)
+
+        assertEquals(
+            listOf(FlashCard(frontText = "Nederlands", backText = "Dutch")),
+            repository.getFlashCards().first()
+        )
+    }
 }
