@@ -8,7 +8,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.domain.use_case.home.LoadCardsUseCase
+import com.marcopla.flashcards.domain.use_case.home.LoadFlashCardsUseCase
 import com.marcopla.flashcards.presentation.screen.home.HomeScreen
 import com.marcopla.flashcards.presentation.screen.home.HomeViewModel
 import com.marcopla.testing.TestFlashCardRepository
@@ -22,7 +22,7 @@ suspend fun launchHomeScreen(
 ): HomeScreenRobot {
     val repository = TestFlashCardRepository()
     rule.setContent {
-        HomeScreen(viewModel = HomeViewModel(LoadCardsUseCase(repository))) {}
+        HomeScreen(viewModel = HomeViewModel(LoadFlashCardsUseCase(repository))) {}
     }
     return HomeScreenRobot(rule, repository).apply { block() }
 }

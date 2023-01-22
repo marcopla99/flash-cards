@@ -5,7 +5,7 @@ import com.marcopla.flashcards.data.repository.DuplicateInsertionException
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import javax.inject.Inject
 
-class SaveNewCardUseCase @Inject constructor(
+class AddFlashCardsUseCase @Inject constructor(
     private val repository: FlashCardRepository
 ) {
     @Throws(InvalidBackTextException::class, InvalidFrontTextException::class)

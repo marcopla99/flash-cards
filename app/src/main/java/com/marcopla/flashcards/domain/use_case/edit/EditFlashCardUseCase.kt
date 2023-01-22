@@ -6,7 +6,7 @@ import com.marcopla.flashcards.data.repository.FlashCardRepository
 import com.marcopla.flashcards.domain.use_case.add.InvalidBackTextException
 import com.marcopla.flashcards.domain.use_case.add.InvalidFrontTextException
 
-class EditUseCase(private val flashCardRepository: FlashCardRepository) {
+class EditFlashCardUseCase(private val flashCardRepository: FlashCardRepository) {
     @Throws(
         DuplicateInsertionException::class,
         InvalidFrontTextException::class,

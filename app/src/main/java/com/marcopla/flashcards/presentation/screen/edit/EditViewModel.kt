@@ -8,10 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
-import com.marcopla.flashcards.domain.use_case.edit.EditUseCase
+import com.marcopla.flashcards.domain.use_case.edit.EditFlashCardUseCase
 import kotlinx.coroutines.launch
 
-class EditViewModel(private val editUseCase: EditUseCase) : ViewModel() {
+class EditViewModel(private val editFlashCardUseCase: EditFlashCardUseCase) : ViewModel() {
 
     private val _backTextState = mutableStateOf(EditBackTextState())
     val backTextState: State<EditBackTextState> = _backTextState
@@ -32,7 +32,7 @@ class EditViewModel(private val editUseCase: EditUseCase) : ViewModel() {
         }
         viewModelScope.launch {
             try {
-                editUseCase.invoke(FlashCard(frontText, backText))
+                editFlashCardUseCase.invoke(FlashCard(frontText, backText))
                 _screenState.value = EditScreenState.Success
             } catch (e: DuplicateInsertionException) {
                 _screenState.value = EditScreenState.Error(R.string.duplicateCardError)

@@ -2,7 +2,7 @@ package com.marcopla.flashcards.presentation.edit
 
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.R
-import com.marcopla.flashcards.domain.use_case.edit.EditUseCase
+import com.marcopla.flashcards.domain.use_case.edit.EditFlashCardUseCase
 import com.marcopla.flashcards.presentation.screen.edit.*
 import com.marcopla.testing.DuplicateFlashCardRepository
 import com.marcopla.testing.TestFlashCardRepository
@@ -18,7 +18,7 @@ class EditViewModelTest {
 
     @Test
     fun frontText_whenIsEmpty_thenShowError() {
-        val viewModel = EditViewModel(EditUseCase(TestFlashCardRepository()))
+        val viewModel = EditViewModel(EditFlashCardUseCase(TestFlashCardRepository()))
 
         viewModel.attemptSubmit("", ":backText:")
 
@@ -27,7 +27,7 @@ class EditViewModelTest {
 
     @Test
     fun backText_whenIsEmpty_thenShowError() = runTest {
-        val viewModel = EditViewModel(EditUseCase(TestFlashCardRepository()))
+        val viewModel = EditViewModel(EditFlashCardUseCase(TestFlashCardRepository()))
 
         viewModel.attemptSubmit(":frontText:", "")
 
@@ -36,7 +36,7 @@ class EditViewModelTest {
 
     @Test
     fun flashCard_whenIsEdited_andAlreadyExists_thenShowTheDuplicateError() = runTest {
-        val viewModel = EditViewModel(EditUseCase(DuplicateFlashCardRepository()))
+        val viewModel = EditViewModel(EditFlashCardUseCase(DuplicateFlashCardRepository()))
 
         viewModel.attemptSubmit("Engels", "English")
 
@@ -48,7 +48,7 @@ class EditViewModelTest {
 
     @Test
     fun flashCard_whenEditedSuccessfully_thenReturnSuccess() = runTest {
-        val viewModel = EditViewModel(EditUseCase(TestFlashCardRepository()))
+        val viewModel = EditViewModel(EditFlashCardUseCase(TestFlashCardRepository()))
 
         viewModel.attemptSubmit("Engels", "English")
 

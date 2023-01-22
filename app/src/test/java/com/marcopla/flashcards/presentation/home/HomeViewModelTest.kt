@@ -2,7 +2,7 @@ package com.marcopla.flashcards.presentation.home
 
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.domain.use_case.home.LoadCardsUseCase
+import com.marcopla.flashcards.domain.use_case.home.LoadFlashCardsUseCase
 import com.marcopla.flashcards.presentation.screen.home.HomeScreenState
 import com.marcopla.flashcards.presentation.screen.home.HomeViewModel
 import com.marcopla.testing.TestFlashCardRepository
@@ -21,7 +21,7 @@ class HomeViewModelTest {
 
     @Test
     fun homeViewModel_whenIsCreated_thenShowLoading() = runTest {
-        val viewModel = HomeViewModel(LoadCardsUseCase(TestFlashCardRepository()))
+        val viewModel = HomeViewModel(LoadFlashCardsUseCase(TestFlashCardRepository()))
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.homeScreenState.collect {} }
 
         assertEquals(HomeScreenState.Loading, viewModel.homeScreenState.value)
@@ -31,7 +31,7 @@ class HomeViewModelTest {
     @Test
     fun homeViewModel_whenNoFlashCardsAreRetrieved_thenShowEmptyState() = runTest {
         val repository = TestFlashCardRepository()
-        val viewModel = HomeViewModel(LoadCardsUseCase(repository))
+        val viewModel = HomeViewModel(LoadFlashCardsUseCase(repository))
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.homeScreenState.collect {} }
 
         repository.emit(emptyList())
@@ -47,7 +47,7 @@ class HomeViewModelTest {
     fun homeViewModel_whenFetchedListOfFlashCards_thenShowFlashCards() = runTest {
         val storedFlashCards = listOf(FlashCard(frontText = "Engels", backText = "English"))
         val repository = TestFlashCardRepository()
-        val viewModel = HomeViewModel(LoadCardsUseCase(repository))
+        val viewModel = HomeViewModel(LoadFlashCardsUseCase(repository))
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.homeScreenState.collect {} }
 
         repository.emit(storedFlashCards)

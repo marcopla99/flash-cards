@@ -21,7 +21,7 @@ import com.marcopla.flashcards.R
 @Composable
 fun AddScreen(
     modifier: Modifier = Modifier,
-    viewModel: NewFlashCardViewModel = hiltViewModel(),
+    viewModel: AddViewModel = hiltViewModel(),
 ) {
     val scaffoldState = rememberScaffoldState()
     HandleInfoTextEffect(
