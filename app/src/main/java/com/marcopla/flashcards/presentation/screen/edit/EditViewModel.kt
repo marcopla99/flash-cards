@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
+import com.marcopla.flashcards.domain.use_case.add.InvalidBackTextException
+import com.marcopla.flashcards.domain.use_case.add.InvalidFrontTextException
 import com.marcopla.flashcards.domain.use_case.edit.EditFlashCardUseCase
 import kotlinx.coroutines.launch
 
@@ -23,19 +25,16 @@ class EditViewModel(private val editFlashCardUseCase: EditFlashCardUseCase) : Vi
     val screenState: State<EditScreenState> = _screenState
 
     fun attemptSubmit(frontText: String, backText: String) {
-        if (frontText.isEmpty()) {
-            _frontTextState.value = _frontTextState.value.copy(showError = true)
-            return
-        } else if (backText.isEmpty()) {
-            _backTextState.value = _backTextState.value.copy(showError = true)
-            return
-        }
         viewModelScope.launch {
             try {
                 editFlashCardUseCase.invoke(FlashCard(frontText, backText))
                 _screenState.value = EditScreenState.Success
             } catch (e: DuplicateInsertionException) {
                 _screenState.value = EditScreenState.Error(R.string.duplicateCardError)
+            } catch (e: InvalidFrontTextException) {
+                _frontTextState.value = _frontTextState.value.copy(showError = true)
+            } catch (e: InvalidBackTextException) {
+                _backTextState.value = _backTextState.value.copy(showError = true)
             }
         }
     }

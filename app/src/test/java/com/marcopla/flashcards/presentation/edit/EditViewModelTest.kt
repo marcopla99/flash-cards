@@ -11,25 +11,29 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(MainDispatcherExtension::class)
 class EditViewModelTest {
 
-    @Test
-    fun frontText_whenIsEmpty_thenShowError() {
+    @ParameterizedTest
+    @ValueSource(strings = ["", " ", "  "])
+    fun frontText_whenIsBlank_thenShowError(blankFrontText: String) {
         val viewModel = EditViewModel(EditFlashCardUseCase(TestFlashCardRepository()))
 
-        viewModel.attemptSubmit("", ":backText:")
+        viewModel.attemptSubmit(blankFrontText, ":backText:")
 
         assertEquals(EditFrontTextState("", true), viewModel.frontTextState.value)
     }
 
-    @Test
-    fun backText_whenIsEmpty_thenShowError() = runTest {
+    @ParameterizedTest
+    @ValueSource(strings = ["", " ", "  "])
+    fun backText_whenIsBlank_thenShowError(blankBackText: String) = runTest {
         val viewModel = EditViewModel(EditFlashCardUseCase(TestFlashCardRepository()))
 
-        viewModel.attemptSubmit(":frontText:", "")
+        viewModel.attemptSubmit(":frontText:", blankBackText)
 
         assertEquals(EditBackTextState("", true), viewModel.backTextState.value)
     }
