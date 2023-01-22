@@ -7,7 +7,7 @@ interface FlashCardRepository {
     fun getFlashCards(): Flow<List<FlashCard>>
 
     @Throws(DuplicateInsertionException::class)
-    suspend fun add(newFlashCard: FlashCard)
+    suspend fun add(vararg newFlashCards: FlashCard)
 
     @Throws(DuplicateInsertionException::class)
     suspend fun edit(flashCard: FlashCard)

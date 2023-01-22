@@ -11,8 +11,8 @@ class FakeFlashCardDao(initialFlashCards: List<FlashCard> = listOf()) : FlashCar
         return flow { emit(flashCards) }
     }
 
-    override suspend fun insert(flashCard: FlashCard) {
-        flashCards.add(flashCard)
+    override suspend fun insert(vararg flashCards: FlashCard) {
+        this.flashCards.addAll(flashCards)
     }
 
     override suspend fun edit(flashCard: FlashCard) {

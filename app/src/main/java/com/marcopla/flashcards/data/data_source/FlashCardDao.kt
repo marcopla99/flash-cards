@@ -13,7 +13,7 @@ interface FlashCardDao {
     fun fetchAll(): Flow<List<FlashCard>>
 
     @Insert
-    suspend fun insert(flashCard: FlashCard)
+    suspend fun insert(vararg flashCards: FlashCard)
 
     @Update
     suspend fun edit(flashCard: FlashCard)

@@ -10,7 +10,7 @@ class DuplicateFlashCardRepository : FlashCardRepository {
         TODO("Not used")
     }
 
-    override suspend fun add(newFlashCard: FlashCard) {
+    override suspend fun add(vararg newFlashCards: FlashCard) {
         throw DuplicateInsertionException()
     }
 

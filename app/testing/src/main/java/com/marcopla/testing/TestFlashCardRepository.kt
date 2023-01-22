@@ -15,7 +15,7 @@ class TestFlashCardRepository : FlashCardRepository {
         return mutableFlow
     }
 
-    override suspend fun add(newFlashCard: FlashCard) {
+    override suspend fun add(vararg newFlashCards: FlashCard) {
         // Not used
     }
 
