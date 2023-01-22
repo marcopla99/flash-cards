@@ -7,14 +7,18 @@ import com.marcopla.flashcards.domain.use_case.add.InvalidBackTextException
 import com.marcopla.flashcards.domain.use_case.add.InvalidFrontTextException
 
 class EditUseCase(private val flashCardRepository: FlashCardRepository) {
-    @Throws(DuplicateInsertionException::class)
-    suspend fun invoke(frontText: String, backText: String) {
-        if (frontText.isBlank()) {
+    @Throws(
+        DuplicateInsertionException::class,
+        InvalidFrontTextException::class,
+        InvalidBackTextException::class
+    )
+    suspend fun invoke(flashCard: FlashCard) {
+        if (flashCard.frontText.isBlank()) {
             throw InvalidFrontTextException()
         }
-        if (backText.isBlank()) {
+        if (flashCard.backText.isBlank()) {
             throw InvalidBackTextException()
         }
-        flashCardRepository.edit(FlashCard(frontText = frontText, backText = backText))
+        flashCardRepository.edit(flashCard)
     }
 }

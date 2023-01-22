@@ -12,6 +12,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
@@ -24,7 +25,7 @@ class EditUseCaseTest {
         val editUseCase = EditUseCase(repository)
 
         assertThrows(InvalidFrontTextException::class.java) {
-            runBlocking { editUseCase.invoke(blankFrontText, ":backText:") }
+            runBlocking { editUseCase.invoke(FlashCard(blankFrontText, ":backText:")) }
         }
 
         assertEquals(emptyList<FlashCard>(), repository.getFlashCards().first())
@@ -37,9 +38,35 @@ class EditUseCaseTest {
         val editUseCase = EditUseCase(repository)
 
         assertThrows(InvalidBackTextException::class.java) {
-            runBlocking { editUseCase.invoke(":frontText:", blankBackText) }
+            runBlocking { editUseCase.invoke(FlashCard(":frontText:", blankBackText)) }
         }
 
         assertEquals(emptyList<FlashCard>(), repository.getFlashCards().first())
+    }
+
+    @Test
+    fun flashCard_whenIsValid_thenDataIsUpdated() = runTest {
+        val flashCardToEdit = FlashCard(frontText = "Engels", backText = "English").apply {
+            id = 1
+        }
+        val otherFlashCard = FlashCard(frontText = "Italiaans", backText = "Italian").apply {
+            id = 2
+        }
+        val repository = FlashCardRepositoryImpl(
+            FakeFlashCardDao(
+                listOf(flashCardToEdit, otherFlashCard)
+            )
+        )
+        val editUseCase = EditUseCase(repository)
+
+        val editedFlashCard = FlashCard(frontText = "Nederlands", backText = "Dutch").apply {
+            id = 1
+        }
+        editUseCase.invoke(editedFlashCard)
+
+        assertEquals(
+            listOf(editedFlashCard, otherFlashCard),
+            repository.getFlashCards().first()
+        )
     }
 }
