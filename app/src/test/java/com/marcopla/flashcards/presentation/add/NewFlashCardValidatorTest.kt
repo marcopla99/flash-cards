@@ -10,37 +10,38 @@ import com.marcopla.flashcards.presentation.screen.add.NewFlashCardViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.*
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(MainDispatcherExtension::class)
 class NewFlashCardValidatorTest {
 
-    @Test
-    fun frontText_whenIsEmptyWhenSubmitted_thenReturnInvalidState() = runTest {
+    @ParameterizedTest
+    @ValueSource(strings = ["", " ", "  "])
+    fun frontText_whenIsBlank_thenReturnInvalidState(blankFrontText: String) = runTest {
         val viewModel =
             NewFlashCardViewModel(SaveNewCardUseCase(FlashCardRepositoryImpl(FakeFlashCardDao())))
-        val emptyFrontText = ""
 
-        viewModel.attemptSubmit(emptyFrontText, ":backText:")
+        viewModel.attemptSubmit(blankFrontText, ":backText:")
 
         assertEquals(
-            FrontTextState(emptyFrontText, showError = true),
+            FrontTextState("", showError = true),
             viewModel.frontTextState.value,
         )
     }
 
-    @Test
-    fun backText_whenIsEmptyWhenSubmitted_thenReturnInvalidState() = runTest {
+    @ParameterizedTest
+    @ValueSource(strings = ["", " ", "  "])
+    fun backText_whenIsBlank_thenReturnInvalidState(blankBackText: String) = runTest {
         val viewModel =
             NewFlashCardViewModel(SaveNewCardUseCase(FlashCardRepositoryImpl(FakeFlashCardDao())))
-        val emptyBackText = ""
 
-        viewModel.attemptSubmit(":frontText:", emptyBackText)
+        viewModel.attemptSubmit(":frontText:", blankBackText)
 
         assertEquals(
-            BackTextState(emptyBackText, showError = true),
+            BackTextState("", showError = true),
             viewModel.backTextState.value
         )
     }

@@ -8,26 +8,29 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class EditUseCaseTest {
 
-    @Test
-    fun frontText_whenIsEmpty_thenThrowException() = runTest {
-        val useCase = EditUseCase(TestFlashCardRepository())
+    @ParameterizedTest
+    @ValueSource(strings = ["", " ", "  "])
+    fun frontText_whenIsBlank_thenThrowException(blankFrontText: String) = runTest {
+        val editUseCase = EditUseCase(TestFlashCardRepository())
 
         assertThrows(InvalidFrontTextException::class.java) {
-            runBlocking { useCase.invoke("", ":backText:") }
+            runBlocking { editUseCase.invoke(blankFrontText, ":backText:") }
         }
     }
 
-    @Test
-    fun backText_whenIsEmpty_thenThrowException() = runTest {
-        val useCase = EditUseCase(TestFlashCardRepository())
+    @ParameterizedTest
+    @ValueSource(strings = ["", " ", "  "])
+    fun backText_whenIsBlank_thenThrowException(blankBackText: String) = runTest {
+        val editUseCase = EditUseCase(TestFlashCardRepository())
 
         assertThrows(InvalidBackTextException::class.java) {
-            runBlocking { useCase.invoke(":frontText:", "") }
+            runBlocking { editUseCase.invoke(":frontText:", blankBackText) }
         }
     }
 }
