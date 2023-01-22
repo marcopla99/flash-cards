@@ -16,12 +16,12 @@ class SaveNewCardUseCase @Inject constructor(
         if (backText.isNullOrBlank()) {
             throw InvalidBackException()
         }
-        val card = FlashCard(frontText = frontText, backText = backText)
-        storeCard(card)
+        val flashCard = FlashCard(frontText = frontText, backText = backText)
+        storeFlashCard(flashCard)
     }
 
     @Throws(DuplicateInsertionException::class)
-    private suspend fun storeCard(flashCard: FlashCard) {
+    private suspend fun storeFlashCard(flashCard: FlashCard) {
         repository.add(flashCard)
     }
 }
