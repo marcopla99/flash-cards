@@ -23,7 +23,11 @@ class FlashCardRepositoryImpl(
     }
 
     override suspend fun edit(flashCard: FlashCard) {
-        flashCardDao.edit(flashCard)
+        try {
+            flashCardDao.edit(flashCard)
+        } catch (_: SQLiteConstraintException) {
+            throw DuplicateInsertionException()
+        }
     }
 }
 

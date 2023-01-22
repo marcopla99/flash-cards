@@ -5,6 +5,7 @@ import com.marcopla.flashcards.data.repository.DuplicateInsertionException
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -13,7 +14,6 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
@@ -55,7 +55,7 @@ class FlashCardRepositoryTest {
     }
 
     @Test
-    fun flashCard_whenUpdatingIt_andContentDidNotChange_thenDataDoNotChange() = runTest {
+    fun flashCard_whenUpdatingIt_andContentDidNotChange_thenDataDoesNotChange() = runTest {
         val flashCard = FlashCard(frontText = "Engels", backText = "English")
         repository.add(flashCard)
         val dataBefore = repository.getFlashCards().first()
@@ -64,5 +64,31 @@ class FlashCardRepositoryTest {
 
         val dataAfter = repository.getFlashCards().first()
         assertEquals(dataBefore, dataAfter)
+    }
+
+    @Test
+    fun flashCard_whenUpdatingIt_butAlreadyExists_thenNoDuplicatesAreRead() = runTest {
+        val alreadyExistentFlashCard = FlashCard(frontText = "Engels", backText = "English")
+        val flashCardToEdit = FlashCard(frontText = "Nederlands", backText = "Dutch")
+        repository.add(alreadyExistentFlashCard)
+        repository.add(flashCardToEdit)
+        val flashCardToEditId = repository.getFlashCards().first().first {
+            it == flashCardToEdit
+        }.id
+
+        val editedFlashCard = FlashCard(
+            frontText = alreadyExistentFlashCard.frontText,
+            backText = alreadyExistentFlashCard.backText
+        ).also {
+            it.id = flashCardToEditId
+        }
+        assertThrows(DuplicateInsertionException::class.java) {
+            runBlocking { repository.edit(editedFlashCard) }
+        }
+
+        val hasNoDuplicates = repository.getFlashCards().first().filter {
+            it == alreadyExistentFlashCard
+        }.size == 1
+        assertTrue(hasNoDuplicates)
     }
 }
