@@ -3,8 +3,8 @@ package com.marcopla.flashcards.presentation.home
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.domain.use_case.home.LoadCardsUseCase
+import com.marcopla.flashcards.presentation.screen.home.HomeScreenState
 import com.marcopla.flashcards.presentation.screen.home.HomeViewModel
-import com.marcopla.flashcards.presentation.screen.home.ScreenState
 import com.marcopla.testing.TestFlashCardRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.internal.*
@@ -22,9 +22,9 @@ class HomeViewModelTest {
     @Test
     fun homeViewModel_whenIsCreated_thenShowLoading() = runTest {
         val viewModel = HomeViewModel(LoadCardsUseCase(TestFlashCardRepository()))
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.screenState.collect {} }
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.homeScreenState.collect {} }
 
-        assertEquals(ScreenState.Loading, viewModel.screenState.value)
+        assertEquals(HomeScreenState.Loading, viewModel.homeScreenState.value)
         collectJob.cancel()
     }
 
@@ -32,13 +32,13 @@ class HomeViewModelTest {
     fun homeViewModel_whenNoFlashCardsAreRetrieved_thenShowEmptyState() = runTest {
         val repository = TestFlashCardRepository()
         val viewModel = HomeViewModel(LoadCardsUseCase(repository))
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.screenState.collect {} }
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.homeScreenState.collect {} }
 
         repository.emit(emptyList())
 
         assertEquals(
-            ScreenState.Empty,
-            viewModel.screenState.value,
+            HomeScreenState.Empty,
+            viewModel.homeScreenState.value,
         )
         collectJob.cancel()
     }
@@ -48,11 +48,11 @@ class HomeViewModelTest {
         val storedFlashCards = listOf(FlashCard(frontText = "Engels", backText = "English"))
         val repository = TestFlashCardRepository()
         val viewModel = HomeViewModel(LoadCardsUseCase(repository))
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.screenState.collect {} }
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.homeScreenState.collect {} }
 
         repository.emit(storedFlashCards)
 
-        assertEquals(ScreenState.Cards(storedFlashCards), viewModel.screenState.value)
+        assertEquals(HomeScreenState.Cards(storedFlashCards), viewModel.homeScreenState.value)
         collectJob.cancel()
     }
 }

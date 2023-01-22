@@ -54,7 +54,7 @@ fun AddScreen(
             FontTextField(
                 value = viewModel.frontTextState.value.text,
                 isError = viewModel.frontTextState.value.showError,
-                isFocused = viewModel.screenState.value == ScreenState.SUCCESSFUL_SAVE,
+                isFocused = viewModel.addScreenState.value == AddScreenState.SUCCESSFUL_SAVE,
                 modifier = modifier,
                 onValueChange = { frontInput -> viewModel.updateFrontText(frontInput) }
             )

@@ -38,20 +38,20 @@ fun HomeScreen(
             }
         }
     ) { padding ->
-        val screenState: ScreenState by viewModel.screenState.collectAsStateWithLifecycle()
+        val screenState: HomeScreenState by viewModel.homeScreenState.collectAsStateWithLifecycle()
         ScreenContent(screenState, modifier = modifier.padding(padding))
     }
 }
 
 @Composable
 private fun ScreenContent(
-    screenState: ScreenState,
+    screenState: HomeScreenState,
     modifier: Modifier = Modifier
 ) {
     when (screenState) {
-        is ScreenState.Loading -> LoadingIndicator(modifier = modifier)
-        is ScreenState.Empty -> EmptyMessage(modifier = modifier)
-        is ScreenState.Cards -> CardsList(screenState.flashCards, modifier = modifier)
+        is HomeScreenState.Loading -> LoadingIndicator(modifier = modifier)
+        is HomeScreenState.Empty -> EmptyMessage(modifier = modifier)
+        is HomeScreenState.Cards -> CardsList(screenState.flashCards, modifier = modifier)
     }
 }
 
