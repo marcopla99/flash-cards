@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
-import com.marcopla.flashcards.domain.use_case.add.InvalidBackException
-import com.marcopla.flashcards.domain.use_case.add.InvalidFrontException
+import com.marcopla.flashcards.domain.use_case.add.InvalidBackTextException
+import com.marcopla.flashcards.domain.use_case.add.InvalidFrontTextException
 import com.marcopla.flashcards.domain.use_case.add.SaveNewCardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -54,12 +54,12 @@ class NewFlashCardViewModel @Inject constructor(
     private fun handleFailureState(exception: IllegalStateException) {
         _screenState.value = ScreenState.FAILED_SAVE
         when (exception) {
-            is InvalidFrontException -> {
+            is InvalidFrontTextException -> {
                 _frontTextState.value = _frontTextState.value.copy(
                     showError = true
                 )
             }
-            is InvalidBackException -> {
+            is InvalidBackTextException -> {
                 _backTextState.value = _backTextState.value.copy(
                     showError = true
                 )

@@ -8,13 +8,13 @@ import javax.inject.Inject
 class SaveNewCardUseCase @Inject constructor(
     private val repository: FlashCardRepository
 ) {
-    @Throws(InvalidBackException::class, InvalidFrontException::class)
+    @Throws(InvalidBackTextException::class, InvalidFrontTextException::class)
     suspend fun invoke(frontText: String?, backText: String?) {
         if (frontText.isNullOrBlank()) {
-            throw InvalidFrontException()
+            throw InvalidFrontTextException()
         }
         if (backText.isNullOrBlank()) {
-            throw InvalidBackException()
+            throw InvalidBackTextException()
         }
         val flashCard = FlashCard(frontText = frontText, backText = backText)
         storeFlashCard(flashCard)
@@ -26,6 +26,6 @@ class SaveNewCardUseCase @Inject constructor(
     }
 }
 
-class InvalidFrontException : IllegalStateException()
+class InvalidFrontTextException : IllegalStateException()
 
-class InvalidBackException : IllegalStateException()
+class InvalidBackTextException : IllegalStateException()

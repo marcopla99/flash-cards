@@ -1,6 +1,6 @@
 package com.marcopla.flashcards.presentation.edit
 
-import com.marcopla.flashcards.domain.use_case.add.InvalidFrontException
+import com.marcopla.flashcards.domain.use_case.add.InvalidFrontTextException
 import com.marcopla.flashcards.domain.use_case.edit.EditUseCase
 import com.marcopla.testing.TestFlashCardRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,7 +16,7 @@ class EditUseCaseTest {
     fun frontText_whenIsEmpty_thenThrowException() = runTest {
         val useCase = EditUseCase(TestFlashCardRepository())
 
-        assertThrows(InvalidFrontException::class.java) {
+        assertThrows(InvalidFrontTextException::class.java) {
             runBlocking { useCase.invoke("", ":backText:") }
         }
     }
