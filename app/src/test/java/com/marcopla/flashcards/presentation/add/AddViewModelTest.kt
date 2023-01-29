@@ -3,10 +3,7 @@ package com.marcopla.flashcards.presentation.add
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.domain.use_case.add.AddFlashCardsUseCase
-import com.marcopla.flashcards.presentation.screen.add.AddViewModel
-import com.marcopla.flashcards.presentation.screen.add.BackTextState
-import com.marcopla.flashcards.presentation.screen.add.FrontTextState
-import com.marcopla.flashcards.presentation.screen.add.InfoTextState
+import com.marcopla.flashcards.presentation.screen.add.*
 import com.marcopla.testing.DuplicateFlashCardRepository
 import com.marcopla.testing.TestFlashCardRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -47,5 +44,14 @@ class AddViewModelTest {
         viewModel.attemptSubmit("Engels", "English")
 
         assertEquals(InfoTextState(R.string.duplicateCardError), viewModel.infoTextState.value)
+    }
+
+    @Test
+    fun flashCard_whenIsAddedSuccessfully_thenReturnSuccess() {
+        val viewModel = AddViewModel(AddFlashCardsUseCase(TestFlashCardRepository()))
+
+        viewModel.attemptSubmit("Nederlands", "Dutch")
+
+        assertEquals(AddScreenState.SUCCESSFUL_SAVE, viewModel.addScreenState.value)
     }
 }
