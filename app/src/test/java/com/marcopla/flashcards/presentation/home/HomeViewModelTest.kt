@@ -22,10 +22,8 @@ class HomeViewModelTest {
     @Test
     fun homeViewModel_whenIsCreated_thenShowLoading() = runTest {
         val viewModel = HomeViewModel(LoadFlashCardsUseCase(TestFlashCardRepository()))
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.homeScreenState.collect {} }
 
         assertEquals(HomeScreenState.Loading, viewModel.homeScreenState.value)
-        collectJob.cancel()
     }
 
     @Test
@@ -44,13 +42,13 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun homeViewModel_whenFetchedListOfFlashCards_thenShowFlashCards() = runTest {
+    fun homeViewModel_whenFetchedFlashCardsList_thenShowFlashCards() = runTest {
         val storedFlashCards = listOf(FlashCard(frontText = "Engels", backText = "English"))
         val repository = TestFlashCardRepository()
         val viewModel = HomeViewModel(LoadFlashCardsUseCase(repository))
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.homeScreenState.collect {} }
 
         repository.emit(storedFlashCards)
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.homeScreenState.collect {} }
 
         assertEquals(HomeScreenState.Cards(storedFlashCards), viewModel.homeScreenState.value)
         collectJob.cancel()

@@ -17,7 +17,7 @@ class HomeScreenTest {
     @Test
     fun homeScreen_whenLaunched_thenShowLoading() = runTest {
         launchHomeScreen(composeTestRule) {
-            // Empty
+            // Do nothing
         } verify {
             showLoadingIndicator()
         }
