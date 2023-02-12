@@ -1,4 +1,4 @@
-package com.marcopla.flashcards.home
+package com.marcopla.flashcards.presentation.home
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule

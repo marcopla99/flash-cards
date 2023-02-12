@@ -1,4 +1,4 @@
-package com.marcopla.flashcards.add
+package com.marcopla.flashcards.presentation.add
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
