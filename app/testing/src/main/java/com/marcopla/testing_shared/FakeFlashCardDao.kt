@@ -1,5 +1,6 @@
-package com.marcopla.flashcards.data.data_source
+package com.marcopla.testing_shared
 
+import com.marcopla.flashcards.data.data_source.FlashCardDao
 import com.marcopla.flashcards.data.model.FlashCard
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

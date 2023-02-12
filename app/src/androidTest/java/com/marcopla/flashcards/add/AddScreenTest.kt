@@ -2,7 +2,7 @@ package com.marcopla.flashcards.add
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.marcopla.testing.DuplicateFlashCardRepository
+import com.marcopla.testing_shared.DuplicateFlashCardRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule

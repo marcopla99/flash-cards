@@ -1,4 +1,4 @@
-package com.marcopla.testing
+package com.marcopla.testing_shared
 
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepository

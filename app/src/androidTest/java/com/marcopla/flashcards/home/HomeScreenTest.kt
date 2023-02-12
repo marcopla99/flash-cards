@@ -16,6 +16,8 @@ class HomeScreenTest {
 
     @Test
     fun homeScreen_whenLaunched_thenShowLoading() = runTest {
+        composeTestRule.mainClock.autoAdvance = false
+
         launchHomeScreen(composeTestRule) {
             // Do nothing
         } verify {
@@ -25,8 +27,8 @@ class HomeScreenTest {
 
     @Test
     fun homeScreen_whenGettingEmptyState_thenShowEmptyMessage() = runTest {
-        launchHomeScreen(composeTestRule) {
-            waitForEmptyDataToLoad()
+        launchHomeScreen(composeTestRule, emptyList()) {
+            // Do nothing
         } verify {
             emptyMessageIsDisplayed()
         }
@@ -40,8 +42,8 @@ class HomeScreenTest {
             FlashCard(frontText = "front3", backText = "back3"),
         )
 
-        launchHomeScreen(composeTestRule) {
-            waitForFlashCardsToLoad(flashCards)
+        launchHomeScreen(composeTestRule, flashCards) {
+            // Do nothing
         } verify {
             listOfFlashCardsIsDisplayed(flashCards)
         }

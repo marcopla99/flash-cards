@@ -4,8 +4,8 @@ import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.domain.use_case.edit.EditFlashCardUseCase
 import com.marcopla.flashcards.presentation.screen.edit.*
-import com.marcopla.testing.DuplicateFlashCardRepository
-import com.marcopla.testing.TestFlashCardRepository
+import com.marcopla.testing_shared.DuplicateFlashCardRepository
+import com.marcopla.testing_shared.TestFlashCardRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals

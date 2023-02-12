@@ -5,7 +5,7 @@ import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.domain.use_case.home.LoadFlashCardsUseCase
 import com.marcopla.flashcards.presentation.screen.home.HomeScreenState
 import com.marcopla.flashcards.presentation.screen.home.HomeViewModel
-import com.marcopla.testing.TestFlashCardRepository
+import com.marcopla.testing_shared.TestFlashCardRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.internal.*
 import kotlinx.coroutines.launch

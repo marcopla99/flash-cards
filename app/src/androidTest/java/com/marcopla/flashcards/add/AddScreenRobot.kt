@@ -9,7 +9,7 @@ import com.marcopla.flashcards.data.repository.FlashCardRepository
 import com.marcopla.flashcards.domain.use_case.add.AddFlashCardsUseCase
 import com.marcopla.flashcards.presentation.screen.add.AddScreen
 import com.marcopla.flashcards.presentation.screen.add.AddViewModel
-import com.marcopla.testing.TestFlashCardRepository
+import com.marcopla.testing_shared.TestFlashCardRepository
 
 typealias ComponentActivityTestRule =
     AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>

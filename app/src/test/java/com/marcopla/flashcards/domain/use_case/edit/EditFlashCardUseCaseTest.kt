@@ -1,10 +1,10 @@
 package com.marcopla.flashcards.domain.use_case.edit
 
-import com.marcopla.flashcards.data.data_source.FakeFlashCardDao
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
 import com.marcopla.flashcards.domain.use_case.add.InvalidBackTextException
 import com.marcopla.flashcards.domain.use_case.add.InvalidFrontTextException
+import com.marcopla.testing_shared.FakeFlashCardDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

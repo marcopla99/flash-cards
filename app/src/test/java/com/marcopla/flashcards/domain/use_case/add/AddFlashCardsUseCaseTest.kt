@@ -1,11 +1,11 @@
 package com.marcopla.flashcards.domain.use_case.add
 
 import com.marcopla.flashcards.MainDispatcherExtension
-import com.marcopla.flashcards.data.data_source.FakeFlashCardDao
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
 import com.marcopla.flashcards.presentation.screen.add.AddViewModel
 import com.marcopla.flashcards.presentation.screen.add.BackTextState
 import com.marcopla.flashcards.presentation.screen.add.FrontTextState
+import com.marcopla.testing_shared.FakeFlashCardDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
