@@ -8,9 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
-import com.marcopla.flashcards.domain.use_case.add.InvalidBackTextException
-import com.marcopla.flashcards.domain.use_case.add.InvalidFrontTextException
 import com.marcopla.flashcards.domain.use_case.edit.EditFlashCardUseCase
+import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextException
+import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import kotlinx.coroutines.launch
 
 class EditViewModel(private val editFlashCardUseCase: EditFlashCardUseCase) : ViewModel() {

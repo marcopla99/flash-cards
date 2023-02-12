@@ -3,12 +3,18 @@ package com.marcopla.flashcards.domain.use_case.add
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
 import com.marcopla.flashcards.data.repository.FlashCardRepository
+import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextException
+import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import javax.inject.Inject
 
-class AddFlashCardsUseCase @Inject constructor(
+class AddFlashCardUseCase @Inject constructor(
     private val repository: FlashCardRepository
 ) {
-    @Throws(InvalidBackTextException::class, InvalidFrontTextException::class)
+    @Throws(
+        InvalidFrontTextException::class,
+        InvalidBackTextException::class,
+        DuplicateInsertionException::class,
+    )
     suspend fun invoke(frontText: String?, backText: String?) {
         if (frontText.isNullOrBlank()) {
             throw InvalidFrontTextException()
@@ -17,15 +23,6 @@ class AddFlashCardsUseCase @Inject constructor(
             throw InvalidBackTextException()
         }
         val flashCard = FlashCard(frontText = frontText, backText = backText)
-        storeFlashCard(flashCard)
-    }
-
-    @Throws(DuplicateInsertionException::class)
-    private suspend fun storeFlashCard(flashCard: FlashCard) {
         repository.add(flashCard)
     }
 }
-
-class InvalidFrontTextException : IllegalStateException()
-
-class InvalidBackTextException : IllegalStateException()
