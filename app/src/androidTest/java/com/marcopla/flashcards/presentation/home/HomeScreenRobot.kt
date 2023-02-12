@@ -24,7 +24,11 @@ suspend fun launchHomeScreen(
 ): HomeScreenRobot {
     val repository = FlashCardRepositoryImpl(FakeFlashCardDao(flashCards))
     rule.setContent {
-        HomeScreen(viewModel = HomeViewModel(LoadFlashCardsUseCase(repository))) {}
+        HomeScreen(
+            viewModel = HomeViewModel(LoadFlashCardsUseCase(repository)),
+            onNavigateToAddScreen = {},
+            onItemClicked = {},
+        )
     }
     return HomeScreenRobot(rule).apply { block() }
 }

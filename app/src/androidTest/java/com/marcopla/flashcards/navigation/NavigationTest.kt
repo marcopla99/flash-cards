@@ -2,6 +2,7 @@ package com.marcopla.flashcards.navigation
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.marcopla.flashcards.MainActivity
+import com.marcopla.flashcards.data.model.FlashCard
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -23,11 +24,23 @@ class NavigationTest {
     }
 
     @Test
-    fun homeScreen_whenIsOpen_andAfterClickingTheAddButton_thenGoToAddScreen() {
+    fun homeScreen_whenClickingTheAddButton_thenGoToAddScreen() {
         launchApp(composeRule) {
             clickAddButton()
         } verify {
             addScreenIsOpen()
+        }
+    }
+
+    @Test
+    fun homeScreen_whenClickingFlashCard_thenGoToEditScreen() {
+        val flashCard = FlashCard(frontText = "Engels", backText = "English")
+
+        launchApp(composeRule) {
+            addNewFlashCard(flashCard)
+            clickOnFlashCard(flashCard)
+        } verify {
+            editScreenIsOpen()
         }
     }
 }

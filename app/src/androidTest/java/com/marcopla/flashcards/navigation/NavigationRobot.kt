@@ -1,13 +1,11 @@
 package com.marcopla.flashcards.navigation
 
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.MainActivity
 import com.marcopla.flashcards.R
+import com.marcopla.flashcards.data.model.FlashCard
 
 typealias ComposeTestRule =
     AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>
@@ -29,8 +27,37 @@ class NavigationRobot(
         composeRule.onNodeWithContentDescription(addButtonContentDescription).performClick()
     }
 
+    fun addNewFlashCard(flashCard: FlashCard) {
+        clickAddButton()
+
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.frontTextField))
+            .performTextInput(flashCard.frontText)
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.backTextField))
+            .performTextInput(flashCard.backText)
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.addCardButton))
+            .performClick()
+
+        composeRule.activityRule.scenario.onActivity { activity ->
+            activity.onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
     infix fun verify(block: NavigationVerification.() -> Unit): NavigationVerification {
         return NavigationVerification(composeRule).apply(block)
+    }
+
+    fun clickOnFlashCard(flashCard: FlashCard) {
+        val flashCardContentDescription = composeRule.activity.getString(
+            R.string.flashCardItem,
+            flashCard.frontText,
+        )
+
+        composeRule
+            .onNodeWithContentDescription(flashCardContentDescription)
+            .performClick()
     }
 }
 
@@ -40,5 +67,10 @@ class NavigationVerification(
     fun addScreenIsOpen() {
         val addScreenTitle = composeRule.activity.getString(R.string.addScreenTitle)
         composeRule.onNodeWithText(addScreenTitle).assertIsDisplayed()
+    }
+
+    fun editScreenIsOpen() {
+        val editScreenTitle = composeRule.activity.getString(R.string.editScreenTitle)
+        composeRule.onNodeWithText(editScreenTitle).assertIsDisplayed()
     }
 }

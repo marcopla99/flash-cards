@@ -12,4 +12,5 @@
     <string name="addScreenTitle">Add new flash card</string>
     <string name="loadingIndicator">Loading indicator</string>
     <string name="flashCardItem">Flash card of %1$s</string>
+    <string name="editScreenTitle">Edit Flash Card</string>
 </resources>

@@ -25,6 +25,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToAddScreen: () -> Unit,
+    onItemClicked: (Int) -> Unit
 ) {
     Scaffold(
         floatingActionButton = {
@@ -39,19 +40,28 @@ fun HomeScreen(
         }
     ) { padding ->
         val screenState: HomeScreenState by viewModel.homeScreenState.collectAsStateWithLifecycle()
-        ScreenContent(screenState, modifier = modifier.padding(padding))
+        ScreenContent(
+            screenState,
+            modifier = modifier.padding(padding),
+            onItemClicked = onItemClicked,
+        )
     }
 }
 
 @Composable
 private fun ScreenContent(
     screenState: HomeScreenState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onItemClicked: (Int) -> Unit
 ) {
     when (screenState) {
         is HomeScreenState.Loading -> LoadingIndicator(modifier = modifier)
         is HomeScreenState.Empty -> EmptyMessage(modifier = modifier)
-        is HomeScreenState.Cards -> CardsList(screenState.flashCards, modifier = modifier)
+        is HomeScreenState.Cards -> CardsList(
+            screenState.flashCards,
+            modifier = modifier,
+            onItemClicked = onItemClicked,
+        )
     }
 }
 
@@ -87,10 +97,12 @@ private fun EmptyMessage(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun CardsList(
     flashCards: List<FlashCard>,
     modifier: Modifier = Modifier,
+    onItemClicked: (Int) -> Unit,
 ) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
         items(flashCards.size) { index ->
@@ -104,6 +116,9 @@ private fun CardsList(
                         contentDescription = itemContentDescription
                     },
                 elevation = 4.dp,
+                onClick = {
+                    onItemClicked(index)
+                }
             ) {
                 Column(modifier = modifier.padding(4.dp)) {
                     Text(
