@@ -34,32 +34,33 @@ suspend fun launchHomeScreen(
 }
 
 class HomeScreenRobot(
-    private val rule: ComponentActivityTestRule,
+    private val composeTestRule: ComponentActivityTestRule,
 ) {
     infix fun verify(block: HomeScreenVerification.() -> Unit): HomeScreenVerification {
-        return HomeScreenVerification(rule).apply(block)
+        return HomeScreenVerification(composeTestRule).apply(block)
     }
 }
 
 class HomeScreenVerification(
-    private val rule: ComponentActivityTestRule,
+    private val composeRule: ComponentActivityTestRule,
 ) {
     fun emptyMessageIsDisplayed() {
-        val emptyMessage = rule.activity.getString(R.string.noFlashCardsCreated)
-        rule.onNodeWithText(emptyMessage).assertIsDisplayed()
+        val emptyMessage = composeRule.activity.getString(R.string.noFlashCardsCreated)
+        composeRule.onNodeWithText(emptyMessage).assertIsDisplayed()
     }
 
     fun listOfFlashCardsIsDisplayed(flashCards: List<FlashCard>) {
         flashCards.forEach {
             val itemContentDescription =
-                rule.activity.getString(R.string.flashCardItem, it.frontText)
-            rule.onNodeWithContentDescription(itemContentDescription)
+                composeRule.activity.getString(R.string.flashCardItem, it.frontText)
+            composeRule.onNodeWithContentDescription(itemContentDescription)
                 .assertIsDisplayed()
         }
     }
 
     fun showLoadingIndicator() {
-        rule.onNodeWithContentDescription(rule.activity.getString(R.string.loadingIndicator))
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.loadingIndicator))
             .assertIsDisplayed()
     }
 }
