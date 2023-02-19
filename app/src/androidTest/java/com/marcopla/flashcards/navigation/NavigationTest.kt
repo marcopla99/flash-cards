@@ -45,7 +45,7 @@ class NavigationTest {
     }
 
     @Test
-    fun homeScreen_whenClickingFlashCard_thenEditScreenShowCorrectData() {
+    fun homeScreen_whenClickingFlashCard_thenEditScreenShowsCorrectData() {
         val flashCard = FlashCard(frontText = "Engels", backText = "English")
 
         launchApp(composeRule) {
@@ -53,6 +53,20 @@ class NavigationTest {
             clickOnFlashCard(flashCard)
         } verify {
             editScreenDisplaysFlashCard(flashCard)
+        }
+    }
+
+    @Test
+    fun editScreen_whenClickingEditButtonSuccessfully_thenGoToHomeScreen() {
+        val flashCardWithWrongBackText = FlashCard("Engels", "wrong")
+
+        launchApp(composeRule) {
+            addNewFlashCard(flashCardWithWrongBackText)
+            clickOnFlashCard(flashCardWithWrongBackText)
+            editBackText("English")
+            clickEditButton()
+        } verify {
+            homeScreenIsOpen()
         }
     }
 }

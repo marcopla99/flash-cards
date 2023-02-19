@@ -25,9 +25,12 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToAddScreen: () -> Unit,
-    onItemClicked: (Int) -> Unit
+    onItemClicked: (Int) -> Unit,
 ) {
     Scaffold(
+        topBar = {
+            TopAppBar(title = { Text(stringResource(id = R.string.homeScreenTitle)) })
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onNavigateToAddScreen
@@ -52,7 +55,7 @@ fun HomeScreen(
 private fun ScreenContent(
     screenState: HomeScreenState,
     modifier: Modifier = Modifier,
-    onItemClicked: (Int) -> Unit
+    onItemClicked: (Int) -> Unit,
 ) {
     when (screenState) {
         is HomeScreenState.Loading -> LoadingIndicator(modifier = modifier)
@@ -67,7 +70,7 @@ private fun ScreenContent(
 
 @Composable
 private fun LoadingIndicator(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val loadingContentDescription = stringResource(
         id = R.string.loadingIndicator
@@ -84,7 +87,7 @@ private fun LoadingIndicator(
 
 @Composable
 private fun EmptyMessage(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier.fillMaxSize(),

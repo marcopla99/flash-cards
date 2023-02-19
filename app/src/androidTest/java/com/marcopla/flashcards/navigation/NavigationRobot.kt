@@ -59,6 +59,18 @@ class NavigationRobot(
             .onNodeWithContentDescription(flashCardContentDescription)
             .performClick()
     }
+
+    fun editBackText(newText: String) {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.backTextField))
+            .performTextInput(newText)
+    }
+
+    fun clickEditButton() {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.editButton))
+            .performClick()
+    }
 }
 
 class NavigationVerification(
@@ -77,5 +89,11 @@ class NavigationVerification(
     fun editScreenDisplaysFlashCard(flashCard: FlashCard) {
         composeRule.onNodeWithText(flashCard.frontText).assertIsDisplayed()
         composeRule.onNodeWithText(flashCard.backText).assertIsDisplayed()
+    }
+
+    fun homeScreenIsOpen() {
+        composeRule
+            .onNodeWithText(composeRule.activity.getString(R.string.homeScreenTitle))
+            .assertIsDisplayed()
     }
 }

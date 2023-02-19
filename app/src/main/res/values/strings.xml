@@ -13,4 +13,6 @@
     <string name="loadingIndicator">Loading indicator</string>
     <string name="flashCardItem">Flash card of %1$s</string>
     <string name="editScreenTitle">Edit Flash Card</string>
+    <string name="editButton">Edit</string>
+    <string name="homeScreenTitle">Home Screen</string>
 </resources>

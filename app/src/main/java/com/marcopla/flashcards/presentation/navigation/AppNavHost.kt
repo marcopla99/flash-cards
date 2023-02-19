@@ -1,11 +1,15 @@
 package com.marcopla.flashcards.presentation.navigation
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -49,7 +53,9 @@ fun AppNavHost(
                 }
             )
         ) {
-            EditScreen(modifier = modifier)
+            EditScreen(modifier = modifier, onFlashCardEdited = {
+                navController.popBackStack()
+            })
         }
     }
 }
@@ -59,12 +65,39 @@ const val FLASH_CARD_ID_ARG_KEY = "flashCardId"
 @Composable
 fun EditScreen(
     viewModel: EditViewModel = hiltViewModel(),
+    onFlashCardEdited: () -> Unit,
     modifier: Modifier,
 ) {
-    Column {
-        Text(text = stringResource(id = R.string.editScreenTitle))
-        TextField(value = viewModel.frontTextState.value.text, onValueChange = {})
-        TextField(value = viewModel.backTextState.value.text, onValueChange = {})
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(onClick = onFlashCardEdited) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = stringResource(R.string.editButton)
+                )
+            }
+        }
+    ) {
+        Column(modifier.padding(it)) {
+            val backTextContentDescription = stringResource(R.string.backTextField)
+            val frontTextContentDescription = stringResource(R.string.frontTextField)
+
+            Text(text = stringResource(id = R.string.editScreenTitle))
+            TextField(
+                modifier = modifier.semantics {
+                    contentDescription = frontTextContentDescription
+                },
+                value = viewModel.frontTextState.value.text,
+                onValueChange = {}
+            )
+            TextField(
+                modifier = modifier.semantics {
+                    contentDescription = backTextContentDescription
+                },
+                value = viewModel.backTextState.value.text,
+                onValueChange = {}
+            )
+        }
     }
 }
 
