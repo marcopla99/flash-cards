@@ -22,6 +22,6 @@ class LoadFlashCardsUseCaseTest {
 
         repository.emit(storedFlashCards)
 
-        assertEquals(storedFlashCards, useCase.invoke().first())
+        assertEquals(storedFlashCards, useCase.loadAll().first())
     }
 }

@@ -1,5 +1,7 @@
 package com.marcopla.testing_shared
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.marcopla.flashcards.data.data_source.FlashCardDao
 import com.marcopla.flashcards.data.model.FlashCard
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +18,7 @@ class FakeFlashCardDao(initialFlashCards: List<FlashCard> = listOf()) : FlashCar
         this.flashCards.addAll(flashCards)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override suspend fun edit(flashCard: FlashCard) {
         this.flashCards.replaceAll {
             if (it.id == flashCard.id) {
@@ -24,5 +27,9 @@ class FakeFlashCardDao(initialFlashCards: List<FlashCard> = listOf()) : FlashCar
                 it
             }
         }
+    }
+
+    override suspend fun fetchById(flashCardId: Int): FlashCard {
+        TODO("Not yet implemented")
     }
 }

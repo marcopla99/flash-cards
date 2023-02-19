@@ -73,4 +73,9 @@ class NavigationVerification(
         val editScreenTitle = composeRule.activity.getString(R.string.editScreenTitle)
         composeRule.onNodeWithText(editScreenTitle).assertIsDisplayed()
     }
+
+    fun editScreenDisplaysFlashCard(flashCard: FlashCard) {
+        composeRule.onNodeWithText(flashCard.frontText).assertIsDisplayed()
+        composeRule.onNodeWithText(flashCard.backText).assertIsDisplayed()
+    }
 }

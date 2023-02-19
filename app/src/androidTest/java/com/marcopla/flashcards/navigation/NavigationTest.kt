@@ -43,4 +43,16 @@ class NavigationTest {
             editScreenIsOpen()
         }
     }
+
+    @Test
+    fun homeScreen_whenClickingFlashCard_thenEditScreenShowCorrectData() {
+        val flashCard = FlashCard(frontText = "Engels", backText = "English")
+
+        launchApp(composeRule) {
+            addNewFlashCard(flashCard)
+            clickOnFlashCard(flashCard)
+        } verify {
+            editScreenDisplaysFlashCard(flashCard)
+        }
+    }
 }

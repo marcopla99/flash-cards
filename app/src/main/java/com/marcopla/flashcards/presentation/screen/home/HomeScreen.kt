@@ -117,7 +117,7 @@ private fun CardsList(
                     },
                 elevation = 4.dp,
                 onClick = {
-                    onItemClicked(index)
+                    onItemClicked(flashCards[index].id)
                 }
             ) {
                 Column(modifier = modifier.padding(4.dp)) {

@@ -5,8 +5,11 @@ import com.marcopla.flashcards.data.repository.DuplicateInsertionException
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextException
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
+import javax.inject.Inject
 
-class EditFlashCardUseCase(private val flashCardRepository: FlashCardRepository) {
+class EditFlashCardUseCase @Inject constructor(
+    private val flashCardRepository: FlashCardRepository,
+) {
     @Throws(
         InvalidFrontTextException::class,
         InvalidBackTextException::class,

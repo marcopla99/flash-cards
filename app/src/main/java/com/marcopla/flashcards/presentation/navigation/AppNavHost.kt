@@ -1,14 +1,20 @@
 package com.marcopla.flashcards.presentation.navigation
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.presentation.screen.add.AddScreen
+import com.marcopla.flashcards.presentation.screen.edit.EditViewModel
 import com.marcopla.flashcards.presentation.screen.home.HomeScreen
 
 @Composable
@@ -28,22 +34,36 @@ fun AppNavHost(
                     navController.navigate(Routes.ADD_SCREEN)
                 },
                 onItemClicked = {
-                    navController.navigate(Routes.EDIT_SCREEN)
+                    navController.navigate("${Routes.EDIT_SCREEN}/$it")
                 }
             )
         }
         composable(Routes.ADD_SCREEN) {
             AddScreen(modifier = modifier)
         }
-        composable(Routes.EDIT_SCREEN) {
+        composable(
+            "${Routes.EDIT_SCREEN}/{flashCardId}",
+            arguments = listOf(
+                navArgument("flashCardId") {
+                    type = NavType.IntType
+                }
+            )
+        ) {
             EditScreen(modifier = modifier)
         }
     }
 }
 
 @Composable
-fun EditScreen(modifier: Modifier) {
-    Text(text = stringResource(id = R.string.editScreenTitle))
+fun EditScreen(
+    viewModel: EditViewModel = hiltViewModel(),
+    modifier: Modifier,
+) {
+    Column {
+        Text(text = stringResource(id = R.string.editScreenTitle))
+        TextField(value = viewModel.frontTextState.value.text, onValueChange = {})
+        TextField(value = viewModel.backTextState.value.text, onValueChange = {})
+    }
 }
 
 object Routes {

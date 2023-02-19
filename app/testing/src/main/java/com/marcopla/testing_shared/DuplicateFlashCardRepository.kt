@@ -17,4 +17,8 @@ class DuplicateFlashCardRepository : FlashCardRepository {
     override suspend fun edit(flashCard: FlashCard) {
         throw DuplicateInsertionException()
     }
+
+    override suspend fun getFlashCardById(flashCardId: Int): FlashCard {
+        TODO("Not used")
+    }
 }

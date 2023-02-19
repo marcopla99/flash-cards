@@ -3,6 +3,7 @@ package com.marcopla.flashcards.presentation.screen.edit
 import androidx.annotation.StringRes
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.R
@@ -11,14 +12,31 @@ import com.marcopla.flashcards.data.repository.DuplicateInsertionException
 import com.marcopla.flashcards.domain.use_case.edit.EditFlashCardUseCase
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextException
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
+import com.marcopla.flashcards.domain.use_case.home.LoadFlashCardsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 
-class EditViewModel(private val editFlashCardUseCase: EditFlashCardUseCase) : ViewModel() {
+@HiltViewModel
+class EditViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val editFlashCardUseCase: EditFlashCardUseCase,
+    private val loadFlashCardUseCase: LoadFlashCardsUseCase,
+) : ViewModel() {
 
-    private val _backTextState = mutableStateOf(EditBackTextState())
+    init {
+        val flashCardId: Int = checkNotNull(savedStateHandle["flashCardId"])
+        viewModelScope.launch {
+            val flashCard = loadFlashCardUseCase.loadById(flashCardId)
+            _frontTextState.value = _frontTextState.value.copy(text = flashCard.frontText)
+            _backTextState.value = _backTextState.value.copy(text = flashCard.backText)
+        }
+    }
+
+    private val _backTextState by lazy { mutableStateOf(EditBackTextState()) }
     val backTextState: State<EditBackTextState> = _backTextState
 
-    private val _frontTextState = mutableStateOf(EditFrontTextState())
+    private val _frontTextState by lazy { mutableStateOf(EditFrontTextState()) }
     val frontTextState: State<EditFrontTextState> = _frontTextState
 
     private val _screenState = mutableStateOf<EditScreenState>(EditScreenState.Editing)
@@ -41,12 +59,12 @@ class EditViewModel(private val editFlashCardUseCase: EditFlashCardUseCase) : Vi
 }
 
 data class EditFrontTextState(
-    val value: String = "",
+    val text: String = "",
     val showError: Boolean = false,
 )
 
 data class EditBackTextState(
-    val value: String = "",
+    val text: String = "",
     val showError: Boolean = false,
 )
 

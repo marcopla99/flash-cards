@@ -19,7 +19,7 @@ class HomeViewModel @Inject constructor(
     )
 
     private fun loadCardsStateStream(): Flow<HomeScreenState> {
-        return loadFlashCardsUseCase.invoke().map {
+        return loadFlashCardsUseCase.loadAll().map {
             if (it.isEmpty()) {
                 HomeScreenState.Empty
             } else {

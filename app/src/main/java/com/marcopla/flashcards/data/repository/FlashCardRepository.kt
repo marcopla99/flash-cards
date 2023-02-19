@@ -11,4 +11,6 @@ interface FlashCardRepository {
 
     @Throws(DuplicateInsertionException::class)
     suspend fun edit(flashCard: FlashCard)
+
+    suspend fun getFlashCardById(flashCardId: Int): FlashCard
 }
