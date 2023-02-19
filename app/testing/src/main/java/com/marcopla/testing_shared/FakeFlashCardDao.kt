@@ -30,6 +30,6 @@ class FakeFlashCardDao(initialFlashCards: List<FlashCard> = listOf()) : FlashCar
     }
 
     override suspend fun fetchById(flashCardId: Int): FlashCard {
-        TODO("Not yet implemented")
+        return flashCards.first { it.id == flashCardId }
     }
 }
