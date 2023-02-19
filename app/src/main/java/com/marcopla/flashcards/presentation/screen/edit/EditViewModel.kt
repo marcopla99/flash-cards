@@ -15,9 +15,9 @@ import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextExcepti
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class EditViewModel @Inject constructor(

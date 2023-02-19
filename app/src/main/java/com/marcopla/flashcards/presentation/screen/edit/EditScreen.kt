@@ -21,14 +21,7 @@ fun EditScreen(
     onFlashCardEdited: () -> Unit,
 ) {
     val scaffoldState = rememberScaffoldState()
-    val message = stringResource(id = R.string.duplicateCardError)
-    val editScreenState = viewModel.screenState.value as? EditScreenState.Error
-    val errorStringRes = editScreenState?.errorStringRes
-    if (errorStringRes != null) {
-        LaunchedEffect(key1 = errorStringRes) {
-            scaffoldState.snackbarHostState.showSnackbar(message)
-        }
-    }
+    HandleScreenState(viewModel.screenState.value, scaffoldState, onFlashCardEdited)
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -38,7 +31,6 @@ fun EditScreen(
                     viewModel.frontTextState.value.text,
                     viewModel.backTextState.value.text,
                 )
-                onFlashCardEdited() // FIXME
             }) {
                 Icon(
                     imageVector = Icons.Default.Edit,
@@ -66,6 +58,28 @@ fun EditScreen(
                 value = viewModel.backTextState.value.text,
                 onValueChange = {}
             )
+        }
+    }
+}
+
+@Composable
+private fun HandleScreenState(
+    screenState: EditScreenState,
+    scaffoldState: ScaffoldState,
+    onFlashCardEdited: () -> Unit,
+) {
+    when (screenState) {
+        EditScreenState.Editing -> {
+            // TODO
+        }
+        is EditScreenState.Error -> {
+            val errorMessage = stringResource(id = R.string.duplicateCardError)
+            LaunchedEffect(key1 = screenState.errorStringRes) {
+                scaffoldState.snackbarHostState.showSnackbar(errorMessage)
+            }
+        }
+        EditScreenState.Success -> {
+            LaunchedEffect(key1 = screenState) { onFlashCardEdited() }
         }
     }
 }
