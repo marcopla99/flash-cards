@@ -16,7 +16,6 @@ import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextExcept
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -26,6 +25,15 @@ class EditViewModel @Inject constructor(
     private val loadFlashCardUseCase: LoadFlashCardsUseCase,
 ) : ViewModel() {
 
+    private val _backTextState = mutableStateOf(EditBackTextState())
+    val backTextState: State<EditBackTextState> = _backTextState
+
+    private val _frontTextState = mutableStateOf(EditFrontTextState())
+    val frontTextState: State<EditFrontTextState> = _frontTextState
+
+    private val _screenState = mutableStateOf<EditScreenState>(EditScreenState.Editing)
+
+    val screenState: State<EditScreenState> = _screenState
     init {
         val flashCardId: Int = checkNotNull(savedStateHandle[FLASH_CARD_ID_ARG_KEY])
         viewModelScope.launch {
@@ -34,15 +42,6 @@ class EditViewModel @Inject constructor(
             _backTextState.value = _backTextState.value.copy(text = flashCard.backText)
         }
     }
-
-    private val _backTextState by lazy { mutableStateOf(EditBackTextState()) }
-    val backTextState: State<EditBackTextState> = _backTextState
-
-    private val _frontTextState by lazy { mutableStateOf(EditFrontTextState()) }
-    val frontTextState: State<EditFrontTextState> = _frontTextState
-
-    private val _screenState = mutableStateOf<EditScreenState>(EditScreenState.Editing)
-    val screenState: State<EditScreenState> = _screenState
 
     fun attemptSubmit(frontText: String, backText: String) {
         viewModelScope.launch {
