@@ -1,4 +1,4 @@
-package com.marcopla.flashcards.domain.use_case.add
+package com.marcopla.flashcards.domain.use_case
 
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException

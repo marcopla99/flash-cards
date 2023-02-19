@@ -2,7 +2,7 @@ package com.marcopla.flashcards.presentation.add
 
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.R
-import com.marcopla.flashcards.domain.use_case.add.AddFlashCardUseCase
+import com.marcopla.flashcards.domain.use_case.AddFlashCardUseCase
 import com.marcopla.flashcards.presentation.screen.add.*
 import com.marcopla.testing_shared.DuplicateFlashCardRepository
 import com.marcopla.testing_shared.TestFlashCardRepository

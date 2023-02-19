@@ -2,6 +2,7 @@ package com.marcopla.flashcards.domain.use_case.add
 
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
+import com.marcopla.flashcards.domain.use_case.AddFlashCardUseCase
 import com.marcopla.flashcards.presentation.screen.add.AddViewModel
 import com.marcopla.flashcards.presentation.screen.add.BackTextState
 import com.marcopla.flashcards.presentation.screen.add.FrontTextState

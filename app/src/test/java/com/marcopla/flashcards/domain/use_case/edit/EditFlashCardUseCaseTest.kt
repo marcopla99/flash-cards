@@ -2,6 +2,7 @@ package com.marcopla.flashcards.domain.use_case.edit
 
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
+import com.marcopla.flashcards.domain.use_case.EditFlashCardUseCase
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextException
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import com.marcopla.testing_shared.FakeFlashCardDao

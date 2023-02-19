@@ -9,14 +9,14 @@ import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
-import com.marcopla.flashcards.domain.use_case.edit.EditFlashCardUseCase
+import com.marcopla.flashcards.domain.use_case.EditFlashCardUseCase
+import com.marcopla.flashcards.domain.use_case.LoadFlashCardsUseCase
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextException
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
-import com.marcopla.flashcards.domain.use_case.home.LoadFlashCardsUseCase
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class EditViewModel @Inject constructor(
