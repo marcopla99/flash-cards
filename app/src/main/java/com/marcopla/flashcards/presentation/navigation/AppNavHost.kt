@@ -42,9 +42,9 @@ fun AppNavHost(
             AddScreen(modifier = modifier)
         }
         composable(
-            "${Routes.EDIT_SCREEN}/{flashCardId}",
+            "${Routes.EDIT_SCREEN}/{$FLASH_CARD_ID_ARG_KEY}",
             arguments = listOf(
-                navArgument("flashCardId") {
+                navArgument(FLASH_CARD_ID_ARG_KEY) {
                     type = NavType.IntType
                 }
             )
@@ -53,6 +53,8 @@ fun AppNavHost(
         }
     }
 }
+
+const val FLASH_CARD_ID_ARG_KEY = "flashCardId"
 
 @Composable
 fun EditScreen(

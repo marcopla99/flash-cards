@@ -7,6 +7,7 @@ import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
 import com.marcopla.flashcards.domain.use_case.edit.EditFlashCardUseCase
 import com.marcopla.flashcards.domain.use_case.home.LoadFlashCardsUseCase
+import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
 import com.marcopla.flashcards.presentation.screen.edit.*
 import com.marcopla.testing_shared.DuplicateFlashCardRepository
 import com.marcopla.testing_shared.FakeFlashCardDao
@@ -29,7 +30,7 @@ class EditViewModelTest {
     @ValueSource(strings = ["", " ", "  "])
     fun frontText_whenIsBlank_thenShowError(blankFrontText: String) {
         val viewModel = EditViewModel(
-            SavedStateHandle(mapOf("flashCardId" to selectedFlashCard.id)),
+            SavedStateHandle(mapOf(FLASH_CARD_ID_ARG_KEY to selectedFlashCard.id)),
             EditFlashCardUseCase(TestFlashCardRepository()),
             LoadFlashCardsUseCase(
                 FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
@@ -45,7 +46,7 @@ class EditViewModelTest {
     @ValueSource(strings = ["", " ", "  "])
     fun backText_whenIsBlank_thenShowError(blankBackText: String) = runTest {
         val viewModel = EditViewModel(
-            SavedStateHandle(mapOf("flashCardId" to selectedFlashCard.id)),
+            SavedStateHandle(mapOf(FLASH_CARD_ID_ARG_KEY to selectedFlashCard.id)),
             EditFlashCardUseCase(TestFlashCardRepository()),
             LoadFlashCardsUseCase(
                 FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard))),
@@ -60,7 +61,7 @@ class EditViewModelTest {
     @Test
     fun flashCard_whenIsEdited_andAlreadyExists_thenShowTheDuplicateError() = runTest {
         val viewModel = EditViewModel(
-            SavedStateHandle(mapOf("flashCardId" to selectedFlashCard.id)),
+            SavedStateHandle(mapOf(FLASH_CARD_ID_ARG_KEY to selectedFlashCard.id)),
             EditFlashCardUseCase(DuplicateFlashCardRepository()),
             LoadFlashCardsUseCase(
                 FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
@@ -78,7 +79,7 @@ class EditViewModelTest {
     @Test
     fun flashCard_whenEditedSuccessfully_thenReturnSuccess() = runTest {
         val viewModel = EditViewModel(
-            SavedStateHandle(mapOf("flashCardId" to selectedFlashCard.id)),
+            SavedStateHandle(mapOf(FLASH_CARD_ID_ARG_KEY to selectedFlashCard.id)),
             EditFlashCardUseCase(TestFlashCardRepository()),
             LoadFlashCardsUseCase(
                 FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
