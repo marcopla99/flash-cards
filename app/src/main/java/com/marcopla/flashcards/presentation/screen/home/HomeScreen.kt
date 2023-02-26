@@ -16,19 +16,21 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToAddScreen: () -> Unit,
+    onItemClicked: (Int) -> Unit,
 ) {
     Scaffold(
+        topBar = {
+            TopAppBar(title = { Text(stringResource(id = R.string.homeScreenTitle)) })
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onNavigateToAddScreen
@@ -40,26 +42,35 @@ fun HomeScreen(
             }
         }
     ) { padding ->
-        val screenState: ScreenState by viewModel.screenState.collectAsStateWithLifecycle()
-        ScreenContent(screenState, modifier = modifier.padding(padding))
+        val screenState: HomeScreenState by viewModel.homeScreenState.collectAsStateWithLifecycle()
+        ScreenContent(
+            screenState,
+            modifier = modifier.padding(padding),
+            onItemClicked = onItemClicked,
+        )
     }
 }
 
 @Composable
 private fun ScreenContent(
-    screenState: ScreenState,
-    modifier: Modifier = Modifier
+    screenState: HomeScreenState,
+    modifier: Modifier = Modifier,
+    onItemClicked: (Int) -> Unit,
 ) {
     when (screenState) {
-        is ScreenState.Loading -> LoadingIndicator(modifier = modifier)
-        is ScreenState.Empty -> EmptyMessage(modifier = modifier)
-        is ScreenState.Cards -> CardsList(screenState.flashCards, modifier = modifier)
+        is HomeScreenState.Loading -> LoadingIndicator(modifier = modifier)
+        is HomeScreenState.Empty -> EmptyMessage(modifier = modifier)
+        is HomeScreenState.Cards -> CardsList(
+            screenState.flashCards,
+            modifier = modifier,
+            onItemClicked = onItemClicked,
+        )
     }
 }
 
 @Composable
 private fun LoadingIndicator(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val loadingContentDescription = stringResource(
         id = R.string.loadingIndicator
@@ -76,7 +87,7 @@ private fun LoadingIndicator(
 
 @Composable
 private fun EmptyMessage(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -89,10 +100,12 @@ private fun EmptyMessage(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun CardsList(
     flashCards: List<FlashCard>,
     modifier: Modifier = Modifier,
+    onItemClicked: (Int) -> Unit,
 ) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
         items(flashCards.size) { index ->
@@ -106,6 +119,9 @@ private fun CardsList(
                         contentDescription = itemContentDescription
                     },
                 elevation = 4.dp,
+                onClick = {
+                    onItemClicked(flashCards[index].id)
+                }
             ) {
                 Column(modifier = modifier.padding(4.dp)) {
                     Text(

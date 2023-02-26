@@ -1,4 +1,4 @@
-package com.marcopla.flashcards.home
+package com.marcopla.flashcards.presentation.home
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -16,8 +16,10 @@ class HomeScreenTest {
 
     @Test
     fun homeScreen_whenLaunched_thenShowLoading() = runTest {
+        composeTestRule.mainClock.autoAdvance = false
+
         launchHomeScreen(composeTestRule) {
-            // Empty
+            // Do nothing
         } verify {
             showLoadingIndicator()
         }
@@ -25,8 +27,8 @@ class HomeScreenTest {
 
     @Test
     fun homeScreen_whenGettingEmptyState_thenShowEmptyMessage() = runTest {
-        launchHomeScreen(composeTestRule) {
-            waitForEmptyDataToLoad()
+        launchHomeScreen(composeTestRule, emptyList()) {
+            // Do nothing
         } verify {
             emptyMessageIsDisplayed()
         }
@@ -35,13 +37,13 @@ class HomeScreenTest {
     @Test
     fun homeScreen_whenDataIsNotEmpty_thenShowListOfFlashCards() = runTest {
         val flashCards = listOf(
-            FlashCard("front1", "back1"),
-            FlashCard("front2", "back2"),
-            FlashCard("front3", "back3"),
+            FlashCard(frontText = "front1", backText = "back1"),
+            FlashCard(frontText = "front2", backText = "back2"),
+            FlashCard(frontText = "front3", backText = "back3"),
         )
 
-        launchHomeScreen(composeTestRule) {
-            waitForFlashCardsToLoad(flashCards)
+        launchHomeScreen(composeTestRule, flashCards) {
+            // Do nothing
         } verify {
             listOfFlashCardsIsDisplayed(flashCards)
         }

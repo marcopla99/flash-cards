@@ -7,16 +7,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
-import com.marcopla.flashcards.domain.use_case.InvalidBackException
-import com.marcopla.flashcards.domain.use_case.InvalidFrontException
-import com.marcopla.flashcards.domain.use_case.SaveNewCardUseCase
+import com.marcopla.flashcards.domain.use_case.AddFlashCardUseCase
+import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextException
+import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class NewFlashCardViewModel @Inject constructor(
-    private val saveNewCard: SaveNewCardUseCase
+class AddViewModel @Inject constructor(
+    private val addFlashCardUseCase: AddFlashCardUseCase
 ) : ViewModel() {
 
     private val _frontTextState = mutableStateOf(FrontTextState())
@@ -28,13 +28,13 @@ class NewFlashCardViewModel @Inject constructor(
     private val _infoTextState = mutableStateOf(InfoTextState())
     val infoTextState: State<InfoTextState> = _infoTextState
 
-    private val _screenState = mutableStateOf(ScreenState.FAILED_SAVE)
-    val screenState: State<ScreenState> = _screenState
+    private val _addScreenState = mutableStateOf(AddScreenState.FAILED_SAVE)
+    val addScreenState: State<AddScreenState> = _addScreenState
 
     fun attemptSubmit(frontText: String?, backText: String?) {
         viewModelScope.launch {
             try {
-                saveNewCard(frontText, backText)
+                addFlashCardUseCase.invoke(frontText, backText)
                 handleSuccessState()
             } catch (exception: IllegalStateException) {
                 handleFailureState(exception)
@@ -43,7 +43,7 @@ class NewFlashCardViewModel @Inject constructor(
     }
 
     private fun handleSuccessState() {
-        _screenState.value = ScreenState.SUCCESSFUL_SAVE
+        _addScreenState.value = AddScreenState.SUCCESSFUL_SAVE
         _infoTextState.value = _infoTextState.value.copy(
             messageStringRes = R.string.cardAdded
         )
@@ -52,14 +52,14 @@ class NewFlashCardViewModel @Inject constructor(
     }
 
     private fun handleFailureState(exception: IllegalStateException) {
-        _screenState.value = ScreenState.FAILED_SAVE
+        _addScreenState.value = AddScreenState.FAILED_SAVE
         when (exception) {
-            is InvalidFrontException -> {
+            is InvalidFrontTextException -> {
                 _frontTextState.value = _frontTextState.value.copy(
                     showError = true
                 )
             }
-            is InvalidBackException -> {
+            is InvalidBackTextException -> {
                 _backTextState.value = _backTextState.value.copy(
                     showError = true
                 )
@@ -83,14 +83,14 @@ class NewFlashCardViewModel @Inject constructor(
     }
 
     private fun setEditingState() {
-        _screenState.value = ScreenState.EDITING
+        _addScreenState.value = AddScreenState.EDITING
         _infoTextState.value = _infoTextState.value.copy(
             messageStringRes = null
         )
     }
 }
 
-enum class ScreenState {
+enum class AddScreenState {
     SUCCESSFUL_SAVE,
     FAILED_SAVE,
     EDITING

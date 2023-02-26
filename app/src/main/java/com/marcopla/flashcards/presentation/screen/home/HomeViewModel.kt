@@ -3,34 +3,34 @@ package com.marcopla.flashcards.presentation.screen.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.domain.use_case.LoadCardsUseCase
+import com.marcopla.flashcards.domain.use_case.LoadFlashCardsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val loadCardsUseCase: LoadCardsUseCase,
+    private val loadFlashCardsUseCase: LoadFlashCardsUseCase,
 ) : ViewModel() {
-    val screenState: StateFlow<ScreenState> = loadCardsStateStream().stateIn(
+    val homeScreenState: StateFlow<HomeScreenState> = loadCardsStateStream().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = ScreenState.Loading,
+        initialValue = HomeScreenState.Loading,
     )
 
-    private fun loadCardsStateStream(): Flow<ScreenState> {
-        return loadCardsUseCase.invoke().map {
+    private fun loadCardsStateStream(): Flow<HomeScreenState> {
+        return loadFlashCardsUseCase.loadAll().map {
             if (it.isEmpty()) {
-                ScreenState.Empty
+                HomeScreenState.Empty
             } else {
-                ScreenState.Cards(it)
+                HomeScreenState.Cards(it)
             }
         }
     }
 }
 
-sealed interface ScreenState {
-    data class Cards(val flashCards: List<FlashCard>) : ScreenState
-    object Empty : ScreenState
-    object Loading : ScreenState
+sealed interface HomeScreenState {
+    data class Cards(val flashCards: List<FlashCard>) : HomeScreenState
+    object Empty : HomeScreenState
+    object Loading : HomeScreenState
 }

@@ -1,12 +1,9 @@
-package com.marcopla.flashcards.add
+package com.marcopla.flashcards.presentation.add
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.data.repository.DuplicateInsertionException
-import com.marcopla.flashcards.data.repository.FlashCardRepository
+import com.marcopla.testing_shared.DuplicateFlashCardRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -62,15 +59,5 @@ class AddScreenTest {
         } verify {
             frontTextFieldIsFocused()
         }
-    }
-}
-
-class DuplicateFlashCardRepository : FlashCardRepository {
-    override fun getFlashCards(): Flow<List<FlashCard>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun add(newFlashCard: FlashCard) {
-        throw DuplicateInsertionException()
     }
 }

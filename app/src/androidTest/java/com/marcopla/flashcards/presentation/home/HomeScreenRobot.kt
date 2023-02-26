@@ -1,4 +1,4 @@
-package com.marcopla.flashcards.home
+package com.marcopla.flashcards.presentation.home
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
@@ -8,62 +8,59 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.domain.use_case.LoadCardsUseCase
+import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
+import com.marcopla.flashcards.domain.use_case.LoadFlashCardsUseCase
 import com.marcopla.flashcards.presentation.screen.home.HomeScreen
 import com.marcopla.flashcards.presentation.screen.home.HomeViewModel
-import com.marcopla.testing.TestFlashCardRepository
+import com.marcopla.testing_shared.FakeFlashCardDao
 
 typealias ComponentActivityTestRule =
     AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
 
 suspend fun launchHomeScreen(
     rule: ComponentActivityTestRule,
+    flashCards: List<FlashCard> = emptyList(),
     block: suspend HomeScreenRobot.() -> Unit,
 ): HomeScreenRobot {
-    val repository = TestFlashCardRepository()
+    val repository = FlashCardRepositoryImpl(FakeFlashCardDao(flashCards))
     rule.setContent {
-        HomeScreen(viewModel = HomeViewModel(LoadCardsUseCase(repository))) {}
+        HomeScreen(
+            viewModel = HomeViewModel(LoadFlashCardsUseCase(repository)),
+            onNavigateToAddScreen = {},
+            onItemClicked = {},
+        )
     }
-    return HomeScreenRobot(rule, repository).apply { block() }
+    return HomeScreenRobot(rule).apply { block() }
 }
 
 class HomeScreenRobot(
-    private val rule: ComponentActivityTestRule,
-    private val repository: TestFlashCardRepository,
+    private val composeTestRule: ComponentActivityTestRule,
 ) {
-
-    suspend fun waitForEmptyDataToLoad() {
-        repository.emit(emptyList())
-    }
-
-    suspend fun waitForFlashCardsToLoad(flashCards: List<FlashCard>) {
-        repository.emit(flashCards)
-    }
-
     infix fun verify(block: HomeScreenVerification.() -> Unit): HomeScreenVerification {
-        return HomeScreenVerification(rule).apply(block)
+        return HomeScreenVerification(composeTestRule).apply(block)
     }
 }
 
 class HomeScreenVerification(
-    private val rule: ComponentActivityTestRule,
+    private val composeRule: ComponentActivityTestRule,
 ) {
     fun emptyMessageIsDisplayed() {
-        val emptyMessage = rule.activity.getString(R.string.noFlashCardsCreated)
-        rule.onNodeWithText(emptyMessage).assertIsDisplayed()
+        val emptyMessage = composeRule.activity.getString(R.string.noFlashCardsCreated)
+        composeRule.onNodeWithText(emptyMessage).assertIsDisplayed()
     }
 
     fun listOfFlashCardsIsDisplayed(flashCards: List<FlashCard>) {
         flashCards.forEach {
             val itemContentDescription =
-                rule.activity.getString(R.string.flashCardItem, it.frontText)
-            rule.onNodeWithContentDescription(itemContentDescription)
+                composeRule.activity.getString(R.string.flashCardItem, it.frontText)
+            composeRule.onNodeWithContentDescription(itemContentDescription)
                 .assertIsDisplayed()
         }
     }
 
     fun showLoadingIndicator() {
-        rule.onNodeWithContentDescription(rule.activity.getString(R.string.loadingIndicator))
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.loadingIndicator))
             .assertIsDisplayed()
     }
 }
