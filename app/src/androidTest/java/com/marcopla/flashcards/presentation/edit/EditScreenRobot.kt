@@ -9,12 +9,14 @@ import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
+import com.marcopla.flashcards.domain.use_case.DeleteUseCase
 import com.marcopla.flashcards.domain.use_case.EditFlashCardUseCase
 import com.marcopla.flashcards.domain.use_case.LoadFlashCardsUseCase
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
 import com.marcopla.flashcards.presentation.screen.edit.EditScreen
 import com.marcopla.flashcards.presentation.screen.edit.EditViewModel
 import com.marcopla.testing_shared.FakeFlashCardDao
+import com.marcopla.testing_shared.TestFlashCardRepository
 
 typealias ComponentActivityTestRule =
     AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
@@ -33,6 +35,7 @@ fun launchEditScreenFor(
                 LoadFlashCardsUseCase(
                     FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
                 ),
+                DeleteUseCase(TestFlashCardRepository()),
             )
         ) {}
     }

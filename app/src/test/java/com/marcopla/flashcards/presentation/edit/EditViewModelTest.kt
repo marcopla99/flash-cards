@@ -5,6 +5,7 @@ import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
+import com.marcopla.flashcards.domain.use_case.DeleteUseCase
 import com.marcopla.flashcards.domain.use_case.EditFlashCardUseCase
 import com.marcopla.flashcards.domain.use_case.LoadFlashCardsUseCase
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
@@ -36,6 +37,7 @@ class EditViewModelTest {
             LoadFlashCardsUseCase(
                 FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
             ),
+            DeleteUseCase(TestFlashCardRepository()),
         )
 
         viewModel.attemptSubmit(blankFrontText, selectedFlashCard.backText)
@@ -52,6 +54,7 @@ class EditViewModelTest {
             LoadFlashCardsUseCase(
                 FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard))),
             ),
+            DeleteUseCase(TestFlashCardRepository()),
         )
 
         viewModel.attemptSubmit(selectedFlashCard.frontText, blankBackText)
@@ -67,6 +70,7 @@ class EditViewModelTest {
             LoadFlashCardsUseCase(
                 FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
             ),
+            DeleteUseCase(TestFlashCardRepository()),
         )
 
         viewModel.attemptSubmit("Engels", "English")
@@ -85,10 +89,27 @@ class EditViewModelTest {
             LoadFlashCardsUseCase(
                 FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
             ),
+            DeleteUseCase(TestFlashCardRepository()),
         )
 
         viewModel.attemptSubmit("Engels", "English")
 
         assertEquals(EditScreenState.Success, viewModel.screenState.value)
+    }
+
+    @Test
+    fun selectedFlashCard_whenDeleted_thenReturnDeletedState() {
+        val viewModel = EditViewModel(
+            SavedStateHandle(mapOf(FLASH_CARD_ID_ARG_KEY to selectedFlashCard.id)),
+            EditFlashCardUseCase(TestFlashCardRepository()),
+            LoadFlashCardsUseCase(
+                FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
+            ),
+            DeleteUseCase(FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard))))
+        )
+
+        viewModel.delete()
+
+        assertEquals(EditScreenState.Deleted, viewModel.screenState.value)
     }
 }

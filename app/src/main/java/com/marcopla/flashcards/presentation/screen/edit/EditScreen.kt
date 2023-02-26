@@ -94,5 +94,6 @@ private fun HandleScreenState(
         is EditScreenState.Initial -> {
             // Empty
         }
+        EditScreenState.Deleted -> TODO()
     }
 }

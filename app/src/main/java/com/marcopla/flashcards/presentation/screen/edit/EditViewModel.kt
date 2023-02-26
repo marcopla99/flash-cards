@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
+import com.marcopla.flashcards.domain.use_case.DeleteUseCase
 import com.marcopla.flashcards.domain.use_case.EditFlashCardUseCase
 import com.marcopla.flashcards.domain.use_case.LoadFlashCardsUseCase
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextException
@@ -23,6 +24,7 @@ class EditViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val editFlashCardUseCase: EditFlashCardUseCase,
     private val loadFlashCardUseCase: LoadFlashCardsUseCase,
+    private val deleteUseCase: DeleteUseCase,
 ) : ViewModel() {
 
     private val _backTextState = mutableStateOf(EditBackTextState())
@@ -67,6 +69,18 @@ class EditViewModel @Inject constructor(
 
     fun updateBackText(newText: String) {
         _backTextState.value = _backTextState.value.copy(text = newText, showError = false)
+    }
+
+    fun delete() {
+        // TODO Consider making it lazy field
+        val flashCardId: Int = checkNotNull(savedStateHandle[FLASH_CARD_ID_ARG_KEY])
+        deleteUseCase.invoke(
+            FlashCard(
+                frontTextState.value.text,
+                backTextState.value.text,
+            ).apply { id = flashCardId }
+        )
+        _screenState.value = EditScreenState.Deleted
     }
 }
 
