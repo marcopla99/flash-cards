@@ -49,14 +49,14 @@ fun EditScreen(
                     contentDescription = frontTextContentDescription
                 },
                 value = viewModel.frontTextState.value.text,
-                onValueChange = {}
+                onValueChange = viewModel::updateFrontText,
             )
             TextField(
                 modifier = modifier.semantics {
                     contentDescription = backTextContentDescription
                 },
                 value = viewModel.backTextState.value.text,
-                onValueChange = {}
+                onValueChange = viewModel::updateBackText
             )
         }
     }

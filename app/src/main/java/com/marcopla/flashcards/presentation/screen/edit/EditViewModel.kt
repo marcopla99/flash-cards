@@ -15,12 +15,12 @@ import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextExcepti
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class EditViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
     private val editFlashCardUseCase: EditFlashCardUseCase,
     private val loadFlashCardUseCase: LoadFlashCardsUseCase,
 ) : ViewModel() {
@@ -32,8 +32,8 @@ class EditViewModel @Inject constructor(
     val frontTextState: State<EditFrontTextState> = _frontTextState
 
     private val _screenState = mutableStateOf<EditScreenState>(EditScreenState.Editing)
-
     val screenState: State<EditScreenState> = _screenState
+
     init {
         val flashCardId: Int = checkNotNull(savedStateHandle[FLASH_CARD_ID_ARG_KEY])
         viewModelScope.launch {
@@ -46,7 +46,10 @@ class EditViewModel @Inject constructor(
     fun attemptSubmit(frontText: String, backText: String) {
         viewModelScope.launch {
             try {
-                editFlashCardUseCase.invoke(FlashCard(frontText, backText))
+                val flashCardId: Int = checkNotNull(savedStateHandle[FLASH_CARD_ID_ARG_KEY])
+                editFlashCardUseCase.invoke(
+                    FlashCard(frontText, backText).apply { id = flashCardId }
+                )
                 _screenState.value = EditScreenState.Success
             } catch (e: DuplicateInsertionException) {
                 _screenState.value = EditScreenState.Error(R.string.duplicateCardError)
@@ -56,6 +59,14 @@ class EditViewModel @Inject constructor(
                 _backTextState.value = _backTextState.value.copy(showError = true)
             }
         }
+    }
+
+    fun updateFrontText(newText: String) {
+        _frontTextState.value = _frontTextState.value.copy(text = newText)
+    }
+
+    fun updateBackText(newText: String) {
+        _backTextState.value = _backTextState.value.copy(text = newText)
     }
 }
 
