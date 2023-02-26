@@ -94,7 +94,7 @@ class EditViewModelTest {
 
         viewModel.attemptSubmit("Engels", "English")
 
-        assertEquals(EditScreenState.Success, viewModel.screenState.value)
+        assertEquals(EditScreenState.Edited, viewModel.screenState.value)
     }
 
     @Test

@@ -88,7 +88,7 @@ private fun HandleScreenState(
                 scaffoldState.snackbarHostState.showSnackbar(errorMessage)
             }
         }
-        is EditScreenState.Success -> {
+        is EditScreenState.Edited -> {
             LaunchedEffect(key1 = screenState) { onFlashCardEdited() }
         }
         is EditScreenState.Initial -> {

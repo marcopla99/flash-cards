@@ -52,7 +52,7 @@ class EditViewModel @Inject constructor(
                 editFlashCardUseCase.invoke(
                     FlashCard(frontText, backText).apply { id = this@EditViewModel.flashCardId }
                 )
-                _screenState.value = EditScreenState.Success
+                _screenState.value = EditScreenState.Edited
             } catch (e: DuplicateInsertionException) {
                 _screenState.value = EditScreenState.Error(R.string.duplicateCardError)
             } catch (e: InvalidFrontTextException) {
@@ -96,6 +96,8 @@ data class EditBackTextState(
 
 sealed interface EditScreenState {
     object Initial : EditScreenState
-    object Success : EditScreenState
+    object Edited : EditScreenState
+    object Deleted : EditScreenState
+
     data class Error(@StringRes val errorStringRes: Int = -1) : EditScreenState
 }
