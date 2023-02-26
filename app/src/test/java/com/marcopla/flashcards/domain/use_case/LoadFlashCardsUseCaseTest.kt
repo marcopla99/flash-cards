@@ -1,7 +1,6 @@
-package com.marcopla.flashcards.domain.use_case.home
+package com.marcopla.flashcards.domain.use_case
 
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.domain.use_case.LoadFlashCardsUseCase
 import com.marcopla.testing_shared.TestFlashCardRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
