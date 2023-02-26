@@ -82,17 +82,17 @@ private fun HandleScreenState(
     onFlashCardEdited: () -> Unit,
 ) {
     when (screenState) {
-        EditScreenState.Editing -> {
-            // TODO
-        }
         is EditScreenState.Error -> {
             val errorMessage = stringResource(id = R.string.duplicateCardError)
             LaunchedEffect(key1 = screenState.errorStringRes) {
                 scaffoldState.snackbarHostState.showSnackbar(errorMessage)
             }
         }
-        EditScreenState.Success -> {
+        is EditScreenState.Success -> {
             LaunchedEffect(key1 = screenState) { onFlashCardEdited() }
+        }
+        is EditScreenState.Initial -> {
+            // Empty
         }
     }
 }
