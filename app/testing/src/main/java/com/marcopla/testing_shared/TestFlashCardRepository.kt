@@ -31,7 +31,7 @@ class TestFlashCardRepository : FlashCardRepository {
         TODO("Not yet implemented")
     }
 
-    override fun delete(flashCard: FlashCard) {
+    override suspend fun delete(flashCard: FlashCard) {
         TODO("Not yet implemented")
     }
 

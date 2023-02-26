@@ -34,7 +34,7 @@ class FlashCardRepositoryImpl(
         return flashCardDao.fetchById(flashCardId)
     }
 
-    override fun delete(flashCard: FlashCard) {
+    override suspend fun delete(flashCard: FlashCard) {
         flashCardDao.delete(flashCard)
     }
 }

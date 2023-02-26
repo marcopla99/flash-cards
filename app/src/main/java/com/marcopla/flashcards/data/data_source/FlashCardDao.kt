@@ -18,5 +18,5 @@ interface FlashCardDao {
     @Query("SELECT * FROM flashCard WHERE id = :flashCardId")
     suspend fun fetchById(flashCardId: Int): FlashCard
     @Delete
-    fun delete(flashCard: FlashCard)
+    suspend fun delete(flashCard: FlashCard)
 }

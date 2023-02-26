@@ -5,7 +5,7 @@ import com.marcopla.flashcards.data.repository.FlashCardRepository
 import javax.inject.Inject
 
 class DeleteUseCase @Inject constructor(private val repository: FlashCardRepository) {
-    fun invoke(flashCard: FlashCard) {
+    suspend fun invoke(flashCard: FlashCard) {
         repository.delete(flashCard)
     }
 }

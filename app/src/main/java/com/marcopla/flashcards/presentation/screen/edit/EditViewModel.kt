@@ -16,8 +16,8 @@ import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextExcepti
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class EditViewModel @Inject constructor(
@@ -74,13 +74,15 @@ class EditViewModel @Inject constructor(
     fun delete() {
         // TODO Consider making it lazy field
         val flashCardId: Int = checkNotNull(savedStateHandle[FLASH_CARD_ID_ARG_KEY])
-        deleteUseCase.invoke(
-            FlashCard(
-                frontTextState.value.text,
-                backTextState.value.text,
-            ).apply { id = flashCardId }
-        )
-        _screenState.value = EditScreenState.Deleted
+        viewModelScope.launch {
+            deleteUseCase.invoke(
+                FlashCard(
+                    frontTextState.value.text,
+                    backTextState.value.text,
+                ).apply { id = flashCardId }
+            )
+            _screenState.value = EditScreenState.Deleted
+        }
     }
 }
 
