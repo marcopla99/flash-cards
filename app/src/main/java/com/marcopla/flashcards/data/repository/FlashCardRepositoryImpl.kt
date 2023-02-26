@@ -33,6 +33,10 @@ class FlashCardRepositoryImpl(
     override suspend fun getFlashCardById(flashCardId: Int): FlashCard {
         return flashCardDao.fetchById(flashCardId)
     }
+
+    override fun delete(flashCard: FlashCard) {
+        flashCardDao.delete(flashCard)
+    }
 }
 
 class DuplicateInsertionException : IllegalStateException()

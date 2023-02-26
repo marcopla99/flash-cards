@@ -13,4 +13,6 @@ interface FlashCardRepository {
     suspend fun edit(flashCard: FlashCard)
 
     suspend fun getFlashCardById(flashCardId: Int): FlashCard
+
+    fun delete(flashCard: FlashCard)
 }
