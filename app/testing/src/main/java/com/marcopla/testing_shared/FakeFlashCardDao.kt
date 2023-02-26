@@ -34,6 +34,6 @@ class FakeFlashCardDao(initialFlashCards: List<FlashCard> = listOf()) : FlashCar
     }
 
     override fun delete(flashCard: FlashCard) {
-        TODO("Not yet implemented")
+        flashCards.remove(flashCard)
     }
 }
