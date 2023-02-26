@@ -27,7 +27,7 @@ class EditScreenTest {
     val composeRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun flashCard_whenIsEdited_andIsAlreadyStored_thenShowDuplicateError() {
+    fun editingFlashCard_whenIsAlreadyStored_thenShowDuplicateError() {
         val selectedFlashCard = FlashCard("Engels", "wrong").apply { id = 0 }
 
         launchEditScreenFor(selectedFlashCard, DuplicateFlashCardRepository(), composeRule) {
