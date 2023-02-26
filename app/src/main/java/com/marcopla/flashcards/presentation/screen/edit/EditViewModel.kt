@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val editFlashCardUseCase: EditFlashCardUseCase,
     private val loadFlashCardUseCase: LoadFlashCardsUseCase,
     private val deleteUseCase: DeleteUseCase,
@@ -36,8 +36,9 @@ class EditViewModel @Inject constructor(
     private val _screenState = mutableStateOf<EditScreenState>(EditScreenState.Initial)
     val screenState: State<EditScreenState> = _screenState
 
+    private val flashCardId: Int by lazy { checkNotNull(savedStateHandle[FLASH_CARD_ID_ARG_KEY]) }
+
     init {
-        val flashCardId: Int = checkNotNull(savedStateHandle[FLASH_CARD_ID_ARG_KEY])
         viewModelScope.launch {
             val flashCard = loadFlashCardUseCase.loadById(flashCardId)
             _frontTextState.value = _frontTextState.value.copy(text = flashCard.frontText)
@@ -48,9 +49,8 @@ class EditViewModel @Inject constructor(
     fun attemptSubmit(frontText: String, backText: String) {
         viewModelScope.launch {
             try {
-                val flashCardId: Int = checkNotNull(savedStateHandle[FLASH_CARD_ID_ARG_KEY])
                 editFlashCardUseCase.invoke(
-                    FlashCard(frontText, backText).apply { id = flashCardId }
+                    FlashCard(frontText, backText).apply { id = this@EditViewModel.flashCardId }
                 )
                 _screenState.value = EditScreenState.Success
             } catch (e: DuplicateInsertionException) {
@@ -72,8 +72,6 @@ class EditViewModel @Inject constructor(
     }
 
     fun delete() {
-        // TODO Consider making it lazy field
-        val flashCardId: Int = checkNotNull(savedStateHandle[FLASH_CARD_ID_ARG_KEY])
         viewModelScope.launch {
             deleteUseCase.invoke(
                 FlashCard(
