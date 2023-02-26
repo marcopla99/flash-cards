@@ -1,7 +1,6 @@
 package com.marcopla.flashcards.presentation.screen.edit
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -11,9 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marcopla.flashcards.R
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun EditScreen(
     modifier: Modifier = Modifier,
@@ -25,6 +26,13 @@ fun EditScreen(
 
     Scaffold(
         scaffoldState = scaffoldState,
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = stringResource(R.string.editScreenTitle))
+                }
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 viewModel.attemptSubmit(
@@ -39,23 +47,28 @@ fun EditScreen(
             }
         }
     ) {
-        Column(modifier.padding(it)) {
-            val backTextContentDescription = stringResource(R.string.backTextField)
+        Column(modifier = modifier.padding(4.dp).consumedWindowInsets(it)) {
             val frontTextContentDescription = stringResource(R.string.frontTextField)
-
-            Text(text = stringResource(id = R.string.editScreenTitle))
             TextField(
-                modifier = modifier.semantics {
+                modifier = modifier.fillMaxWidth().semantics {
                     contentDescription = frontTextContentDescription
                 },
                 value = viewModel.frontTextState.value.text,
+                label = { Text(stringResource(R.string.frontTextFieldLabel)) },
+                isError = viewModel.frontTextState.value.showError,
                 onValueChange = viewModel::updateFrontText,
             )
+
+            Spacer(modifier = modifier.height(8.dp))
+
+            val backTextContentDescription = stringResource(R.string.backTextField)
             TextField(
-                modifier = modifier.semantics {
+                modifier = modifier.fillMaxWidth().semantics {
                     contentDescription = backTextContentDescription
                 },
                 value = viewModel.backTextState.value.text,
+                label = { Text(stringResource(R.string.backTextFieldLabel)) },
+                isError = viewModel.backTextState.value.showError,
                 onValueChange = viewModel::updateBackText
             )
         }
