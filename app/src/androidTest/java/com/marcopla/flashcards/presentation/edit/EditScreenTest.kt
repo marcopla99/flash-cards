@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.testing_shared.DuplicateFlashCardRepository
+import com.marcopla.testing_shared.TestFlashCardRepository
 import org.junit.Rule
 import org.junit.Test
 
@@ -21,6 +22,17 @@ class EditScreenTest {
             submit()
         } verify {
             duplicateErrorIsDisplayed()
+        }
+    }
+
+    @Test
+    fun selectedFlashCard_whenDeleteButtonIsClicked_thenShowDialog() {
+        val selectedFlashCard = FlashCard("Engels", "English").apply { id = 0 }
+
+        launchEditScreenFor(selectedFlashCard, TestFlashCardRepository(), composeRule) {
+            clickDeleteButton()
+        } verify {
+            dialogIsDisplayed()
         }
     }
 }

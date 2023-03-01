@@ -55,6 +55,12 @@ class EditScreenRobot(private val composeRule: ComponentActivityTestRule) {
             .performClick()
     }
 
+    fun clickDeleteButton() {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.deleteFlashCard))
+            .performClick()
+    }
+
     infix fun verify(block: EditScreenVerification.() -> Unit): EditScreenVerification {
         return EditScreenVerification(composeRule).apply(block)
     }
@@ -64,6 +70,12 @@ class EditScreenVerification(private val composeRule: ComponentActivityTestRule)
     fun duplicateErrorIsDisplayed() {
         composeRule
             .onNodeWithText(composeRule.activity.getString(R.string.duplicateCardError))
+            .assertIsDisplayed()
+    }
+
+    fun dialogIsDisplayed() {
+        composeRule
+            .onNodeWithText(composeRule.activity.getString(R.string.confirmDeletionDialogBody))
             .assertIsDisplayed()
     }
 }
