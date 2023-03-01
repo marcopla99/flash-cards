@@ -69,4 +69,17 @@ class NavigationTest {
             homeScreenIsOpen()
         }
     }
+
+    @Test
+    fun editScreen_whenFlashCardIsDeleted_thenGoToHomeScreen() {
+        val flashCard = FlashCard("Engels", "English")
+
+        launchApp(composeRule) {
+            addNewFlashCard(flashCard)
+            clickOnFlashCard(flashCard)
+            delete()
+        } verify {
+            homeScreenIsOpen()
+        }
+    }
 }

@@ -36,7 +36,8 @@ fun launchEditScreenFor(
                     FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
                 ),
                 DeleteUseCase(TestFlashCardRepository()),
-            )
+            ),
+            onFlashCardEdited = {}
         ) {}
     }
     return EditScreenRobot(composeRule).apply(block)
@@ -57,7 +58,9 @@ class EditScreenRobot(private val composeRule: ComponentActivityTestRule) {
 
     fun clickDeleteButton() {
         composeRule
-            .onNodeWithContentDescription(composeRule.activity.getString(R.string.deleteFlashCard))
+            .onNodeWithContentDescription(
+                composeRule.activity.getString(R.string.deleteFlashCardButton)
+            )
             .performClick()
     }
 

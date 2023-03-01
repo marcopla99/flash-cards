@@ -15,7 +15,7 @@
     <string name="editScreenTitle">Edit Flash Card</string>
     <string name="editButton">Edit</string>
     <string name="homeScreenTitle">Home Screen</string>
-    <string name="deleteFlashCard">Delete flash card</string>
+    <string name="deleteFlashCardButton">Delete flash card</string>
     <string name="confirmDeletionDialogBody">Are you sure you want to delete this flash card?</string>
     <string name="confirmDeletionDialogTitle">Delete flash card</string>
     <string name="cancel">Cancel</string>

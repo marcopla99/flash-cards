@@ -21,6 +21,7 @@ fun EditScreen(
     modifier: Modifier = Modifier,
     viewModel: EditViewModel = hiltViewModel(),
     onFlashCardEdited: () -> Unit,
+    onFlashCardDeleted: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     HandleScreenState(viewModel.screenState.value, scaffoldState, onFlashCardEdited)
@@ -38,7 +39,10 @@ fun EditScreen(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Button(
-                        onClick = { showConfirmDialog = false }
+                        onClick = {
+                            showConfirmDialog = false
+                            onFlashCardDeleted()
+                        }
                     ) {
                         Text(stringResource(R.string.ok))
                     }
@@ -63,7 +67,7 @@ fun EditScreen(
                     Icon(
                         modifier = modifier.clickable { showConfirmDialog = true },
                         imageVector = Icons.Default.Delete,
-                        contentDescription = stringResource(id = R.string.deleteFlashCard),
+                        contentDescription = stringResource(id = R.string.deleteFlashCardButton),
                     )
                 }
             )

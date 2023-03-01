@@ -43,9 +43,15 @@ fun AppNavHost(
                 }
             )
         ) {
-            EditScreen(modifier = modifier, onFlashCardEdited = {
-                navController.popBackStack()
-            })
+            EditScreen(
+                modifier = modifier,
+                onFlashCardEdited = {
+                    navController.popBackStack()
+                },
+                onFlashCardDeleted = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }
