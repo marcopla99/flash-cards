@@ -24,7 +24,12 @@ fun EditScreen(
     onFlashCardDeleted: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
-    HandleScreenState(viewModel.screenState.value, scaffoldState, onFlashCardEdited)
+    HandleScreenState(
+        viewModel.screenState.value,
+        scaffoldState,
+        onFlashCardEdited,
+        onFlashCardDeleted
+    )
 
     var showConfirmDialog by remember { mutableStateOf(false) }
 
@@ -41,7 +46,7 @@ fun EditScreen(
                     Button(
                         onClick = {
                             showConfirmDialog = false
-                            onFlashCardDeleted()
+                            viewModel.delete()
                         }
                     ) {
                         Text(stringResource(R.string.ok))
@@ -127,6 +132,7 @@ private fun HandleScreenState(
     screenState: EditScreenState,
     scaffoldState: ScaffoldState,
     onFlashCardEdited: () -> Unit,
+    onFlashCardDeleted: () -> Unit,
 ) {
     when (screenState) {
         is EditScreenState.Error -> {
@@ -141,6 +147,8 @@ private fun HandleScreenState(
         is EditScreenState.Initial -> {
             // Empty
         }
-        EditScreenState.Deleted -> TODO()
+        EditScreenState.Deleted -> {
+            onFlashCardDeleted()
+        }
     }
 }

@@ -49,7 +49,7 @@ fun AppNavHost(
                     navController.popBackStack()
                 },
                 onFlashCardDeleted = {
-                    navController.popBackStack()
+                    navController.popBackStack(Routes.HOME_SCREEN, false)
                 }
             )
         }
