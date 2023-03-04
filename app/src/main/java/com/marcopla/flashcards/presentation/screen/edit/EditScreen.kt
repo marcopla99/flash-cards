@@ -28,14 +28,15 @@ fun EditScreen(
         viewModel.screenState.value,
         scaffoldState,
         onFlashCardEdited,
-        onFlashCardDeleted
+        onFlashCardDeleted = {
+            viewModel.hideDeleteConfirmationDialog()
+            onFlashCardDeleted()
+        }
     )
 
-    var showConfirmDialog by remember { mutableStateOf(false) }
-
-    if (showConfirmDialog) {
+    if (viewModel.shouldShowDeleteConfirmation.value) {
         AlertDialog(
-            onDismissRequest = { showConfirmDialog = false },
+            onDismissRequest = { viewModel.hideDeleteConfirmationDialog() },
             title = { Text(text = stringResource(id = R.string.confirmDeletionDialogTitle)) },
             text = { Text(text = stringResource(id = R.string.confirmDeletionDialogBody)) },
             buttons = {
@@ -45,14 +46,13 @@ fun EditScreen(
                 ) {
                     Button(
                         onClick = {
-                            showConfirmDialog = false
                             viewModel.delete()
                         }
                     ) {
                         Text(stringResource(R.string.ok))
                     }
                     Button(
-                        onClick = { showConfirmDialog = false }
+                        onClick = { viewModel.hideDeleteConfirmationDialog() }
                     ) {
                         Text(stringResource(R.string.cancel))
                     }
@@ -70,7 +70,7 @@ fun EditScreen(
                 },
                 actions = {
                     Icon(
-                        modifier = modifier.clickable { showConfirmDialog = true },
+                        modifier = modifier.clickable { viewModel.showDeleteConfirmationDialog() },
                         imageVector = Icons.Default.Delete,
                         contentDescription = stringResource(id = R.string.deleteFlashCardButton),
                     )

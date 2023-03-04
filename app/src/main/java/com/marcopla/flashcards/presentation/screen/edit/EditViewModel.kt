@@ -36,6 +36,9 @@ class EditViewModel @Inject constructor(
     private val _screenState = mutableStateOf<EditScreenState>(EditScreenState.Initial)
     val screenState: State<EditScreenState> = _screenState
 
+    private val _shouldShowDeleteConfirmation = mutableStateOf(false)
+    val shouldShowDeleteConfirmation = _shouldShowDeleteConfirmation
+
     private val flashCardId: Int by lazy { checkNotNull(savedStateHandle[FLASH_CARD_ID_ARG_KEY]) }
 
     init {
@@ -81,6 +84,14 @@ class EditViewModel @Inject constructor(
             )
             _screenState.value = EditScreenState.Deleted
         }
+    }
+
+    fun hideDeleteConfirmationDialog() {
+        _shouldShowDeleteConfirmation.value = false
+    }
+
+    fun showDeleteConfirmationDialog() {
+        _shouldShowDeleteConfirmation.value = true
     }
 }
 
