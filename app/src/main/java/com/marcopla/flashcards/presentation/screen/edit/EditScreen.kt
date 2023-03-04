@@ -35,29 +35,11 @@ fun EditScreen(
     )
 
     if (viewModel.shouldShowDeleteConfirmation.value) {
-        AlertDialog(
+        DeleteConfirmationDialog(
+            modifier = modifier,
+            onConfirmationClick = { viewModel.delete() },
+            onCancelClick = { viewModel.hideDeleteConfirmationDialog() },
             onDismissRequest = { viewModel.hideDeleteConfirmationDialog() },
-            title = { Text(text = stringResource(id = R.string.confirmDeletionDialogTitle)) },
-            text = { Text(text = stringResource(id = R.string.confirmDeletionDialogBody)) },
-            buttons = {
-                Row(
-                    modifier = modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Button(
-                        onClick = {
-                            viewModel.delete()
-                        }
-                    ) {
-                        Text(stringResource(R.string.ok))
-                    }
-                    Button(
-                        onClick = { viewModel.hideDeleteConfirmationDialog() }
-                    ) {
-                        Text(stringResource(R.string.cancel))
-                    }
-                }
-            },
         )
     }
 
@@ -151,4 +133,35 @@ private fun HandleScreenState(
             onFlashCardDeleted()
         }
     }
+}
+
+@Composable
+private fun DeleteConfirmationDialog(
+    modifier: Modifier = Modifier,
+    onConfirmationClick: () -> Unit,
+    onCancelClick: () -> Unit,
+    onDismissRequest: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = { Text(text = stringResource(id = R.string.confirmDeletionDialogTitle)) },
+        text = { Text(text = stringResource(id = R.string.confirmDeletionDialogBody)) },
+        buttons = {
+            Row(
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Button(
+                    onClick = onConfirmationClick
+                ) {
+                    Text(stringResource(R.string.ok))
+                }
+                Button(
+                    onClick = onCancelClick
+                ) {
+                    Text(stringResource(R.string.cancel))
+                }
+            }
+        },
+    )
 }
