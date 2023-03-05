@@ -33,7 +33,7 @@ class FakeFlashCardDao(initialFlashCards: List<FlashCard> = listOf()) : FlashCar
         return flashCards.first { it.id == flashCardId }
     }
 
-    override suspend fun delete(flashCard: FlashCard) {
-        flashCards.remove(flashCard)
+    override suspend fun deleteById(flashCardId: Int) {
+        flashCards.find { it.id == flashCardId }?.let { flashCards.remove(it) }
     }
 }

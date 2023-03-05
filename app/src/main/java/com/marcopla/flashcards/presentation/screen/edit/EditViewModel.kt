@@ -78,12 +78,7 @@ class EditViewModel @Inject constructor(
 
     fun delete() {
         viewModelScope.launch {
-            deleteUseCase.invoke(
-                FlashCard(
-                    frontTextState.value.text,
-                    backTextState.value.text,
-                ).apply { id = flashCardId }
-            )
+            deleteUseCase.invoke(flashCardId)
             _screenState.value = EditScreenState.Deleted
         }
     }

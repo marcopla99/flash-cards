@@ -13,11 +13,14 @@ import org.junit.jupiter.api.Test
 class DeleteUseCaseTest {
     @Test
     fun singleFlashCardStored_whenDeleteUseCaseIsInvoked_thenRetrieveEmptyData() = runTest {
-        val flashCard = FlashCard("Engels", "English")
+        val flashCardId = 0
+        val flashCard = FlashCard("Engels", "English").apply {
+            id = flashCardId
+        }
         val repository = FlashCardRepositoryImpl(FakeFlashCardDao(listOf(flashCard)))
         val deleteUseCase = DeleteUseCase(repository)
 
-        deleteUseCase.invoke(flashCard)
+        deleteUseCase.invoke(flashCardId)
 
         val fetchedFlashCards = repository.getFlashCards().first()
         assertEquals(emptyList<FlashCard>(), fetchedFlashCards)

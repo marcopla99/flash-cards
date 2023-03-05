@@ -5,7 +5,6 @@ import com.marcopla.flashcards.data.repository.DuplicateInsertionException
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -14,6 +13,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
@@ -113,7 +113,7 @@ class FlashCardRepositoryTest {
         }
         val flashCardWithGeneratedId = repository.getFlashCards().first()[0]
 
-        repository.delete(flashCardWithGeneratedId)
+        repository.deleteById(flashCardWithGeneratedId.id)
 
         val fetchedFlashCards = repository.getFlashCards().first()
         assertEquals(emptyList<FlashCard>(), fetchedFlashCards)
