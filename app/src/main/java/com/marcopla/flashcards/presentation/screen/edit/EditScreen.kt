@@ -54,7 +54,7 @@ fun EditScreen(
                 actions = {
                     if (viewModel.screenState.value == EditScreenState.Editing) {
                         Icon(
-                            modifier = modifier.clickable { TODO() },
+                            modifier = modifier.clickable(onClick = viewModel::reset),
                             imageVector = Icons.Default.Refresh,
                             contentDescription = stringResource(id = R.string.resetButton)
                         )
@@ -64,7 +64,7 @@ fun EditScreen(
                                 viewModel.showDeleteConfirmationDialog()
                             },
                             imageVector = Icons.Default.Delete,
-                            contentDescription = stringResource(R.string.deleteFlashCardButton),
+                            contentDescription = stringResource(R.string.deleteButton),
                         )
                     }
                 }

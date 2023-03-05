@@ -75,7 +75,7 @@ class NavigationRobot(
     fun delete() {
         composeRule
             .onNodeWithContentDescription(
-                composeRule.activity.getString(R.string.deleteFlashCardButton)
+                composeRule.activity.getString(R.string.deleteButton)
             )
             .performClick()
         composeRule.onNodeWithText(composeRule.activity.getString(R.string.ok)).performClick()

@@ -16,8 +16,8 @@ import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextExcepti
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class EditViewModel @Inject constructor(
@@ -94,6 +94,21 @@ class EditViewModel @Inject constructor(
 
     fun showDeleteConfirmationDialog() {
         _shouldShowDeleteConfirmation.value = true
+    }
+
+    fun reset() {
+        viewModelScope.launch {
+            val originalFlashCard = loadFlashCardUseCase.loadById(flashCardId)
+            _frontTextState.value = _frontTextState.value.copy(
+                text = originalFlashCard.frontText,
+                showError = false,
+            )
+            _backTextState.value = _backTextState.value.copy(
+                text = originalFlashCard.backText,
+                showError = false,
+            )
+            _screenState.value = EditScreenState.Initial
+        }
     }
 }
 

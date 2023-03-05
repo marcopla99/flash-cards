@@ -44,6 +44,10 @@ fun launchEditScreenFor(
 }
 
 class EditScreenRobot(private val composeRule: ComponentActivityTestRule) {
+    infix fun verify(block: EditScreenVerification.() -> Unit): EditScreenVerification {
+        return EditScreenVerification(composeRule).apply(block)
+    }
+
     fun editBackText(newText: String) {
         composeRule
             .onNodeWithContentDescription(composeRule.activity.getString(R.string.backTextField))
@@ -59,13 +63,21 @@ class EditScreenRobot(private val composeRule: ComponentActivityTestRule) {
     fun clickDeleteButton() {
         composeRule
             .onNodeWithContentDescription(
-                composeRule.activity.getString(R.string.deleteFlashCardButton)
+                composeRule.activity.getString(R.string.deleteButton)
             )
             .performClick()
     }
 
-    infix fun verify(block: EditScreenVerification.() -> Unit): EditScreenVerification {
-        return EditScreenVerification(composeRule).apply(block)
+    fun editFrontText(newText: String) {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.frontTextField))
+            .performTextInput(newText)
+    }
+
+    fun clickResetButton() {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.resetButton))
+            .performClick()
     }
 }
 
@@ -85,7 +97,7 @@ class EditScreenVerification(private val composeRule: ComponentActivityTestRule)
     fun deleteButtonIsNotDisplayed() {
         composeRule
             .onNodeWithContentDescription(
-                composeRule.activity.getString(R.string.deleteFlashCardButton),
+                composeRule.activity.getString(R.string.deleteButton),
             )
             .assertDoesNotExist()
     }
@@ -94,5 +106,22 @@ class EditScreenVerification(private val composeRule: ComponentActivityTestRule)
         composeRule
             .onNodeWithContentDescription(composeRule.activity.getString(R.string.resetButton))
             .assertIsDisplayed()
+    }
+
+    fun deleteButtonIsDisplayed() {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.deleteButton))
+            .assertIsDisplayed()
+    }
+
+    fun resetButtonIsNotDisplayed() {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.resetButton))
+            .assertDoesNotExist()
+    }
+
+    fun originalTextFieldsAreDisplayed(frontText: String, backText: String) {
+        composeRule.onNodeWithText(frontText).assertIsDisplayed()
+        composeRule.onNodeWithText(backText).assertIsDisplayed()
     }
 }

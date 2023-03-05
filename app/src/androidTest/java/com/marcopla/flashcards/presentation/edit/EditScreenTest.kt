@@ -45,4 +45,19 @@ class EditScreenTest {
             resetButtonIsDisplayed()
         }
     }
+
+    @Test
+    fun selectedFlashCard_whenClickingResetButton_thenShowOriginalTextFields() {
+
+        val originalFlashCard = FlashCard("Engels", "English").apply { id = 0 }
+        launchEditScreenFor(originalFlashCard, TestFlashCardRepository(), composeRule) {
+            editFrontText("wrong")
+            editBackText("wrong")
+            clickResetButton()
+        } verify {
+            deleteButtonIsDisplayed()
+            resetButtonIsNotDisplayed()
+            originalTextFieldsAreDisplayed(originalFlashCard.frontText, originalFlashCard.backText)
+        }
+    }
 }
