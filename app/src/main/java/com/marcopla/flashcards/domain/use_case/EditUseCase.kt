@@ -15,13 +15,14 @@ class EditUseCase @Inject constructor(
         InvalidBackTextException::class,
         DuplicateInsertionException::class,
     )
-    suspend fun invoke(flashCard: FlashCard) {
-        if (flashCard.frontText.isBlank()) {
+    suspend fun invoke(frontText: String, backText: String, flashCardId: Int) {
+        if (frontText.isBlank()) {
             throw InvalidFrontTextException()
         }
-        if (flashCard.backText.isBlank()) {
+        if (backText.isBlank()) {
             throw InvalidBackTextException()
         }
-        flashCardRepository.edit(flashCard)
+        val editedFlashCard = FlashCard(frontText, backText).apply { id = flashCardId }
+        flashCardRepository.edit(editedFlashCard)
     }
 }

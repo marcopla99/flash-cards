@@ -24,7 +24,7 @@ class EditUseCaseTest {
         val editUseCase = EditUseCase(repository)
 
         assertThrows(InvalidFrontTextException::class.java) {
-            runBlocking { editUseCase.invoke(FlashCard(blankFrontText, ":backText:")) }
+            runBlocking { editUseCase.invoke(blankFrontText, ":backText:", 0) }
         }
 
         assertEquals(emptyList<FlashCard>(), repository.getFlashCards().first())
@@ -37,7 +37,7 @@ class EditUseCaseTest {
         val editUseCase = EditUseCase(repository)
 
         assertThrows(InvalidBackTextException::class.java) {
-            runBlocking { editUseCase.invoke(FlashCard(":frontText:", blankBackText)) }
+            runBlocking { editUseCase.invoke(":frontText:", blankBackText, 0) }
         }
 
         assertEquals(emptyList<FlashCard>(), repository.getFlashCards().first())
@@ -61,7 +61,7 @@ class EditUseCaseTest {
         val editedFlashCard = FlashCard(frontText = "Nederlands", backText = "Dutch").apply {
             id = 1
         }
-        editUseCase.invoke(editedFlashCard)
+        editUseCase.invoke(editedFlashCard.frontText, editedFlashCard.backText, editedFlashCard.id)
 
         assertEquals(
             listOf(editedFlashCard, otherFlashCard),

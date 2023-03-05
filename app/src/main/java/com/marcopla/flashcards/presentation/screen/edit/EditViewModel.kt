@@ -7,7 +7,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.R
-import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
 import com.marcopla.flashcards.domain.use_case.DeleteUseCase
 import com.marcopla.flashcards.domain.use_case.EditUseCase
@@ -52,9 +51,7 @@ class EditViewModel @Inject constructor(
     fun attemptSubmit(frontText: String, backText: String) {
         viewModelScope.launch {
             try {
-                editUseCase.invoke(
-                    FlashCard(frontText, backText).apply { id = this@EditViewModel.flashCardId }
-                )
+                editUseCase.invoke(frontText, backText, flashCardId)
                 _screenState.value = EditScreenState.Edited
             } catch (e: DuplicateInsertionException) {
                 _screenState.value = EditScreenState.Error(R.string.duplicateCardError)
