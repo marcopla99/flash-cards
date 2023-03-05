@@ -44,8 +44,6 @@ fun EditScreen(
         )
     }
 
-    var isEditing by remember { mutableStateOf(false) }
-
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -54,7 +52,7 @@ fun EditScreen(
                     Text(text = stringResource(R.string.editScreenTitle))
                 },
                 actions = {
-                    if (isEditing) {
+                    if (viewModel.screenState.value == EditScreenState.Editing) {
                         Icon(
                             modifier = modifier.clickable { TODO() },
                             imageVector = Icons.Default.Refresh,
@@ -105,10 +103,7 @@ fun EditScreen(
                 value = viewModel.frontTextState.value.text,
                 label = { Text(stringResource(R.string.frontTextFieldLabel)) },
                 isError = viewModel.frontTextState.value.showError,
-                onValueChange = {
-                    isEditing = true
-                    viewModel.updateFrontText(it)
-                },
+                onValueChange = viewModel::updateFrontText,
             )
 
             Spacer(modifier = modifier.height(8.dp))
@@ -123,10 +118,7 @@ fun EditScreen(
                 value = viewModel.backTextState.value.text,
                 label = { Text(stringResource(R.string.backTextFieldLabel)) },
                 isError = viewModel.backTextState.value.showError,
-                onValueChange = {
-                    isEditing = true
-                    viewModel.updateBackText(it)
-                }
+                onValueChange = viewModel::updateBackText
             )
         }
     }
@@ -149,11 +141,11 @@ private fun HandleScreenState(
         is EditScreenState.Edited -> {
             LaunchedEffect(key1 = screenState) { onFlashCardEdited() }
         }
-        is EditScreenState.Initial -> {
-            // Empty
-        }
-        EditScreenState.Deleted -> {
+        is EditScreenState.Deleted -> {
             onFlashCardDeleted()
+        }
+        else -> {
+            // Empty
         }
     }
 }

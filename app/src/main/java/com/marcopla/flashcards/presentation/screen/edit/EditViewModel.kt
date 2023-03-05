@@ -16,8 +16,8 @@ import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextExcepti
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class EditViewModel @Inject constructor(
@@ -67,10 +67,12 @@ class EditViewModel @Inject constructor(
     }
 
     fun updateFrontText(newText: String) {
+        _screenState.value = EditScreenState.Editing
         _frontTextState.value = _frontTextState.value.copy(text = newText, showError = false)
     }
 
     fun updateBackText(newText: String) {
+        _screenState.value = EditScreenState.Editing
         _backTextState.value = _backTextState.value.copy(text = newText, showError = false)
     }
 
@@ -109,5 +111,6 @@ sealed interface EditScreenState {
     object Initial : EditScreenState
     object Edited : EditScreenState
     object Deleted : EditScreenState
+    object Editing : EditScreenState
     data class Error(@StringRes val errorStringRes: Int = -1) : EditScreenState
 }
