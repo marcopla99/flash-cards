@@ -41,7 +41,7 @@ class EditViewModel @Inject constructor(
 
     private val flashCardId: Int by lazy { checkNotNull(savedStateHandle[FLASH_CARD_ID_ARG_KEY]) }
 
-    init {
+    fun initState() {
         viewModelScope.launch {
             val flashCard = loadFlashCardUseCase.loadById(flashCardId)
             _frontTextState.value = _frontTextState.value.copy(text = flashCard.frontText)
@@ -109,6 +109,5 @@ sealed interface EditScreenState {
     object Initial : EditScreenState
     object Edited : EditScreenState
     object Deleted : EditScreenState
-
     data class Error(@StringRes val errorStringRes: Int = -1) : EditScreenState
 }

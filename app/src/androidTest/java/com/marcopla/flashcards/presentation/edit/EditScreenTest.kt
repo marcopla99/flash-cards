@@ -17,8 +17,6 @@ class EditScreenTest {
         val selectedFlashCard = FlashCard("Engels", "wrong").apply { id = 0 }
 
         launchEditScreenFor(selectedFlashCard, DuplicateFlashCardRepository(), composeRule) {
-            // FIXME: This makes the test composable recomposing infinitely. https://stackoverflow.com/questions/75571664/updating-textfield-with-data-class-as-state-throws-composenotidleexception-in-ui
-//            editBackText("English")
             submit()
         } verify {
             duplicateErrorIsDisplayed()
@@ -33,6 +31,18 @@ class EditScreenTest {
             clickDeleteButton()
         } verify {
             dialogIsDisplayed()
+        }
+    }
+
+    @Test
+    fun selectedFlashCard_whenEditing_thenReplaceDeleteButtonWithResetButton() {
+        val selectedFlashCard = FlashCard("Engels", "Dutch").apply { id = 0 }
+
+        launchEditScreenFor(selectedFlashCard, TestFlashCardRepository(), composeRule) {
+            editBackText("English")
+        } verify {
+            deleteButtonIsNotDisplayed()
+            resetButtonIsDisplayed()
         }
     }
 }

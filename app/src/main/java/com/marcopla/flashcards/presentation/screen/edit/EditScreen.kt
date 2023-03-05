@@ -6,6 +6,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -43,6 +44,8 @@ fun EditScreen(
         )
     }
 
+    var isEditing by remember { mutableStateOf(false) }
+
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -51,11 +54,21 @@ fun EditScreen(
                     Text(text = stringResource(R.string.editScreenTitle))
                 },
                 actions = {
-                    Icon(
-                        modifier = modifier.clickable { viewModel.showDeleteConfirmationDialog() },
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = stringResource(id = R.string.deleteFlashCardButton),
-                    )
+                    if (isEditing) {
+                        Icon(
+                            modifier = modifier.clickable { TODO() },
+                            imageVector = Icons.Default.Refresh,
+                            contentDescription = stringResource(id = R.string.resetButton)
+                        )
+                    } else {
+                        Icon(
+                            modifier = modifier.clickable {
+                                viewModel.showDeleteConfirmationDialog()
+                            },
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = stringResource(R.string.deleteFlashCardButton),
+                        )
+                    }
                 }
             )
         },
@@ -73,6 +86,10 @@ fun EditScreen(
             }
         }
     ) {
+        LaunchedEffect(key1 = Unit) {
+            viewModel.initState()
+        }
+
         Column(
             modifier = modifier
                 .padding(4.dp)
@@ -88,7 +105,10 @@ fun EditScreen(
                 value = viewModel.frontTextState.value.text,
                 label = { Text(stringResource(R.string.frontTextFieldLabel)) },
                 isError = viewModel.frontTextState.value.showError,
-                onValueChange = viewModel::updateFrontText,
+                onValueChange = {
+                    isEditing = true
+                    viewModel.updateFrontText(it)
+                },
             )
 
             Spacer(modifier = modifier.height(8.dp))
@@ -103,7 +123,10 @@ fun EditScreen(
                 value = viewModel.backTextState.value.text,
                 label = { Text(stringResource(R.string.backTextFieldLabel)) },
                 isError = viewModel.backTextState.value.showError,
-                onValueChange = viewModel::updateBackText
+                onValueChange = {
+                    isEditing = true
+                    viewModel.updateBackText(it)
+                }
             )
         }
     }

@@ -81,4 +81,18 @@ class EditScreenVerification(private val composeRule: ComponentActivityTestRule)
             .onNodeWithText(composeRule.activity.getString(R.string.confirmDeletionDialogBody))
             .assertIsDisplayed()
     }
+
+    fun deleteButtonIsNotDisplayed() {
+        composeRule
+            .onNodeWithContentDescription(
+                composeRule.activity.getString(R.string.deleteFlashCardButton),
+            )
+            .assertDoesNotExist()
+    }
+
+    fun resetButtonIsDisplayed() {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.resetButton))
+            .assertIsDisplayed()
+    }
 }

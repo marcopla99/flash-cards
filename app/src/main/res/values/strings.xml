@@ -20,4 +20,5 @@
     <string name="confirmDeletionDialogTitle">Delete flash card</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="resetButton">Reset fields</string>
 </resources>
