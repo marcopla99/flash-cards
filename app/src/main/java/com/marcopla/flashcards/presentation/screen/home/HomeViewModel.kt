@@ -3,14 +3,14 @@ package com.marcopla.flashcards.presentation.screen.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.domain.use_case.LoadFlashCardsUseCase
+import com.marcopla.flashcards.domain.use_case.LoadUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val loadFlashCardsUseCase: LoadFlashCardsUseCase,
+    private val loadUseCase: LoadUseCase,
 ) : ViewModel() {
     val homeScreenState: StateFlow<HomeScreenState> = loadCardsStateStream().stateIn(
         scope = viewModelScope,
@@ -19,7 +19,7 @@ class HomeViewModel @Inject constructor(
     )
 
     private fun loadCardsStateStream(): Flow<HomeScreenState> {
-        return loadFlashCardsUseCase.loadAll().map {
+        return loadUseCase.loadAll().map {
             if (it.isEmpty()) {
                 HomeScreenState.Empty
             } else {

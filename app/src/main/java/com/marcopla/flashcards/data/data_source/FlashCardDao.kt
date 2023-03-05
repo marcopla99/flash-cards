@@ -1,9 +1,6 @@
 package com.marcopla.flashcards.data.data_source
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.marcopla.flashcards.data.model.FlashCard
 import kotlinx.coroutines.flow.Flow
 
@@ -20,4 +17,6 @@ interface FlashCardDao {
 
     @Query("SELECT * FROM flashCard WHERE id = :flashCardId")
     suspend fun fetchById(flashCardId: Int): FlashCard
+    @Query("DELETE FROM flashCard WHERE id = :flashCardId")
+    suspend fun deleteById(flashCardId: Int)
 }

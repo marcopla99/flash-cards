@@ -15,12 +15,48 @@ class EditScreenTest {
     fun editingFlashCard_whenIsAlreadyStored_thenShowDuplicateError() {
         val selectedFlashCard = FlashCard("Engels", "wrong").apply { id = 0 }
 
-        launchEditScreenFor(selectedFlashCard, DuplicateFlashCardRepository(), composeRule) {
-            // FIXME: This makes the test composable recomposing infinitely. https://stackoverflow.com/questions/75571664/updating-textfield-with-data-class-as-state-throws-composenotidleexception-in-ui
-//            editBackText("English")
+        launchEditScreenFor(selectedFlashCard, composeRule, DuplicateFlashCardRepository(),) {
             submit()
         } verify {
             duplicateErrorIsDisplayed()
+        }
+    }
+
+    @Test
+    fun selectedFlashCard_whenDeleteButtonIsClicked_thenShowDialog() {
+        val selectedFlashCard = FlashCard("Engels", "English").apply { id = 0 }
+
+        launchEditScreenFor(selectedFlashCard, composeRule) {
+            clickDeleteButton()
+        } verify {
+            dialogIsDisplayed()
+        }
+    }
+
+    @Test
+    fun selectedFlashCard_whenEditing_thenReplaceDeleteButtonWithResetButton() {
+        val selectedFlashCard = FlashCard("Engels", "Dutch").apply { id = 0 }
+
+        launchEditScreenFor(selectedFlashCard, composeRule) {
+            editBackText("English")
+        } verify {
+            deleteButtonIsNotDisplayed()
+            resetButtonIsDisplayed()
+        }
+    }
+
+    @Test
+    fun selectedFlashCard_whenClickingResetButton_thenShowOriginalTextFields() {
+
+        val originalFlashCard = FlashCard("Engels", "English").apply { id = 0 }
+        launchEditScreenFor(originalFlashCard, composeRule) {
+            editFrontText("wrong")
+            editBackText("wrong")
+            clickResetButton()
+        } verify {
+            deleteButtonIsDisplayed()
+            resetButtonIsNotDisplayed()
+            originalTextFieldsAreDisplayed(originalFlashCard.frontText, originalFlashCard.backText)
         }
     }
 }

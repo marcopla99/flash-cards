@@ -7,22 +7,23 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.R
-import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
-import com.marcopla.flashcards.domain.use_case.EditFlashCardUseCase
-import com.marcopla.flashcards.domain.use_case.LoadFlashCardsUseCase
+import com.marcopla.flashcards.domain.use_case.DeleteUseCase
+import com.marcopla.flashcards.domain.use_case.EditUseCase
+import com.marcopla.flashcards.domain.use_case.LoadUseCase
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextException
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class EditViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
-    private val editFlashCardUseCase: EditFlashCardUseCase,
-    private val loadFlashCardUseCase: LoadFlashCardsUseCase,
+    savedStateHandle: SavedStateHandle,
+    private val editUseCase: EditUseCase,
+    private val loadFlashCardUseCase: LoadUseCase,
+    private val deleteUseCase: DeleteUseCase,
 ) : ViewModel() {
 
     private val _backTextState = mutableStateOf(EditBackTextState())
@@ -34,8 +35,12 @@ class EditViewModel @Inject constructor(
     private val _screenState = mutableStateOf<EditScreenState>(EditScreenState.Initial)
     val screenState: State<EditScreenState> = _screenState
 
-    init {
-        val flashCardId: Int = checkNotNull(savedStateHandle[FLASH_CARD_ID_ARG_KEY])
+    private val _shouldShowDeleteConfirmation = mutableStateOf(false)
+    val shouldShowDeleteConfirmation = _shouldShowDeleteConfirmation
+
+    private val flashCardId: Int by lazy { checkNotNull(savedStateHandle[FLASH_CARD_ID_ARG_KEY]) }
+
+    fun initState() {
         viewModelScope.launch {
             val flashCard = loadFlashCardUseCase.loadById(flashCardId)
             _frontTextState.value = _frontTextState.value.copy(text = flashCard.frontText)
@@ -46,11 +51,8 @@ class EditViewModel @Inject constructor(
     fun attemptSubmit(frontText: String, backText: String) {
         viewModelScope.launch {
             try {
-                val flashCardId: Int = checkNotNull(savedStateHandle[FLASH_CARD_ID_ARG_KEY])
-                editFlashCardUseCase.invoke(
-                    FlashCard(frontText, backText).apply { id = flashCardId }
-                )
-                _screenState.value = EditScreenState.Success
+                editUseCase.invoke(frontText, backText, flashCardId)
+                _screenState.value = EditScreenState.Edited
             } catch (e: DuplicateInsertionException) {
                 _screenState.value = EditScreenState.Error(R.string.duplicateCardError)
             } catch (e: InvalidFrontTextException) {
@@ -62,11 +64,43 @@ class EditViewModel @Inject constructor(
     }
 
     fun updateFrontText(newText: String) {
+        _screenState.value = EditScreenState.Editing
         _frontTextState.value = _frontTextState.value.copy(text = newText, showError = false)
     }
 
     fun updateBackText(newText: String) {
+        _screenState.value = EditScreenState.Editing
         _backTextState.value = _backTextState.value.copy(text = newText, showError = false)
+    }
+
+    fun delete() {
+        viewModelScope.launch {
+            deleteUseCase.invoke(flashCardId)
+            _screenState.value = EditScreenState.Deleted
+        }
+    }
+
+    fun hideDeleteConfirmationDialog() {
+        _shouldShowDeleteConfirmation.value = false
+    }
+
+    fun showDeleteConfirmationDialog() {
+        _shouldShowDeleteConfirmation.value = true
+    }
+
+    fun reset() {
+        viewModelScope.launch {
+            val originalFlashCard = loadFlashCardUseCase.loadById(flashCardId)
+            _frontTextState.value = _frontTextState.value.copy(
+                text = originalFlashCard.frontText,
+                showError = false,
+            )
+            _backTextState.value = _backTextState.value.copy(
+                text = originalFlashCard.backText,
+                showError = false,
+            )
+            _screenState.value = EditScreenState.Initial
+        }
     }
 }
 
@@ -82,6 +116,8 @@ data class EditBackTextState(
 
 sealed interface EditScreenState {
     object Initial : EditScreenState
-    object Success : EditScreenState
+    object Edited : EditScreenState
+    object Deleted : EditScreenState
+    object Editing : EditScreenState
     data class Error(@StringRes val errorStringRes: Int = -1) : EditScreenState
 }

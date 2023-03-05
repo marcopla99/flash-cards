@@ -1,8 +1,7 @@
-package com.marcopla.flashcards.domain.use_case.edit
+package com.marcopla.flashcards.domain.use_case
 
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
-import com.marcopla.flashcards.domain.use_case.EditFlashCardUseCase
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextException
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import com.marcopla.testing_shared.FakeFlashCardDao
@@ -17,15 +16,15 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class EditFlashCardUseCaseTest {
+class EditUseCaseTest {
     @ParameterizedTest
     @ValueSource(strings = ["", " ", "  "])
     fun frontText_whenIsBlank_thenFlashCardIsNotInserted(blankFrontText: String) = runTest {
         val repository = FlashCardRepositoryImpl(FakeFlashCardDao())
-        val editFlashCardUseCase = EditFlashCardUseCase(repository)
+        val editUseCase = EditUseCase(repository)
 
         assertThrows(InvalidFrontTextException::class.java) {
-            runBlocking { editFlashCardUseCase.invoke(FlashCard(blankFrontText, ":backText:")) }
+            runBlocking { editUseCase.invoke(blankFrontText, ":backText:", 0) }
         }
 
         assertEquals(emptyList<FlashCard>(), repository.getFlashCards().first())
@@ -35,10 +34,10 @@ class EditFlashCardUseCaseTest {
     @ValueSource(strings = ["", " ", "  "])
     fun backText_whenIsBlank_thenFlashCardIsNotInserted(blankBackText: String) = runTest {
         val repository = FlashCardRepositoryImpl(FakeFlashCardDao())
-        val editFlashCardUseCase = EditFlashCardUseCase(repository)
+        val editUseCase = EditUseCase(repository)
 
         assertThrows(InvalidBackTextException::class.java) {
-            runBlocking { editFlashCardUseCase.invoke(FlashCard(":frontText:", blankBackText)) }
+            runBlocking { editUseCase.invoke(":frontText:", blankBackText, 0) }
         }
 
         assertEquals(emptyList<FlashCard>(), repository.getFlashCards().first())
@@ -57,12 +56,12 @@ class EditFlashCardUseCaseTest {
                 listOf(flashCardToEdit, otherFlashCard)
             )
         )
-        val editFlashCardUseCase = EditFlashCardUseCase(repository)
+        val editUseCase = EditUseCase(repository)
 
         val editedFlashCard = FlashCard(frontText = "Nederlands", backText = "Dutch").apply {
             id = 1
         }
-        editFlashCardUseCase.invoke(editedFlashCard)
+        editUseCase.invoke(editedFlashCard.frontText, editedFlashCard.backText, editedFlashCard.id)
 
         assertEquals(
             listOf(editedFlashCard, otherFlashCard),

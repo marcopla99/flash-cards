@@ -71,6 +71,15 @@ class NavigationRobot(
             .onNodeWithContentDescription(composeRule.activity.getString(R.string.editButton))
             .performClick()
     }
+
+    fun delete() {
+        composeRule
+            .onNodeWithContentDescription(
+                composeRule.activity.getString(R.string.deleteButton)
+            )
+            .performClick()
+        composeRule.onNodeWithText(composeRule.activity.getString(R.string.ok)).performClick()
+    }
 }
 
 class NavigationVerification(

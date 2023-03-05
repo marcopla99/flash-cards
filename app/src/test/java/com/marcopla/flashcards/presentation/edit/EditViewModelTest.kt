@@ -5,8 +5,9 @@ import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
-import com.marcopla.flashcards.domain.use_case.EditFlashCardUseCase
-import com.marcopla.flashcards.domain.use_case.LoadFlashCardsUseCase
+import com.marcopla.flashcards.domain.use_case.DeleteUseCase
+import com.marcopla.flashcards.domain.use_case.EditUseCase
+import com.marcopla.flashcards.domain.use_case.LoadUseCase
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
 import com.marcopla.flashcards.presentation.screen.edit.*
 import com.marcopla.testing_shared.DuplicateFlashCardRepository
@@ -32,10 +33,11 @@ class EditViewModelTest {
     fun frontText_whenIsBlank_thenShowError(blankFrontText: String) {
         val viewModel = EditViewModel(
             SavedStateHandle(mapOf(FLASH_CARD_ID_ARG_KEY to selectedFlashCard.id)),
-            EditFlashCardUseCase(TestFlashCardRepository()),
-            LoadFlashCardsUseCase(
+            EditUseCase(TestFlashCardRepository()),
+            LoadUseCase(
                 FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
             ),
+            DeleteUseCase(TestFlashCardRepository()),
         )
 
         viewModel.attemptSubmit(blankFrontText, selectedFlashCard.backText)
@@ -48,10 +50,11 @@ class EditViewModelTest {
     fun backText_whenIsBlank_thenShowError(blankBackText: String) = runTest {
         val viewModel = EditViewModel(
             SavedStateHandle(mapOf(FLASH_CARD_ID_ARG_KEY to selectedFlashCard.id)),
-            EditFlashCardUseCase(TestFlashCardRepository()),
-            LoadFlashCardsUseCase(
+            EditUseCase(TestFlashCardRepository()),
+            LoadUseCase(
                 FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard))),
             ),
+            DeleteUseCase(TestFlashCardRepository()),
         )
 
         viewModel.attemptSubmit(selectedFlashCard.frontText, blankBackText)
@@ -63,10 +66,11 @@ class EditViewModelTest {
     fun flashCard_whenIsEdited_andAlreadyExists_thenShowTheDuplicateError() = runTest {
         val viewModel = EditViewModel(
             SavedStateHandle(mapOf(FLASH_CARD_ID_ARG_KEY to selectedFlashCard.id)),
-            EditFlashCardUseCase(DuplicateFlashCardRepository()),
-            LoadFlashCardsUseCase(
+            EditUseCase(DuplicateFlashCardRepository()),
+            LoadUseCase(
                 FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
             ),
+            DeleteUseCase(TestFlashCardRepository()),
         )
 
         viewModel.attemptSubmit("Engels", "English")
@@ -81,14 +85,31 @@ class EditViewModelTest {
     fun flashCard_whenEditedSuccessfully_thenReturnSuccess() = runTest {
         val viewModel = EditViewModel(
             SavedStateHandle(mapOf(FLASH_CARD_ID_ARG_KEY to selectedFlashCard.id)),
-            EditFlashCardUseCase(TestFlashCardRepository()),
-            LoadFlashCardsUseCase(
+            EditUseCase(TestFlashCardRepository()),
+            LoadUseCase(
                 FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
             ),
+            DeleteUseCase(TestFlashCardRepository()),
         )
 
         viewModel.attemptSubmit("Engels", "English")
 
-        assertEquals(EditScreenState.Success, viewModel.screenState.value)
+        assertEquals(EditScreenState.Edited, viewModel.screenState.value)
+    }
+
+    @Test
+    fun selectedFlashCard_whenDeleted_thenReturnDeletedState() {
+        val viewModel = EditViewModel(
+            SavedStateHandle(mapOf(FLASH_CARD_ID_ARG_KEY to selectedFlashCard.id)),
+            EditUseCase(TestFlashCardRepository()),
+            LoadUseCase(
+                FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
+            ),
+            DeleteUseCase(FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard))))
+        )
+
+        viewModel.delete()
+
+        assertEquals(EditScreenState.Deleted, viewModel.screenState.value)
     }
 }

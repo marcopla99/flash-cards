@@ -103,4 +103,19 @@ class FlashCardRepositoryTest {
             repository.getFlashCards().first()
         )
     }
+
+    @Test
+    fun existingFlashCard_whenDelete_thenIsNotFetchedAnymore() = runTest {
+        val flashCard = FlashCard("Engels", "English")
+        repository.add(flashCard)
+        if (!repository.getFlashCards().first().contains(flashCard)) {
+            fail("Insertion failed!")
+        }
+        val flashCardWithGeneratedId = repository.getFlashCards().first()[0]
+
+        repository.deleteById(flashCardWithGeneratedId.id)
+
+        val fetchedFlashCards = repository.getFlashCards().first()
+        assertEquals(emptyList<FlashCard>(), fetchedFlashCards)
+    }
 }

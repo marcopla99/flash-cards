@@ -7,7 +7,7 @@ import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextExcepti
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import javax.inject.Inject
 
-class EditFlashCardUseCase @Inject constructor(
+class EditUseCase @Inject constructor(
     private val flashCardRepository: FlashCardRepository,
 ) {
     @Throws(
@@ -15,13 +15,14 @@ class EditFlashCardUseCase @Inject constructor(
         InvalidBackTextException::class,
         DuplicateInsertionException::class,
     )
-    suspend fun invoke(flashCard: FlashCard) {
-        if (flashCard.frontText.isBlank()) {
+    suspend fun invoke(frontText: String, backText: String, flashCardId: Int) {
+        if (frontText.isBlank()) {
             throw InvalidFrontTextException()
         }
-        if (flashCard.backText.isBlank()) {
+        if (backText.isBlank()) {
             throw InvalidBackTextException()
         }
-        flashCardRepository.edit(flashCard)
+        val editedFlashCard = FlashCard(frontText, backText).apply { id = flashCardId }
+        flashCardRepository.edit(editedFlashCard)
     }
 }

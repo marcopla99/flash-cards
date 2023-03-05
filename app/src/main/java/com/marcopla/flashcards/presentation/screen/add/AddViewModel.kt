@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
-import com.marcopla.flashcards.domain.use_case.AddFlashCardUseCase
+import com.marcopla.flashcards.domain.use_case.AddUseCase
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextException
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class AddViewModel @Inject constructor(
-    private val addFlashCardUseCase: AddFlashCardUseCase
+    private val addUseCase: AddUseCase
 ) : ViewModel() {
 
     private val _frontTextState = mutableStateOf(FrontTextState())
@@ -34,7 +34,7 @@ class AddViewModel @Inject constructor(
     fun attemptSubmit(frontText: String?, backText: String?) {
         viewModelScope.launch {
             try {
-                addFlashCardUseCase.invoke(frontText, backText)
+                addUseCase.invoke(frontText, backText)
                 handleSuccessState()
             } catch (exception: IllegalStateException) {
                 handleFailureState(exception)

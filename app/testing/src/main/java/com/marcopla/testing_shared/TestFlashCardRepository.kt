@@ -31,6 +31,10 @@ class TestFlashCardRepository : FlashCardRepository {
         TODO("Not yet implemented")
     }
 
+    override suspend fun deleteById(flashCardId: Int) {
+        TODO("Not yet implemented")
+    }
+
     suspend fun emit(value: List<FlashCard>) {
         this.flashCards = value
         mutableFlow.emit(value)

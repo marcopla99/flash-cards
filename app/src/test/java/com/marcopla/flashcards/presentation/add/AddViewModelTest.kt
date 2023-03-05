@@ -2,7 +2,7 @@ package com.marcopla.flashcards.presentation.add
 
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.R
-import com.marcopla.flashcards.domain.use_case.AddFlashCardUseCase
+import com.marcopla.flashcards.domain.use_case.AddUseCase
 import com.marcopla.flashcards.presentation.screen.add.*
 import com.marcopla.testing_shared.DuplicateFlashCardRepository
 import com.marcopla.testing_shared.TestFlashCardRepository
@@ -20,7 +20,7 @@ class AddViewModelTest {
     @ParameterizedTest
     @ValueSource(strings = ["", " ", "  "])
     fun frontText_whenIsBlank_thenShowError(blankFrontText: String) {
-        val viewModel = AddViewModel(AddFlashCardUseCase(TestFlashCardRepository()))
+        val viewModel = AddViewModel(AddUseCase(TestFlashCardRepository()))
 
         viewModel.attemptSubmit(blankFrontText, ":backText:")
 
@@ -30,7 +30,7 @@ class AddViewModelTest {
     @ParameterizedTest
     @ValueSource(strings = ["", " ", "  "])
     fun backText_whenIsBlank_thenShowError(blankBackText: String) {
-        val viewModel = AddViewModel(AddFlashCardUseCase(TestFlashCardRepository()))
+        val viewModel = AddViewModel(AddUseCase(TestFlashCardRepository()))
 
         viewModel.attemptSubmit(":frontText:", blankBackText)
 
@@ -39,7 +39,7 @@ class AddViewModelTest {
 
     @Test
     fun flashCard_whenIsAdded_andAlreadyExists_thenShowDuplicateError() {
-        val viewModel = AddViewModel(AddFlashCardUseCase(DuplicateFlashCardRepository()))
+        val viewModel = AddViewModel(AddUseCase(DuplicateFlashCardRepository()))
 
         viewModel.attemptSubmit("Engels", "English")
 
@@ -48,7 +48,7 @@ class AddViewModelTest {
 
     @Test
     fun flashCard_whenIsAddedSuccessfully_thenReturnSuccess() {
-        val viewModel = AddViewModel(AddFlashCardUseCase(TestFlashCardRepository()))
+        val viewModel = AddViewModel(AddUseCase(TestFlashCardRepository()))
 
         viewModel.attemptSubmit("Nederlands", "Dutch")
 

@@ -7,7 +7,7 @@ import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextExcepti
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import javax.inject.Inject
 
-class AddFlashCardUseCase @Inject constructor(
+class AddUseCase @Inject constructor(
     private val repository: FlashCardRepository
 ) {
     @Throws(

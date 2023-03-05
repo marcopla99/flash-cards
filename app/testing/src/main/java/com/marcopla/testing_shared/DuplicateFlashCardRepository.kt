@@ -21,4 +21,8 @@ class DuplicateFlashCardRepository : FlashCardRepository {
     override suspend fun getFlashCardById(flashCardId: Int): FlashCard {
         TODO("Not used")
     }
+
+    override suspend fun deleteById(flashCardId: Int) {
+        TODO("Not yet implemented")
+    }
 }
