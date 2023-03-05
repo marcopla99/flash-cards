@@ -16,15 +16,15 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class EditFlashCardUseCaseTest {
+class EditUseCaseTest {
     @ParameterizedTest
     @ValueSource(strings = ["", " ", "  "])
     fun frontText_whenIsBlank_thenFlashCardIsNotInserted(blankFrontText: String) = runTest {
         val repository = FlashCardRepositoryImpl(FakeFlashCardDao())
-        val editFlashCardUseCase = EditFlashCardUseCase(repository)
+        val editUseCase = EditUseCase(repository)
 
         assertThrows(InvalidFrontTextException::class.java) {
-            runBlocking { editFlashCardUseCase.invoke(FlashCard(blankFrontText, ":backText:")) }
+            runBlocking { editUseCase.invoke(FlashCard(blankFrontText, ":backText:")) }
         }
 
         assertEquals(emptyList<FlashCard>(), repository.getFlashCards().first())
@@ -34,10 +34,10 @@ class EditFlashCardUseCaseTest {
     @ValueSource(strings = ["", " ", "  "])
     fun backText_whenIsBlank_thenFlashCardIsNotInserted(blankBackText: String) = runTest {
         val repository = FlashCardRepositoryImpl(FakeFlashCardDao())
-        val editFlashCardUseCase = EditFlashCardUseCase(repository)
+        val editUseCase = EditUseCase(repository)
 
         assertThrows(InvalidBackTextException::class.java) {
-            runBlocking { editFlashCardUseCase.invoke(FlashCard(":frontText:", blankBackText)) }
+            runBlocking { editUseCase.invoke(FlashCard(":frontText:", blankBackText)) }
         }
 
         assertEquals(emptyList<FlashCard>(), repository.getFlashCards().first())
@@ -56,12 +56,12 @@ class EditFlashCardUseCaseTest {
                 listOf(flashCardToEdit, otherFlashCard)
             )
         )
-        val editFlashCardUseCase = EditFlashCardUseCase(repository)
+        val editUseCase = EditUseCase(repository)
 
         val editedFlashCard = FlashCard(frontText = "Nederlands", backText = "Dutch").apply {
             id = 1
         }
-        editFlashCardUseCase.invoke(editedFlashCard)
+        editUseCase.invoke(editedFlashCard)
 
         assertEquals(
             listOf(editedFlashCard, otherFlashCard),

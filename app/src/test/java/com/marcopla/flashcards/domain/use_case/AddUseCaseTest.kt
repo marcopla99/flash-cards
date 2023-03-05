@@ -15,13 +15,13 @@ import org.junit.jupiter.params.provider.ValueSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(MainDispatcherExtension::class)
-class AddFlashCardUseCaseTest {
+class AddUseCaseTest {
 
     @ParameterizedTest
     @ValueSource(strings = ["", " ", "  "])
     fun frontText_whenIsBlank_thenReturnInvalidState(blankFrontText: String) = runTest {
         val viewModel =
-            AddViewModel(AddFlashCardUseCase(FlashCardRepositoryImpl(FakeFlashCardDao())))
+            AddViewModel(AddUseCase(FlashCardRepositoryImpl(FakeFlashCardDao())))
 
         viewModel.attemptSubmit(blankFrontText, ":backText:")
 
@@ -35,7 +35,7 @@ class AddFlashCardUseCaseTest {
     @ValueSource(strings = ["", " ", "  "])
     fun backText_whenIsBlank_thenReturnInvalidState(blankBackText: String) = runTest {
         val viewModel =
-            AddViewModel(AddFlashCardUseCase(FlashCardRepositoryImpl(FakeFlashCardDao())))
+            AddViewModel(AddUseCase(FlashCardRepositoryImpl(FakeFlashCardDao())))
 
         viewModel.attemptSubmit(":frontText:", blankBackText)
 

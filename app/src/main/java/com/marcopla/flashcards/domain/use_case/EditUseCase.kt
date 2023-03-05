@@ -7,22 +7,21 @@ import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextExcepti
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import javax.inject.Inject
 
-class AddFlashCardUseCase @Inject constructor(
-    private val repository: FlashCardRepository
+class EditUseCase @Inject constructor(
+    private val flashCardRepository: FlashCardRepository,
 ) {
     @Throws(
         InvalidFrontTextException::class,
         InvalidBackTextException::class,
         DuplicateInsertionException::class,
     )
-    suspend fun invoke(frontText: String?, backText: String?) {
-        if (frontText.isNullOrBlank()) {
+    suspend fun invoke(flashCard: FlashCard) {
+        if (flashCard.frontText.isBlank()) {
             throw InvalidFrontTextException()
         }
-        if (backText.isNullOrBlank()) {
+        if (flashCard.backText.isBlank()) {
             throw InvalidBackTextException()
         }
-        val flashCard = FlashCard(frontText = frontText, backText = backText)
-        repository.add(flashCard)
+        flashCardRepository.edit(flashCard)
     }
 }

@@ -10,8 +10,8 @@ import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
 import com.marcopla.flashcards.domain.use_case.DeleteUseCase
-import com.marcopla.flashcards.domain.use_case.EditFlashCardUseCase
-import com.marcopla.flashcards.domain.use_case.LoadFlashCardsUseCase
+import com.marcopla.flashcards.domain.use_case.EditUseCase
+import com.marcopla.flashcards.domain.use_case.LoadUseCase
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextException
 import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
@@ -22,8 +22,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class EditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val editFlashCardUseCase: EditFlashCardUseCase,
-    private val loadFlashCardUseCase: LoadFlashCardsUseCase,
+    private val editUseCase: EditUseCase,
+    private val loadFlashCardUseCase: LoadUseCase,
     private val deleteUseCase: DeleteUseCase,
 ) : ViewModel() {
 
@@ -52,7 +52,7 @@ class EditViewModel @Inject constructor(
     fun attemptSubmit(frontText: String, backText: String) {
         viewModelScope.launch {
             try {
-                editFlashCardUseCase.invoke(
+                editUseCase.invoke(
                     FlashCard(frontText, backText).apply { id = this@EditViewModel.flashCardId }
                 )
                 _screenState.value = EditScreenState.Edited

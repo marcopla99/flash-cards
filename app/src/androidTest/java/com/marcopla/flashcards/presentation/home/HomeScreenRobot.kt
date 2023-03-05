@@ -9,7 +9,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
-import com.marcopla.flashcards.domain.use_case.LoadFlashCardsUseCase
+import com.marcopla.flashcards.domain.use_case.LoadUseCase
 import com.marcopla.flashcards.presentation.screen.home.HomeScreen
 import com.marcopla.flashcards.presentation.screen.home.HomeViewModel
 import com.marcopla.testing_shared.FakeFlashCardDao
@@ -25,7 +25,7 @@ suspend fun launchHomeScreen(
     val repository = FlashCardRepositoryImpl(FakeFlashCardDao(flashCards))
     rule.setContent {
         HomeScreen(
-            viewModel = HomeViewModel(LoadFlashCardsUseCase(repository)),
+            viewModel = HomeViewModel(LoadUseCase(repository)),
             onNavigateToAddScreen = {},
             onItemClicked = {},
         )

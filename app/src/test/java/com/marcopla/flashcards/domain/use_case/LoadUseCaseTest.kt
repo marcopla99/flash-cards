@@ -9,12 +9,12 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class LoadFlashCardsUseCaseTest {
+class LoadUseCaseTest {
 
     @Test
     fun whenInvoked_thenReturnStoredFlashCards() = runTest {
         val repository = TestFlashCardRepository()
-        val useCase = LoadFlashCardsUseCase(repository)
+        val useCase = LoadUseCase(repository)
         val storedFlashCards = listOf(
             FlashCard("Engels", "English"),
             FlashCard("Nederlands", "Dutch")

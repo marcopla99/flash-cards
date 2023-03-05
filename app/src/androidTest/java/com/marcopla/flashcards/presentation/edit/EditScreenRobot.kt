@@ -10,8 +10,8 @@ import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
 import com.marcopla.flashcards.domain.use_case.DeleteUseCase
-import com.marcopla.flashcards.domain.use_case.EditFlashCardUseCase
-import com.marcopla.flashcards.domain.use_case.LoadFlashCardsUseCase
+import com.marcopla.flashcards.domain.use_case.EditUseCase
+import com.marcopla.flashcards.domain.use_case.LoadUseCase
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
 import com.marcopla.flashcards.presentation.screen.edit.EditScreen
 import com.marcopla.flashcards.presentation.screen.edit.EditViewModel
@@ -31,8 +31,8 @@ fun launchEditScreenFor(
         EditScreen(
             viewModel = EditViewModel(
                 SavedStateHandle(mapOf(FLASH_CARD_ID_ARG_KEY to selectedFlashCard.id)),
-                EditFlashCardUseCase(flashCardRepository),
-                LoadFlashCardsUseCase(
+                EditUseCase(flashCardRepository),
+                LoadUseCase(
                     FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
                 ),
                 DeleteUseCase(TestFlashCardRepository()),

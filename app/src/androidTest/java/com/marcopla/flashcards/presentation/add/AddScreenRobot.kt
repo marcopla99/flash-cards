@@ -6,7 +6,7 @@ import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.repository.FlashCardRepository
-import com.marcopla.flashcards.domain.use_case.AddFlashCardUseCase
+import com.marcopla.flashcards.domain.use_case.AddUseCase
 import com.marcopla.flashcards.presentation.screen.add.AddScreen
 import com.marcopla.flashcards.presentation.screen.add.AddViewModel
 import com.marcopla.testing_shared.TestFlashCardRepository
@@ -20,7 +20,7 @@ fun launchAddScreen(
     block: AddScreenRobot.() -> Unit
 ): AddScreenRobot {
     composeRule.setContent {
-        AddScreen(viewModel = AddViewModel(AddFlashCardUseCase(repository)))
+        AddScreen(viewModel = AddViewModel(AddUseCase(repository)))
     }
     return AddScreenRobot(composeRule).apply(block)
 }
