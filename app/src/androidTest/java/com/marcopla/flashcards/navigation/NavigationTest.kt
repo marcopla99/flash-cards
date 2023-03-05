@@ -57,7 +57,7 @@ class NavigationTest {
     }
 
     @Test
-    fun editScreen_whenEditingSuccessfully_thenGoToHomeScreen() {
+    fun editScreen_whenEditedSuccessfully_thenGoToHomeScreen() {
         val flashCardWithWrongBackText = FlashCard("Engels", "wrong")
 
         launchApp(composeRule) {

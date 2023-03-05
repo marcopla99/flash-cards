@@ -46,7 +46,7 @@ fun AppNavHost(
             EditScreen(
                 modifier = modifier,
                 onFlashCardEdited = {
-                    navController.popBackStack()
+                    navController.popBackStack(Routes.HOME_SCREEN, false)
                 },
                 onFlashCardDeleted = {
                     navController.popBackStack(Routes.HOME_SCREEN, false)

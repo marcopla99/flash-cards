@@ -84,6 +84,7 @@ fun EditScreen(
             }
         }
     ) {
+        // TODO: Consider using Flows and call collectAsStateWithLifecycle here.
         LaunchedEffect(key1 = Unit) {
             viewModel.initState()
         }
@@ -139,7 +140,7 @@ private fun HandleScreenState(
             }
         }
         is EditScreenState.Edited -> {
-            LaunchedEffect(key1 = screenState) { onFlashCardEdited() }
+            onFlashCardEdited()
         }
         is EditScreenState.Deleted -> {
             onFlashCardDeleted()
