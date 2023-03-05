@@ -4,7 +4,6 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.testing_shared.DuplicateFlashCardRepository
-import com.marcopla.testing_shared.TestFlashCardRepository
 import org.junit.Rule
 import org.junit.Test
 
@@ -16,7 +15,7 @@ class EditScreenTest {
     fun editingFlashCard_whenIsAlreadyStored_thenShowDuplicateError() {
         val selectedFlashCard = FlashCard("Engels", "wrong").apply { id = 0 }
 
-        launchEditScreenFor(selectedFlashCard, DuplicateFlashCardRepository(), composeRule) {
+        launchEditScreenFor(selectedFlashCard, composeRule, DuplicateFlashCardRepository(),) {
             submit()
         } verify {
             duplicateErrorIsDisplayed()
@@ -27,7 +26,7 @@ class EditScreenTest {
     fun selectedFlashCard_whenDeleteButtonIsClicked_thenShowDialog() {
         val selectedFlashCard = FlashCard("Engels", "English").apply { id = 0 }
 
-        launchEditScreenFor(selectedFlashCard, TestFlashCardRepository(), composeRule) {
+        launchEditScreenFor(selectedFlashCard, composeRule) {
             clickDeleteButton()
         } verify {
             dialogIsDisplayed()
@@ -38,7 +37,7 @@ class EditScreenTest {
     fun selectedFlashCard_whenEditing_thenReplaceDeleteButtonWithResetButton() {
         val selectedFlashCard = FlashCard("Engels", "Dutch").apply { id = 0 }
 
-        launchEditScreenFor(selectedFlashCard, TestFlashCardRepository(), composeRule) {
+        launchEditScreenFor(selectedFlashCard, composeRule) {
             editBackText("English")
         } verify {
             deleteButtonIsNotDisplayed()
@@ -50,7 +49,7 @@ class EditScreenTest {
     fun selectedFlashCard_whenClickingResetButton_thenShowOriginalTextFields() {
 
         val originalFlashCard = FlashCard("Engels", "English").apply { id = 0 }
-        launchEditScreenFor(originalFlashCard, TestFlashCardRepository(), composeRule) {
+        launchEditScreenFor(originalFlashCard, composeRule) {
             editFrontText("wrong")
             editBackText("wrong")
             clickResetButton()

@@ -23,8 +23,8 @@ typealias ComponentActivityTestRule =
 
 fun launchEditScreenFor(
     selectedFlashCard: FlashCard,
-    flashCardRepository: FlashCardRepository,
     composeRule: ComponentActivityTestRule,
+    flashCardRepository: FlashCardRepository = TestFlashCardRepository(),
     block: EditScreenRobot.() -> Unit,
 ): EditScreenRobot {
     composeRule.setContent {
