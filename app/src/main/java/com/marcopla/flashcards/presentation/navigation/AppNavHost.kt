@@ -1,12 +1,15 @@
 package com.marcopla.flashcards.presentation.navigation
 
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.marcopla.flashcards.R
 import com.marcopla.flashcards.presentation.screen.add.AddScreen
 import com.marcopla.flashcards.presentation.screen.edit.EditScreen
 import com.marcopla.flashcards.presentation.screen.home.HomeScreen
@@ -29,6 +32,9 @@ fun AppNavHost(
                 },
                 onItemClicked = {
                     navController.navigate("${Routes.EDIT_SCREEN}/$it")
+                },
+                onNavigateToCarouselScreen = {
+                    navController.navigate(Routes.CAROUSEL_SCREEN)
                 }
             )
         }
@@ -53,10 +59,14 @@ fun AppNavHost(
                 }
             )
         }
+        composable(Routes.CAROUSEL_SCREEN) {
+            Text(text = stringResource(id = R.string.carouselScreenTitle))
+        }
     }
 }
 
 object Routes {
+    const val CAROUSEL_SCREEN = "CAROUSEL_SCREEN"
     const val HOME_SCREEN = "HOME_SCREEN"
     const val ADD_SCREEN = "ADD_SCREEN"
     const val EDIT_SCREEN = "EDIT_SCREEN"

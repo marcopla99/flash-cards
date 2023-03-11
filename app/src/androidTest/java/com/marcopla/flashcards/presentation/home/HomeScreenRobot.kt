@@ -28,6 +28,7 @@ suspend fun launchHomeScreen(
             viewModel = HomeViewModel(LoadUseCase(repository)),
             onNavigateToAddScreen = {},
             onItemClicked = {},
+            onNavigateToCarouselScreen = {}
         )
     }
     return HomeScreenRobot(rule).apply { block() }

@@ -80,6 +80,12 @@ class NavigationRobot(
             .performClick()
         composeRule.onNodeWithText(composeRule.activity.getString(R.string.ok)).performClick()
     }
+
+    fun clickCarouselButton() {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.carouselButton))
+            .performClick()
+    }
 }
 
 class NavigationVerification(
@@ -109,5 +115,13 @@ class NavigationVerification(
         composeRule
             .onNodeWithContentDescription(composeRule.activity.getString(R.string.carouselButton))
             .assertDoesNotExist()
+    }
+
+    fun carouselScreenIsOpen() {
+        composeRule
+            .onNodeWithText(
+                composeRule.activity.getString(R.string.carouselScreenTitle),
+            )
+            .assertIsDisplayed()
     }
 }

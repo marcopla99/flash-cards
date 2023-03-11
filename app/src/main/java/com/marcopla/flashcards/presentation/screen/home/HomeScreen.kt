@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -26,10 +27,28 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToAddScreen: () -> Unit,
     onItemClicked: (Int) -> Unit,
+    onNavigateToCarouselScreen: () -> Unit,
 ) {
+    val screenState: HomeScreenState by viewModel.homeScreenState.collectAsStateWithLifecycle()
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(stringResource(id = R.string.homeScreenTitle)) })
+            TopAppBar(
+                title = { Text(stringResource(id = R.string.homeScreenTitle)) },
+                actions = {
+                    Button(onClick = {
+                        onNavigateToCarouselScreen()
+                    }) {
+                        if (screenState is HomeScreenState.Cards) {
+                            Icon(
+                                imageVector = Icons.Default.PlayArrow,
+                                contentDescription = stringResource(
+                                    id = R.string.carouselButton
+                                ),
+                            )
+                        }
+                    }
+                }
+            )
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -42,7 +61,6 @@ fun HomeScreen(
             }
         }
     ) { padding ->
-        val screenState: HomeScreenState by viewModel.homeScreenState.collectAsStateWithLifecycle()
         ScreenContent(
             screenState,
             modifier = modifier.padding(padding),
