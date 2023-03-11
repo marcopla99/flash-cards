@@ -1,5 +1,6 @@
 package com.marcopla.flashcards.presentation.screen.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
@@ -35,17 +36,16 @@ fun HomeScreen(
             TopAppBar(
                 title = { Text(stringResource(id = R.string.homeScreenTitle)) },
                 actions = {
-                    Button(onClick = {
-                        onNavigateToCarouselScreen()
-                    }) {
-                        if (screenState is HomeScreenState.Cards) {
-                            Icon(
-                                imageVector = Icons.Default.PlayArrow,
-                                contentDescription = stringResource(
-                                    id = R.string.carouselButton
-                                ),
-                            )
-                        }
+                    if (screenState is HomeScreenState.Cards) {
+                        Icon(
+                            modifier = modifier.clickable {
+                                onNavigateToCarouselScreen()
+                            },
+                            imageVector = Icons.Default.PlayArrow,
+                            contentDescription = stringResource(
+                                id = R.string.carouselButton
+                            ),
+                        )
                     }
                 }
             )
