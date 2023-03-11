@@ -105,4 +105,9 @@ class NavigationVerification(
             .onNodeWithText(composeRule.activity.getString(R.string.homeScreenTitle))
             .assertIsDisplayed()
     }
+    fun carouselButtonIsNotDisplayed() {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.carouselButton))
+            .assertDoesNotExist()
+    }
 }

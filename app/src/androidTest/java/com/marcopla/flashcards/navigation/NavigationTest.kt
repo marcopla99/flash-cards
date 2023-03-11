@@ -82,4 +82,13 @@ class NavigationTest {
             homeScreenIsOpen()
         }
     }
+
+    @Test
+    fun homeScreen_whenNoFlashCards_thenDoNotShowCarouselButton() {
+        launchApp(composeRule) {
+            // Empty
+        } verify {
+            carouselButtonIsNotDisplayed()
+        }
+    }
 }
