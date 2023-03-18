@@ -12,13 +12,13 @@ class CarouselScreenTest {
     val composeRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun carouselScreenIsOpen_andDataIsLoaded_thenShowFontTextOfFirstFlashCard() {
+    fun dataIsLoaded_thenShowFontTextOfFirstFlashCard() {
         val flashCards = listOf(FlashCard("Engels", "English"))
 
         launchCarouselScreen(composeRule, flashCards) {
             // Empty
         } verify {
-            frontTextIsDisplayed(flashCards[0].frontText)
+            frontTextIsDisplayed("Engels")
         }
     }
 }
