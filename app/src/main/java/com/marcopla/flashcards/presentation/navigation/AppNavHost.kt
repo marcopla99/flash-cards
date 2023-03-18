@@ -58,7 +58,10 @@ fun AppNavHost(
             )
         }
         composable(Routes.CAROUSEL_SCREEN) {
-            CarouselScreen(listOf())
+            CarouselScreen(
+                modifier = modifier,
+                flashCards = listOf()
+            )
         }
     }
 }
