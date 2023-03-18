@@ -6,9 +6,10 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.marcopla.flashcards.R
+import com.marcopla.flashcards.data.model.FlashCard
 
 @Composable
-fun CarouselScreen() {
+fun CarouselScreen(flashCards: List<FlashCard>) {
     Scaffold(topBar = {
         TopAppBar(
             title = {
@@ -17,5 +18,6 @@ fun CarouselScreen() {
         )
     }) {
         val ignore = it
+        Text(text = "Engels")
     }
 }

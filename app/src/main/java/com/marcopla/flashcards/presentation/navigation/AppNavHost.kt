@@ -58,7 +58,7 @@ fun AppNavHost(
             )
         }
         composable(Routes.CAROUSEL_SCREEN) {
-            CarouselScreen()
+            CarouselScreen(listOf())
         }
     }
 }
