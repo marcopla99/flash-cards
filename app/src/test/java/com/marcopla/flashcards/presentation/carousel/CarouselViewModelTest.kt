@@ -10,14 +10,15 @@ import org.junit.jupiter.params.provider.ValueSource
 
 class CarouselViewModelTest {
 
+    private val loadedFlashCards: List<FlashCard> = listOf(
+        FlashCard("Engels", "English"),
+        FlashCard("Nederlands", "Dutch"),
+    )
+
     @ParameterizedTest
     @ValueSource(strings = ["", " ", "  "])
     fun whenSubmittingWithEmptyGuess_thenShowError(userGuess: String) {
-        val flashCards = listOf(
-            FlashCard("Engels", "English"),
-            FlashCard("Nederlands", "Dutch"),
-        )
-        val viewModel = CarouselViewModel(flashCards)
+        val viewModel = CarouselViewModel(loadedFlashCards)
 
         viewModel.submit(userGuess)
 
@@ -26,24 +27,16 @@ class CarouselViewModelTest {
 
     @Test
     fun whenDataIsFetchedSuccessfully_thenTheStateContainsData() {
-        val flashCards = listOf(
-            FlashCard("Engels", "English"),
-            FlashCard("Nederlands", "Dutch"),
-        )
-        val viewModel = CarouselViewModel(flashCards)
+        val viewModel = CarouselViewModel(loadedFlashCards)
 
         viewModel.loadFlashCards()
 
-        assertEquals(CarouselScreenState.Loaded(flashCards), viewModel.screenState.value)
+        assertEquals(CarouselScreenState.Loaded(loadedFlashCards), viewModel.screenState.value)
     }
 
     @Test
     fun whenSubmittingWrongGuess_thenShowError() {
-        val flashCards = listOf(
-            FlashCard("Engels", "English"),
-            FlashCard("Nederlands", "Dutch"),
-        )
-        val viewModel = CarouselViewModel(flashCards)
+        val viewModel = CarouselViewModel(loadedFlashCards)
 
         viewModel.submit("wrong guess")
 
@@ -52,11 +45,7 @@ class CarouselViewModelTest {
 
     @Test
     fun whenErrorStateIsEmitted_thenPlayNextFlashCard() {
-        val flashCards = listOf(
-            FlashCard("Engels", "English"),
-            FlashCard("Nederlands", "Dutch"),
-        )
-        val viewModel = CarouselViewModel(flashCards,)
+        val viewModel = CarouselViewModel(loadedFlashCards)
 
         viewModel.submit("wrong guess")
 
