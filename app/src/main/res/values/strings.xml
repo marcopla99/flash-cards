@@ -23,4 +23,5 @@
     <string name="resetButton">Reset fields</string>
     <string name="carouselButton">Start carousel</string>
     <string name="carouselScreenTitle">Play</string>
+    <string name="nextButton">Next</string>
 </resources>

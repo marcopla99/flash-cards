@@ -21,4 +21,18 @@ class CarouselScreenTest {
             frontTextIsDisplayed("Engels")
         }
     }
+
+    @Test
+    fun flashCardIsPlaying_andIsNotTheLastOne_whenClickingOnNextButton_thenDisplayNextFlashCard() {
+        val flashCards = listOf(
+            FlashCard("Engels", "English"),
+            FlashCard("Nederlands", "Dutch")
+        )
+
+        launchCarouselScreen(composeRule, flashCards) {
+            clickNextButton()
+        } verify {
+            frontTextIsDisplayed("Nederlands")
+        }
+    }
 }
