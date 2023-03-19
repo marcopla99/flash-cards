@@ -69,4 +69,14 @@ class CarouselViewModelTest {
 
         assertEquals(FlashCard("Nederlands", "Dutch"), viewModel.currentFlashCard.value)
     }
+
+    @Test
+    fun whenLastFlashCardIsPlayed_thenEmitFinishedState() {
+        val viewModel = CarouselViewModel(loadedFlashCards)
+        viewModel.submit("English")
+
+        viewModel.submit("Dutch")
+
+        assertEquals(CarouselScreenState.Finished, viewModel.screenState.value)
+    }
 }

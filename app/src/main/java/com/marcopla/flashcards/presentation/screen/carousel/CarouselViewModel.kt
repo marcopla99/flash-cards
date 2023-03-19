@@ -21,8 +21,13 @@ class CarouselViewModel(
         } else {
             _screenState.value = CarouselScreenState.Success
         }
-        currentFlashCardIndex += 1
-        _currentFlashCard.value = flashCards[currentFlashCardIndex]
+
+        if (currentFlashCard.value != flashCards.last()) {
+            currentFlashCardIndex += 1
+            _currentFlashCard.value = flashCards[currentFlashCardIndex]
+        } else {
+            _screenState.value = CarouselScreenState.Finished
+        }
     }
 
     fun loadFlashCards() {
@@ -35,4 +40,5 @@ sealed interface CarouselScreenState {
     object Empty : CarouselScreenState
     object Error : CarouselScreenState
     object Success : CarouselScreenState
+    object Finished : CarouselScreenState
 }
