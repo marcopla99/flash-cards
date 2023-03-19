@@ -29,4 +29,14 @@ class CarouselViewModelTest {
 
         assertEquals(CarouselScreenState.Loaded(flashCards), viewModel.screenState.value)
     }
+
+    @Test
+    fun whenSubmittingWrongGuess_thenShowError() {
+        val flashCard = FlashCard("Engels", "English")
+        val viewModel = CarouselViewModel(listOf(flashCard))
+
+        viewModel.submit("wrong guess")
+
+        assertEquals(CarouselScreenState.Error, viewModel.screenState.value)
+    }
 }
