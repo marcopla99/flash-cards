@@ -13,7 +13,11 @@ class CarouselViewModelTest {
     @ParameterizedTest
     @ValueSource(strings = ["", " ", "  "])
     fun whenSubmittingWithEmptyGuess_thenShowError(userGuess: String) {
-        val viewModel = CarouselViewModel(emptyList())
+        val flashCards = listOf(
+            FlashCard("Engels", "English"),
+            FlashCard("Nederlands", "Dutch"),
+        )
+        val viewModel = CarouselViewModel(flashCards)
 
         viewModel.submit(userGuess)
 
@@ -22,7 +26,10 @@ class CarouselViewModelTest {
 
     @Test
     fun whenDataIsFetchedSuccessfully_thenTheStateContainsData() {
-        val flashCards = listOf(FlashCard("Engels", "English"))
+        val flashCards = listOf(
+            FlashCard("Engels", "English"),
+            FlashCard("Nederlands", "Dutch"),
+        )
         val viewModel = CarouselViewModel(flashCards)
 
         viewModel.loadFlashCards()
@@ -32,11 +39,27 @@ class CarouselViewModelTest {
 
     @Test
     fun whenSubmittingWrongGuess_thenShowError() {
-        val flashCard = FlashCard("Engels", "English")
-        val viewModel = CarouselViewModel(listOf(flashCard))
+        val flashCards = listOf(
+            FlashCard("Engels", "English"),
+            FlashCard("Nederlands", "Dutch"),
+        )
+        val viewModel = CarouselViewModel(flashCards)
 
         viewModel.submit("wrong guess")
 
         assertEquals(CarouselScreenState.Error, viewModel.screenState.value)
+    }
+
+    @Test
+    fun whenErrorStateIsEmitted_thenPlayNextFlashCard() {
+        val flashCards = listOf(
+            FlashCard("Engels", "English"),
+            FlashCard("Nederlands", "Dutch"),
+        )
+        val viewModel = CarouselViewModel(flashCards,)
+
+        viewModel.submit("wrong guess")
+
+        assertEquals(FlashCard("Nederlands", "Dutch"), viewModel.currentFlashCard.value)
     }
 }
