@@ -103,4 +103,17 @@ class NavigationTest {
             carouselScreenIsOpen()
         }
     }
+
+    @Test
+    fun lastFlashCardIsPlaying_whenClickingOnNextButton_thenDisplayResultScreen() {
+        val singleFlashCard = FlashCard("Engels", "English")
+
+        launchApp(composeRule) {
+            addNewFlashCard(singleFlashCard)
+            clickCarouselButton()
+            clickNextButton()
+        } verify {
+            resultScreenIsOpen()
+        }
+    }
 }

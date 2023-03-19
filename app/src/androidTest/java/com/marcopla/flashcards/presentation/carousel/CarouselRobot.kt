@@ -22,7 +22,7 @@ fun launchCarouselScreen(
     composeRule.setContent {
         CarouselScreen(
             flashCards = flashCards
-        )
+        ) {}
     }
     return CarouselScreenRobot(composeRule).apply(block)
 }

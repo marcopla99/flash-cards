@@ -19,6 +19,7 @@ import com.marcopla.flashcards.data.model.FlashCard
 fun CarouselScreen(
     modifier: Modifier = Modifier,
     flashCards: List<FlashCard>,
+    onLastFlashCardPlayed: () -> Unit,
 ) {
     var currentFlashCardIndex by remember {
         mutableStateOf(0)
@@ -34,7 +35,11 @@ fun CarouselScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                currentFlashCardIndex += 1
+                if (flashCards.isEmpty() || currentFlashCardIndex == flashCards.size - 1) {
+                    onLastFlashCardPlayed()
+                } else {
+                    currentFlashCardIndex += 1
+                }
             }) {
                 Icon(imageVector = Icons.Default.Done, stringResource(id = R.string.nextButton))
             }
