@@ -16,7 +16,11 @@ class CarouselViewModel(
     val screenState: State<CarouselScreenState> = _screenState
 
     fun submit(userGuess: String) {
-        _screenState.value = CarouselScreenState.Error
+        if (userGuess != currentFlashCard.value.backText) {
+            _screenState.value = CarouselScreenState.Error
+        } else {
+            _screenState.value = CarouselScreenState.Success
+        }
         currentFlashCardIndex += 1
         _currentFlashCard.value = flashCards[currentFlashCardIndex]
     }
@@ -30,4 +34,5 @@ sealed interface CarouselScreenState {
     data class Loaded(val flashCards: List<FlashCard>) : CarouselScreenState
     object Empty : CarouselScreenState
     object Error : CarouselScreenState
+    object Success : CarouselScreenState
 }

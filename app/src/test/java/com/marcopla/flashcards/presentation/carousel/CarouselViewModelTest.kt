@@ -51,4 +51,13 @@ class CarouselViewModelTest {
 
         assertEquals(FlashCard("Nederlands", "Dutch"), viewModel.currentFlashCard.value)
     }
+
+    @Test
+    fun whenSubmittingCorrectGuess_thenShowSuccess() {
+        val viewModel = CarouselViewModel(loadedFlashCards)
+
+        viewModel.submit("English")
+
+        assertEquals(CarouselScreenState.Success, viewModel.screenState.value)
+    }
 }
