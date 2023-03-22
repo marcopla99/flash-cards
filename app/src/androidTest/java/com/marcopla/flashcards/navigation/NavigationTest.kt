@@ -84,15 +84,6 @@ class NavigationTest {
     }
 
     @Test
-    fun homeScreen_whenNoFlashCards_thenDoNotShowCarouselButton() {
-        launchApp(composeRule) {
-            // Empty
-        } verify {
-            carouselButtonIsNotDisplayed()
-        }
-    }
-
-    @Test
     fun homeScreen_whenCarouselButtonIsClicked_thenOpenCarouselScreen() {
         val flashCard = FlashCard("Engels", "English")
 

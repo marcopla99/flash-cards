@@ -35,10 +35,10 @@ suspend fun launchHomeScreen(
 }
 
 class HomeScreenRobot(
-    private val composeTestRule: ComponentActivityTestRule,
+    private val composeRule: ComponentActivityTestRule,
 ) {
     infix fun verify(block: HomeScreenVerification.() -> Unit): HomeScreenVerification {
-        return HomeScreenVerification(composeTestRule).apply(block)
+        return HomeScreenVerification(composeRule).apply(block)
     }
 }
 
@@ -59,9 +59,9 @@ class HomeScreenVerification(
         }
     }
 
-    fun showLoadingIndicator() {
+    fun carouselButtonIsNotDisplayed() {
         composeRule
-            .onNodeWithContentDescription(composeRule.activity.getString(R.string.loadingIndicator))
-            .assertIsDisplayed()
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.carouselButton))
+            .assertDoesNotExist()
     }
 }
