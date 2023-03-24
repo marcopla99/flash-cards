@@ -21,15 +21,9 @@ class CarouselViewModel(
 
     fun submit(userGuess: String) {
         val isNotCorrect = userGuess != flashCards[currentFlashCardIndex].backText
-        if (isNotCorrect) {
-            _screenState.value =
-                CarouselScreenState.Error(flashCards[currentFlashCardIndex])
+        if (flashCards[currentFlashCardIndex] == flashCards.last()) {
+            _screenState.value = CarouselScreenState.Finished
         } else {
-            _screenState.value =
-                CarouselScreenState.Success(flashCards[currentFlashCardIndex])
-        }
-
-        if (flashCards[currentFlashCardIndex] != flashCards.last()) {
             currentFlashCardIndex += 1
             if (isNotCorrect) {
                 _screenState.value =
@@ -38,8 +32,6 @@ class CarouselViewModel(
                 _screenState.value =
                     CarouselScreenState.Success(flashCards[currentFlashCardIndex])
             }
-        } else {
-            _screenState.value = CarouselScreenState.Finished
         }
     }
 
