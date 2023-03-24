@@ -34,7 +34,7 @@ class CarouselViewModelTest {
         viewModel.submit(userGuess)
 
         assertEquals(
-            CarouselScreenState.Error(FlashCard("Nederlands", "Dutch")),
+            CarouselScreenState.Wrong(FlashCard("Nederlands", "Dutch")),
             viewModel.screenState.value
         )
     }
@@ -48,7 +48,7 @@ class CarouselViewModelTest {
 
         viewModel.loadFlashCards()
 
-        assertEquals(CarouselScreenState.Loaded(loadedFlashCards[0]), viewModel.screenState.value)
+        assertEquals(CarouselScreenState.Initial(loadedFlashCards[0]), viewModel.screenState.value)
     }
 
     @Test
@@ -61,7 +61,7 @@ class CarouselViewModelTest {
         viewModel.submit("wrong guess")
 
         assertEquals(
-            CarouselScreenState.Error(FlashCard("Nederlands", "Dutch")),
+            CarouselScreenState.Wrong(FlashCard("Nederlands", "Dutch")),
             viewModel.screenState.value
         )
     }
@@ -76,7 +76,7 @@ class CarouselViewModelTest {
         viewModel.submit("English")
 
         assertEquals(
-            CarouselScreenState.Success(FlashCard("Nederlands", "Dutch")),
+            CarouselScreenState.Correct(FlashCard("Nederlands", "Dutch")),
             viewModel.screenState.value
         )
     }

@@ -30,11 +30,11 @@ class CarouselViewModel(
         if (validateGuess(userGuess)) {
             currentFlashCardIndex += 1
             _screenState.value =
-                CarouselScreenState.Error(flashCards[currentFlashCardIndex])
+                CarouselScreenState.Wrong(flashCards[currentFlashCardIndex])
         } else {
             currentFlashCardIndex += 1
             _screenState.value =
-                CarouselScreenState.Success(flashCards[currentFlashCardIndex])
+                CarouselScreenState.Correct(flashCards[currentFlashCardIndex])
         }
     }
 
@@ -45,15 +45,15 @@ class CarouselViewModel(
     fun loadFlashCards() {
         viewModelScope.launch {
             flashCards = loadUseCase.loadAll().first()
-            _screenState.value = CarouselScreenState.Loaded(flashCards[0])
+            _screenState.value = CarouselScreenState.Initial(flashCards[0])
         }
     }
 }
 
 sealed interface CarouselScreenState {
-    data class Loaded(val flashCard: FlashCard) : CarouselScreenState
+    data class Initial(val flashCard: FlashCard) : CarouselScreenState
+    data class Wrong(val nextFlashCard: FlashCard) : CarouselScreenState
+    data class Correct(val nextFlashCard: FlashCard) : CarouselScreenState
     object Empty : CarouselScreenState
-    data class Error(val nextFlashCard: FlashCard) : CarouselScreenState
-    data class Success(val nextFlashCard: FlashCard) : CarouselScreenState
     object Finished : CarouselScreenState
 }
