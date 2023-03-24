@@ -27,7 +27,6 @@ class CarouselViewModelTest {
     @ValueSource(strings = ["", " ", "  "])
     fun whenSubmittingWithEmptyGuess_thenShowErrorWithNextFlashCardToPlay(userGuess: String) {
         val viewModel = CarouselViewModel(
-            loadedFlashCards,
             LoadUseCase(FlashCardRepositoryImpl(FakeFlashCardDao(loadedFlashCards)))
         )
         viewModel.loadFlashCards()
@@ -43,7 +42,6 @@ class CarouselViewModelTest {
     @Test
     fun whenDataIsFetchedSuccessfully_thenTheStateContainsData() {
         val viewModel = CarouselViewModel(
-            loadedFlashCards,
             LoadUseCase(FlashCardRepositoryImpl(FakeFlashCardDao(loadedFlashCards)))
         )
         viewModel.loadFlashCards()
@@ -56,7 +54,6 @@ class CarouselViewModelTest {
     @Test
     fun whenSubmittingWrongGuess_thenShowErrorWithNextFlashCardToPlay() {
         val viewModel = CarouselViewModel(
-            loadedFlashCards,
             LoadUseCase(FlashCardRepositoryImpl(FakeFlashCardDao(loadedFlashCards)))
         )
         viewModel.loadFlashCards()
@@ -72,7 +69,6 @@ class CarouselViewModelTest {
     @Test
     fun whenSubmittingCorrectGuess_thenShowSuccessWithNextFlashCardToPlay() {
         val viewModel = CarouselViewModel(
-            loadedFlashCards,
             LoadUseCase(FlashCardRepositoryImpl(FakeFlashCardDao(loadedFlashCards)))
         )
         viewModel.loadFlashCards()
@@ -88,7 +84,6 @@ class CarouselViewModelTest {
     @Test
     fun whenLastFlashCardIsPlayed_thenEmitFinishedState() {
         val viewModel = CarouselViewModel(
-            loadedFlashCards,
             LoadUseCase(FlashCardRepositoryImpl(FakeFlashCardDao(loadedFlashCards)))
         )
         viewModel.loadFlashCards()

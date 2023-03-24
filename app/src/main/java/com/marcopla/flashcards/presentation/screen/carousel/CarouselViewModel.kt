@@ -10,10 +10,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class CarouselViewModel(
-    private val flashCards: List<FlashCard>,
     private val loadUseCase: LoadUseCase
 ) : ViewModel() {
-    private var fetchedFlashCards: List<FlashCard> = emptyList()
+    private var flashCards: List<FlashCard> = emptyList()
 
     private var currentFlashCardIndex = 0
 
@@ -21,23 +20,23 @@ class CarouselViewModel(
     val screenState: State<CarouselScreenState> = _screenState
 
     fun submit(userGuess: String) {
-        val isNotCorrect = userGuess != fetchedFlashCards[currentFlashCardIndex].backText
+        val isNotCorrect = userGuess != flashCards[currentFlashCardIndex].backText
         if (isNotCorrect) {
             _screenState.value =
-                CarouselScreenState.Error(fetchedFlashCards[currentFlashCardIndex])
+                CarouselScreenState.Error(flashCards[currentFlashCardIndex])
         } else {
             _screenState.value =
-                CarouselScreenState.Success(fetchedFlashCards[currentFlashCardIndex])
+                CarouselScreenState.Success(flashCards[currentFlashCardIndex])
         }
 
-        if (fetchedFlashCards[currentFlashCardIndex] != flashCards.last()) {
+        if (flashCards[currentFlashCardIndex] != flashCards.last()) {
             currentFlashCardIndex += 1
             if (isNotCorrect) {
                 _screenState.value =
-                    CarouselScreenState.Error(fetchedFlashCards[currentFlashCardIndex])
+                    CarouselScreenState.Error(flashCards[currentFlashCardIndex])
             } else {
                 _screenState.value =
-                    CarouselScreenState.Success(fetchedFlashCards[currentFlashCardIndex])
+                    CarouselScreenState.Success(flashCards[currentFlashCardIndex])
             }
         } else {
             _screenState.value = CarouselScreenState.Finished
@@ -46,8 +45,8 @@ class CarouselViewModel(
 
     fun loadFlashCards() {
         viewModelScope.launch {
-            fetchedFlashCards = loadUseCase.loadAll().first()
-            _screenState.value = CarouselScreenState.Loaded(fetchedFlashCards[0])
+            flashCards = loadUseCase.loadAll().first()
+            _screenState.value = CarouselScreenState.Loaded(flashCards[0])
         }
     }
 }
