@@ -18,20 +18,24 @@ import org.junit.jupiter.params.provider.ValueSource
 @ExtendWith(MainDispatcherExtension::class)
 class CarouselViewModelTest {
 
-    private val loadedFlashCards: List<FlashCard> = listOf(
-        FlashCard("Engels", "English"),
-        FlashCard("Nederlands", "Dutch"),
-    )
-
     @ParameterizedTest
     @ValueSource(strings = ["", " ", "  "])
-    fun whenSubmittingWithEmptyGuess_thenShowErrorWithNextFlashCardToPlay(userGuess: String) {
+    fun whenSubmittingWithEmptyGuess_thenShowErrorWithNextFlashCardToPlay(emptyUserGuess: String) {
         val viewModel = CarouselViewModel(
-            LoadUseCase(FlashCardRepositoryImpl(FakeFlashCardDao(loadedFlashCards)))
+            LoadUseCase(
+                FlashCardRepositoryImpl(
+                    FakeFlashCardDao(
+                        listOf(
+                            FlashCard("Engels", "English"),
+                            FlashCard("Nederlands", "Dutch"),
+                        )
+                    )
+                )
+            )
         )
         viewModel.loadFlashCards()
 
-        viewModel.submit(userGuess)
+        viewModel.submit(emptyUserGuess)
 
         assertEquals(
             CarouselScreenState.Wrong(FlashCard("Nederlands", "Dutch")),
@@ -42,19 +46,44 @@ class CarouselViewModelTest {
     @Test
     fun whenDataIsFetchedSuccessfully_thenTheStateContainsData() {
         val viewModel = CarouselViewModel(
-            LoadUseCase(FlashCardRepositoryImpl(FakeFlashCardDao(loadedFlashCards)))
+            LoadUseCase(
+                FlashCardRepositoryImpl(
+                    FakeFlashCardDao(
+                        listOf(
+                            FlashCard("Engels", "English"),
+                            FlashCard("Nederlands", "Dutch"),
+                        )
+                    )
+                )
+            )
         )
-        viewModel.loadFlashCards()
 
         viewModel.loadFlashCards()
 
-        assertEquals(CarouselScreenState.Initial(loadedFlashCards[0]), viewModel.screenState.value)
+        assertEquals(
+            CarouselScreenState.Initial(
+                listOf(
+                    FlashCard("Engels", "English"),
+                    FlashCard("Nederlands", "Dutch"),
+                )[0]
+            ),
+            viewModel.screenState.value
+        )
     }
 
     @Test
     fun whenSubmittingWrongGuess_thenShowErrorWithNextFlashCardToPlay() {
         val viewModel = CarouselViewModel(
-            LoadUseCase(FlashCardRepositoryImpl(FakeFlashCardDao(loadedFlashCards)))
+            LoadUseCase(
+                FlashCardRepositoryImpl(
+                    FakeFlashCardDao(
+                        listOf(
+                            FlashCard("Engels", "English"),
+                            FlashCard("Nederlands", "Dutch"),
+                        )
+                    )
+                )
+            )
         )
         viewModel.loadFlashCards()
 
@@ -69,7 +98,16 @@ class CarouselViewModelTest {
     @Test
     fun whenSubmittingCorrectGuess_thenShowSuccessWithNextFlashCardToPlay() {
         val viewModel = CarouselViewModel(
-            LoadUseCase(FlashCardRepositoryImpl(FakeFlashCardDao(loadedFlashCards)))
+            LoadUseCase(
+                FlashCardRepositoryImpl(
+                    FakeFlashCardDao(
+                        listOf(
+                            FlashCard("Engels", "English"),
+                            FlashCard("Nederlands", "Dutch"),
+                        )
+                    )
+                )
+            )
         )
         viewModel.loadFlashCards()
 
@@ -84,7 +122,16 @@ class CarouselViewModelTest {
     @Test
     fun whenLastFlashCardIsPlayed_thenEmitFinishedState() {
         val viewModel = CarouselViewModel(
-            LoadUseCase(FlashCardRepositoryImpl(FakeFlashCardDao(loadedFlashCards)))
+            LoadUseCase(
+                FlashCardRepositoryImpl(
+                    FakeFlashCardDao(
+                        listOf(
+                            FlashCard("Engels", "English"),
+                            FlashCard("Nederlands", "Dutch"),
+                        )
+                    )
+                )
+            )
         )
         viewModel.loadFlashCards()
         viewModel.submit("English")
