@@ -19,20 +19,27 @@ class CarouselViewModel(
     private val _screenState = mutableStateOf<CarouselScreenState>(CarouselScreenState.Empty)
     val screenState: State<CarouselScreenState> = _screenState
 
+    private val isLastFlashCard: Boolean
+        get() = currentFlashCardIndex == flashCards.size - 1
+
     fun submit(userGuess: String) {
-        val isNotCorrect = userGuess != flashCards[currentFlashCardIndex].backText
-        if (flashCards[currentFlashCardIndex] == flashCards.last()) {
+        if (isLastFlashCard) {
             _screenState.value = CarouselScreenState.Finished
+            return
+        }
+        if (validateGuess(userGuess)) {
+            currentFlashCardIndex += 1
+            _screenState.value =
+                CarouselScreenState.Error(flashCards[currentFlashCardIndex])
         } else {
             currentFlashCardIndex += 1
-            if (isNotCorrect) {
-                _screenState.value =
-                    CarouselScreenState.Error(flashCards[currentFlashCardIndex])
-            } else {
-                _screenState.value =
-                    CarouselScreenState.Success(flashCards[currentFlashCardIndex])
-            }
+            _screenState.value =
+                CarouselScreenState.Success(flashCards[currentFlashCardIndex])
         }
+    }
+
+    private fun validateGuess(userGuess: String): Boolean {
+        return userGuess != flashCards[currentFlashCardIndex].backText
     }
 
     fun loadFlashCards() {
