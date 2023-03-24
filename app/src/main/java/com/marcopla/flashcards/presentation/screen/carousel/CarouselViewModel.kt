@@ -6,10 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.domain.use_case.LoadUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CarouselViewModel(
+@HiltViewModel
+class CarouselViewModel @Inject constructor(
     private val loadUseCase: LoadUseCase
 ) : ViewModel() {
     private var flashCards: List<FlashCard> = emptyList()

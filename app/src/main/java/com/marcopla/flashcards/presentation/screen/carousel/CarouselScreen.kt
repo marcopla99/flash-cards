@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 
@@ -18,9 +19,15 @@ import com.marcopla.flashcards.data.model.FlashCard
 @Composable
 fun CarouselScreen(
     modifier: Modifier = Modifier,
+    viewModel: CarouselViewModel = hiltViewModel(),
     flashCards: List<FlashCard>,
     onLastFlashCardPlayed: () -> Unit,
 ) {
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.loadFlashCards()
+    }
+
     var currentFlashCardIndex by remember {
         mutableStateOf(0)
     }
