@@ -31,7 +31,7 @@ class CarouselViewModelTest {
                         )
                     )
                 )
-            )
+            ),
         )
         viewModel.loadFlashCards()
 
@@ -55,7 +55,7 @@ class CarouselViewModelTest {
                         )
                     )
                 )
-            )
+            ),
         )
 
         viewModel.loadFlashCards()
@@ -83,7 +83,7 @@ class CarouselViewModelTest {
                         )
                     )
                 )
-            )
+            ),
         )
         viewModel.loadFlashCards()
 
@@ -107,7 +107,7 @@ class CarouselViewModelTest {
                         )
                     )
                 )
-            )
+            ),
         )
         viewModel.loadFlashCards()
 
@@ -131,7 +131,7 @@ class CarouselViewModelTest {
                         )
                     )
                 )
-            )
+            ),
         )
         viewModel.loadFlashCards()
         viewModel.submit("English")

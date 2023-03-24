@@ -30,6 +30,7 @@ class CarouselScreenTest {
         )
 
         launchCarouselScreen(composeRule, flashCards) {
+            inputGuess("guess")
             clickNextButton()
         } verify {
             frontTextIsDisplayed("Nederlands")

@@ -1,11 +1,8 @@
 package com.marcopla.flashcards.presentation.carousel
 
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
@@ -28,7 +25,7 @@ fun launchCarouselScreen(
             viewModel = CarouselViewModel(
                 LoadUseCase(
                     FlashCardRepositoryImpl(FakeFlashCardDao(flashCards))
-                )
+                ),
             ),
             flashCards = flashCards
         ) {}
@@ -45,6 +42,12 @@ class CarouselScreenRobot(private val composeRule: ComponentActivityTestRule) {
         composeRule
             .onNodeWithContentDescription(composeRule.activity.getString(R.string.nextButton))
             .performClick()
+    }
+
+    fun inputGuess(inputGuess: String) {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.guessField))
+            .performTextInput(inputGuess)
     }
 }
 

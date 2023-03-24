@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.domain.use_case.LoadUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class CarouselViewModel @Inject constructor(
@@ -18,6 +18,9 @@ class CarouselViewModel @Inject constructor(
     private var flashCards: List<FlashCard> = emptyList()
 
     private var currentFlashCardIndex = 0
+
+    private val _guessInput = mutableStateOf("")
+    val guessInput: State<String> = _guessInput
 
     private val _screenState = mutableStateOf<CarouselScreenState>(CarouselScreenState.Empty)
     val screenState: State<CarouselScreenState> = _screenState
@@ -50,6 +53,10 @@ class CarouselViewModel @Inject constructor(
             flashCards = loadUseCase.loadAll().first()
             _screenState.value = CarouselScreenState.Initial(flashCards[0])
         }
+    }
+
+    fun updateGuessInput(input: String) {
+        _guessInput.value = input
     }
 }
 

@@ -10,6 +10,8 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marcopla.flashcards.R
@@ -60,10 +62,13 @@ fun CarouselScreen(
             val solution = flashCards.getOrNull(currentFlashCardIndex)?.frontText ?: ""
             Text(text = solution)
 
-            var backTextValue by remember { mutableStateOf("") }
+            val guessFieldContentDescription = stringResource(id = R.string.guessField)
             TextField(
-                value = backTextValue,
-                onValueChange = { newValue -> backTextValue = newValue }
+                modifier = modifier.semantics {
+                    contentDescription = guessFieldContentDescription
+                },
+                value = viewModel.guessInput.value,
+                onValueChange = viewModel::updateGuessInput
             )
         }
     }
