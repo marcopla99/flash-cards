@@ -1,11 +1,11 @@
 package com.marcopla.flashcards.data
 
 import com.marcopla.flashcards.data.model.FlashCard
+import com.marcopla.flashcards.data.model.QuizResult
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -14,6 +14,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
@@ -117,5 +118,19 @@ class FlashCardRepositoryTest {
 
         val fetchedFlashCards = repository.getFlashCards().first()
         assertEquals(emptyList<FlashCard>(), fetchedFlashCards)
+    }
+
+    @Test
+    fun whenAddingResult_thenIsSaved() {
+        val quizResult = QuizResult(
+            FlashCard("Engels", "English"),
+            "Dutch",
+            isCorrect = false
+        )
+
+        repository.addResult(quizResult)
+
+        val currentResults = repository.getCurrentResults()
+        assertEquals(listOf(quizResult), currentResults)
     }
 }
