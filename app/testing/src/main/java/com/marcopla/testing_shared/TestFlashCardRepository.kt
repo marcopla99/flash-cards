@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.flow
  * Repository used in tests to mock data retrieval.
  */
 class TestFlashCardRepository : FlashCardRepository {
+    private val currentResults: MutableList<QuizResult> = mutableListOf()
     private var flashCards: List<FlashCard> = listOf()
     private val mutableFlow = MutableSharedFlow<List<FlashCard>>()
 
@@ -37,11 +38,11 @@ class TestFlashCardRepository : FlashCardRepository {
     }
 
     override fun addResult(quizResult: QuizResult) {
-        TODO("Not yet implemented")
+        currentResults.add(quizResult)
     }
 
     override fun getCurrentResults(): List<QuizResult> {
-        TODO("Not yet implemented")
+        return currentResults
     }
 
     suspend fun emit(value: List<FlashCard>) {
