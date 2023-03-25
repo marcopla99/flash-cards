@@ -6,14 +6,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.domain.use_case.LoadUseCase
+import com.marcopla.flashcards.domain.use_case.SubmitQuizUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class CarouselViewModel @Inject constructor(
-    private val loadUseCase: LoadUseCase
+    private val loadUseCase: LoadUseCase,
+    private val submitQuiz: SubmitQuizUseCase
 ) : ViewModel() {
     private var flashCards: List<FlashCard> = emptyList()
 
@@ -34,19 +36,15 @@ class CarouselViewModel @Inject constructor(
             _screenState.value = CarouselScreenState.Finished
             return
         }
-        if (validateGuess(userGuess)) {
-            currentFlashCardIndex += 1
-            _screenState.value =
-                CarouselScreenState.Wrong(flashCards[currentFlashCardIndex])
-        } else {
+        if (submitQuiz.invoke(flashCards[currentFlashCardIndex], userGuess)) {
             currentFlashCardIndex += 1
             _screenState.value =
                 CarouselScreenState.Correct(flashCards[currentFlashCardIndex])
+        } else {
+            currentFlashCardIndex += 1
+            _screenState.value =
+                CarouselScreenState.Wrong(flashCards[currentFlashCardIndex])
         }
-    }
-
-    private fun validateGuess(userGuess: String): Boolean {
-        return userGuess != flashCards[currentFlashCardIndex].backText
     }
 
     fun loadFlashCards() {

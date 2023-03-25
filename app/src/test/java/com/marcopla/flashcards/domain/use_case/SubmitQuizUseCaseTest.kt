@@ -13,9 +13,12 @@ class SubmitQuizUseCaseTest {
         val repository = TestFlashCardRepository()
         val submitQuizUseCase = SubmitQuizUseCase(repository)
 
-        submitQuizUseCase.invoke(FlashCard("Engels", "English"), blankGuess)
+        val isValidationCorrect = submitQuizUseCase.invoke(
+            FlashCard("Engels", "English"), blankGuess
+        )
 
         val quizResult = repository.getCurrentResults().first()
         assertFalse(quizResult.isCorrect)
+        assertFalse(isValidationCorrect)
     }
 }
