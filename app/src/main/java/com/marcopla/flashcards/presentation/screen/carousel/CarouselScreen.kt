@@ -56,28 +56,47 @@ fun CarouselScreen(
                 .padding(4.dp)
                 .consumedWindowInsets(it)
         ) {
-            val solution = when (val value = screenState.value) {
-                is CarouselScreenState.Correct -> {
-                    value.nextFlashCard.frontText
-                }
-                is CarouselScreenState.Initial -> {
-                    value.flashCard.frontText
-                }
-                is CarouselScreenState.Wrong -> {
-                    value.nextFlashCard.frontText
-                }
-                else -> { "" }
-            }
-            Text(text = solution)
-
-            val guessFieldContentDescription = stringResource(id = R.string.guessField)
-            TextField(
-                modifier = modifier.semantics {
-                    contentDescription = guessFieldContentDescription
-                },
+            Prompt(screenState.value)
+            Guess(
+                modifier = modifier,
                 value = viewModel.guessInput.value,
                 onValueChange = viewModel::updateGuessInput
             )
         }
     }
+}
+
+@Composable
+private fun Guess(
+    modifier: Modifier,
+    value: String,
+    onValueChange: (String) -> Unit,
+) {
+    val guessFieldContentDescription = stringResource(id = R.string.guessField)
+    TextField(
+        modifier = modifier.semantics {
+            contentDescription = guessFieldContentDescription
+        },
+        value = value,
+        onValueChange = onValueChange
+    )
+}
+
+@Composable
+private fun Prompt(screenState: CarouselScreenState) {
+    val promptText = when (screenState) {
+        is CarouselScreenState.Correct -> {
+            screenState.nextFlashCard.frontText
+        }
+        is CarouselScreenState.Initial -> {
+            screenState.flashCard.frontText
+        }
+        is CarouselScreenState.Wrong -> {
+            screenState.nextFlashCard.frontText
+        }
+        else -> {
+            ""
+        }
+    }
+    Text(text = promptText)
 }
