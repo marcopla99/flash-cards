@@ -140,4 +140,26 @@ class CarouselViewModelTest {
 
         assertEquals(CarouselScreenState.Finished, viewModel.screenState.value)
     }
+
+    @Test
+    fun whenSubmitting_thenClearGuessField() {
+        val viewModel = CarouselViewModel(
+            LoadUseCase(
+                FlashCardRepositoryImpl(
+                    FakeFlashCardDao(
+                        listOf(
+                            FlashCard("Engels", "English"),
+                            FlashCard("Nederlands", "Dutch"),
+                        )
+                    )
+                )
+            ),
+        )
+        viewModel.loadFlashCards()
+        viewModel.updateGuessInput(":guess:")
+
+        viewModel.submit(":guess:")
+
+        assertEquals("", viewModel.guessInput.value)
+    }
 }
