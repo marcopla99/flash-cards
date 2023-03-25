@@ -6,6 +6,10 @@ import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.QuizResult
 
 @Composable
@@ -19,7 +23,16 @@ fun ResultItem(
                 Text(text = quizResult.flashCard.frontText)
                 Text(text = quizResult.flashCard.backText)
             }
-            Text(text = quizResult.guess)
+
+            val stringResource = stringResource(id = R.string.guessResponse)
+            if (!quizResult.isCorrect) {
+                Text(
+                    text = quizResult.guess,
+                    modifier = modifier.semantics {
+                        contentDescription = stringResource
+                    }
+                )
+            }
         }
     }
 }

@@ -26,4 +26,19 @@ class ResultItemTest {
             guessResponseIsDisplayed(quizResult.guess)
         }
     }
+
+    @Test
+    fun whenDisplayingCorrectResult_thenShowFlashCardWithoutGuess() {
+        val quizResult = QuizResult(
+            FlashCard("Engels", "English"),
+            "English",
+            true
+        )
+        launchResultItem(composeRule, quizResult) {
+            // Empty
+        } verify {
+            flashCardIsDisplayed(quizResult.flashCard)
+            guessResponseIsNotDisplayed()
+        }
+    }
 }
