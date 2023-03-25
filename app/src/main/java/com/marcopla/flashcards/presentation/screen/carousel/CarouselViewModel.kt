@@ -8,9 +8,9 @@ import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.domain.use_case.LoadUseCase
 import com.marcopla.flashcards.domain.use_case.SubmitQuizUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class CarouselViewModel @Inject constructor(
