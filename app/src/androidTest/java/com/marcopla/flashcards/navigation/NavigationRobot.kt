@@ -80,6 +80,18 @@ class NavigationRobot(
             .performClick()
         composeRule.onNodeWithText(composeRule.activity.getString(R.string.ok)).performClick()
     }
+
+    fun clickCarouselButton() {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.carouselButton))
+            .performClick()
+    }
+
+    fun clickNextButton() {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.nextButton))
+            .performClick()
+    }
 }
 
 class NavigationVerification(
@@ -103,6 +115,20 @@ class NavigationVerification(
     fun homeScreenIsOpen() {
         composeRule
             .onNodeWithText(composeRule.activity.getString(R.string.homeScreenTitle))
+            .assertIsDisplayed()
+    }
+
+    fun carouselScreenIsOpen() {
+        composeRule
+            .onNodeWithText(
+                composeRule.activity.getString(R.string.carouselScreenTitle),
+            )
+            .assertIsDisplayed()
+    }
+
+    fun resultScreenIsOpen() {
+        composeRule
+            .onNodeWithText(composeRule.activity.getString(R.string.results))
             .assertIsDisplayed()
     }
 }

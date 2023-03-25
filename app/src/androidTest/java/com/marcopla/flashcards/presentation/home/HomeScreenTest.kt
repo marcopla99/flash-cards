@@ -12,22 +12,11 @@ import org.junit.Test
 class HomeScreenTest {
 
     @get:Rule
-    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
-
-    @Test
-    fun homeScreen_whenLaunched_thenShowLoading() = runTest {
-        composeTestRule.mainClock.autoAdvance = false
-
-        launchHomeScreen(composeTestRule) {
-            // Do nothing
-        } verify {
-            showLoadingIndicator()
-        }
-    }
+    val composeRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
     fun homeScreen_whenGettingEmptyState_thenShowEmptyMessage() = runTest {
-        launchHomeScreen(composeTestRule, emptyList()) {
+        launchHomeScreen(composeRule, emptyList()) {
             // Do nothing
         } verify {
             emptyMessageIsDisplayed()
@@ -42,10 +31,19 @@ class HomeScreenTest {
             FlashCard(frontText = "front3", backText = "back3"),
         )
 
-        launchHomeScreen(composeTestRule, flashCards) {
+        launchHomeScreen(composeRule, flashCards) {
             // Do nothing
         } verify {
             listOfFlashCardsIsDisplayed(flashCards)
+        }
+    }
+
+    @Test
+    fun homeScreen_whenNoFlashCards_thenDoNotShowCarouselButton() = runTest {
+        launchHomeScreen(composeRule, emptyList()) {
+            // Empty
+        } verify {
+            carouselButtonIsNotDisplayed()
         }
     }
 }

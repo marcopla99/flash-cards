@@ -82,4 +82,29 @@ class NavigationTest {
             homeScreenIsOpen()
         }
     }
+
+    @Test
+    fun homeScreen_whenCarouselButtonIsClicked_thenOpenCarouselScreen() {
+        val flashCard = FlashCard("Engels", "English")
+
+        launchApp(composeRule) {
+            addNewFlashCard(flashCard)
+            clickCarouselButton()
+        } verify {
+            carouselScreenIsOpen()
+        }
+    }
+
+    @Test
+    fun lastFlashCardIsPlaying_whenClickingOnNextButton_thenDisplayResultScreen() {
+        val lastFlashCard = FlashCard("Engels", "English")
+
+        launchApp(composeRule) {
+            addNewFlashCard(lastFlashCard)
+            clickCarouselButton()
+            clickNextButton()
+        } verify {
+            resultScreenIsOpen()
+        }
+    }
 }
