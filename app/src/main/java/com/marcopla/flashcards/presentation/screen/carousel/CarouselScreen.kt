@@ -15,14 +15,12 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marcopla.flashcards.R
-import com.marcopla.flashcards.data.model.FlashCard
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CarouselScreen(
     modifier: Modifier = Modifier,
     viewModel: CarouselViewModel = hiltViewModel(),
-    flashCards: List<FlashCard>,
     onLastFlashCardPlayed: () -> Unit,
 ) {
 
@@ -30,8 +28,11 @@ fun CarouselScreen(
         viewModel.loadFlashCards()
     }
 
-    var currentFlashCardIndex by remember {
-        mutableStateOf(0)
+    val screenState = viewModel.screenState
+    if (screenState.value == CarouselScreenState.Finished) {
+        LaunchedEffect(key1 = Unit) {
+            onLastFlashCardPlayed()
+        }
     }
 
     Scaffold(
@@ -44,11 +45,7 @@ fun CarouselScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                if (flashCards.isEmpty() || currentFlashCardIndex == flashCards.size - 1) {
-                    onLastFlashCardPlayed()
-                } else {
-                    currentFlashCardIndex += 1
-                }
+                viewModel.submit(viewModel.guessInput.value)
             }) {
                 Icon(imageVector = Icons.Default.Done, stringResource(id = R.string.nextButton))
             }
@@ -59,7 +56,18 @@ fun CarouselScreen(
                 .padding(4.dp)
                 .consumedWindowInsets(it)
         ) {
-            val solution = flashCards.getOrNull(currentFlashCardIndex)?.frontText ?: ""
+            val solution = when (val value = screenState.value) {
+                is CarouselScreenState.Correct -> {
+                    value.nextFlashCard.frontText
+                }
+                is CarouselScreenState.Initial -> {
+                    value.flashCard.frontText
+                }
+                is CarouselScreenState.Wrong -> {
+                    value.nextFlashCard.frontText
+                }
+                else -> { "" }
+            }
             Text(text = solution)
 
             val guessFieldContentDescription = stringResource(id = R.string.guessField)

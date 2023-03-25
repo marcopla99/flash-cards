@@ -63,10 +63,10 @@ fun AppNavHost(
         composable(Routes.CAROUSEL_SCREEN) {
             CarouselScreen(
                 modifier = modifier,
-                flashCards = listOf()
-            ) {
-                navController.navigate(Routes.RESULT_SCREEN)
-            }
+                onLastFlashCardPlayed = {
+                    navController.navigate(Routes.RESULT_SCREEN)
+                }
+            )
         }
         composable(Routes.RESULT_SCREEN) {
             Text(stringResource(R.string.results))

@@ -97,10 +97,10 @@ class NavigationTest {
 
     @Test
     fun lastFlashCardIsPlaying_whenClickingOnNextButton_thenDisplayResultScreen() {
-        val singleFlashCard = FlashCard("Engels", "English")
+        val lastFlashCard = FlashCard("Engels", "English")
 
         launchApp(composeRule) {
-            addNewFlashCard(singleFlashCard)
+            addNewFlashCard(lastFlashCard)
             clickCarouselButton()
             clickNextButton()
         } verify {

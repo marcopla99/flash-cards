@@ -26,8 +26,7 @@ fun launchCarouselScreen(
                 LoadUseCase(
                     FlashCardRepositoryImpl(FakeFlashCardDao(flashCards))
                 ),
-            ),
-            flashCards = flashCards
+            )
         ) {}
     }
     return CarouselScreenRobot(composeRule).apply(block)
