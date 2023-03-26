@@ -92,6 +92,12 @@ class NavigationRobot(
             .onNodeWithContentDescription(composeRule.activity.getString(R.string.nextButton))
             .performClick()
     }
+
+    fun clickDoneButton() {
+        composeRule
+            .onNodeWithContentDescription(composeRule.activity.getString(R.string.resultsDone))
+            .performClick()
+    }
 }
 
 class NavigationVerification(

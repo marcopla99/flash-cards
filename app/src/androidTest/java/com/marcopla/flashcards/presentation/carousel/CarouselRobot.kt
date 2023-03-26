@@ -8,6 +8,7 @@ import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
 import com.marcopla.flashcards.domain.use_case.LoadUseCase
+import com.marcopla.flashcards.domain.use_case.SubmitQuizUseCase
 import com.marcopla.flashcards.presentation.screen.carousel.CarouselScreen
 import com.marcopla.flashcards.presentation.screen.carousel.CarouselViewModel
 import com.marcopla.testing_shared.FakeFlashCardDao
@@ -21,11 +22,11 @@ fun launchCarouselScreen(
     block: CarouselScreenRobot.() -> Unit,
 ): CarouselScreenRobot {
     composeRule.setContent {
+        val repository = FlashCardRepositoryImpl(FakeFlashCardDao(flashCards))
         CarouselScreen(
             viewModel = CarouselViewModel(
-                LoadUseCase(
-                    FlashCardRepositoryImpl(FakeFlashCardDao(flashCards))
-                ),
+                LoadUseCase(repository),
+                SubmitQuizUseCase(repository),
             )
         ) {}
     }

@@ -3,11 +3,14 @@ package com.marcopla.flashcards.data.repository
 import android.database.sqlite.SQLiteConstraintException
 import com.marcopla.flashcards.data.data_source.FlashCardDao
 import com.marcopla.flashcards.data.model.FlashCard
+import com.marcopla.flashcards.data.model.QuizResult
 import kotlinx.coroutines.flow.Flow
 
 class FlashCardRepositoryImpl(
     private val flashCardDao: FlashCardDao
 ) : FlashCardRepository {
+
+    private val currentResults: MutableList<QuizResult> = mutableListOf()
 
     override fun getFlashCards(): Flow<List<FlashCard>> {
         return flashCardDao.fetchAll()
@@ -36,6 +39,22 @@ class FlashCardRepositoryImpl(
 
     override suspend fun deleteById(flashCardId: Int) {
         flashCardDao.deleteById(flashCardId)
+    }
+
+    override fun addResult(quizResult: QuizResult) {
+        currentResults.add(quizResult)
+    }
+
+    /**
+     * Get the stored results for this session.
+     * Note: results are currently just saved in memory.
+     */
+    override fun getCurrentResults(): List<QuizResult> {
+        return currentResults
+    }
+
+    override fun clearResults() {
+        currentResults.clear()
     }
 }
 

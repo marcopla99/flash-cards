@@ -26,4 +26,6 @@
     <string name="nextButton">Next</string>
     <string name="results">Results</string>
     <string name="guessField">Guess field</string>
+    <string name="guessResponse">Guess response</string>
+    <string name="resultsDone">Done</string>
 </resources>

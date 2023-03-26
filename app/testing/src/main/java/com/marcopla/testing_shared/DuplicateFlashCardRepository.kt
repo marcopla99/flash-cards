@@ -1,6 +1,7 @@
 package com.marcopla.testing_shared
 
 import com.marcopla.flashcards.data.model.FlashCard
+import com.marcopla.flashcards.data.model.QuizResult
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import kotlinx.coroutines.flow.Flow
@@ -23,6 +24,18 @@ class DuplicateFlashCardRepository : FlashCardRepository {
     }
 
     override suspend fun deleteById(flashCardId: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun addResult(quizResult: QuizResult) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCurrentResults(): List<QuizResult> {
+        TODO("Not yet implemented")
+    }
+
+    override fun clearResults() {
         TODO("Not yet implemented")
     }
 }

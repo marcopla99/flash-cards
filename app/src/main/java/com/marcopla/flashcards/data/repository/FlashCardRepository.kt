@@ -1,6 +1,7 @@
 package com.marcopla.flashcards.data.repository
 
 import com.marcopla.flashcards.data.model.FlashCard
+import com.marcopla.flashcards.data.model.QuizResult
 import kotlinx.coroutines.flow.Flow
 
 interface FlashCardRepository {
@@ -15,4 +16,10 @@ interface FlashCardRepository {
     suspend fun getFlashCardById(flashCardId: Int): FlashCard
 
     suspend fun deleteById(flashCardId: Int)
+
+    fun addResult(quizResult: QuizResult)
+
+    fun getCurrentResults(): List<QuizResult>
+
+    fun clearResults()
 }

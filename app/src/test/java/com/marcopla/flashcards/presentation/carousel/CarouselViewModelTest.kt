@@ -4,6 +4,7 @@ import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
 import com.marcopla.flashcards.domain.use_case.LoadUseCase
+import com.marcopla.flashcards.domain.use_case.SubmitQuizUseCase
 import com.marcopla.flashcards.presentation.screen.carousel.CarouselScreenState
 import com.marcopla.flashcards.presentation.screen.carousel.CarouselViewModel
 import com.marcopla.testing_shared.FakeFlashCardDao
@@ -21,17 +22,17 @@ class CarouselViewModelTest {
     @ParameterizedTest
     @ValueSource(strings = ["", " ", "  "])
     fun whenSubmittingWithEmptyGuess_thenShowErrorWithNextFlashCardToPlay(emptyUserGuess: String) {
-        val viewModel = CarouselViewModel(
-            LoadUseCase(
-                FlashCardRepositoryImpl(
-                    FakeFlashCardDao(
-                        listOf(
-                            FlashCard("Engels", "English"),
-                            FlashCard("Nederlands", "Dutch"),
-                        )
-                    )
+        val repository = FlashCardRepositoryImpl(
+            FakeFlashCardDao(
+                listOf(
+                    FlashCard("Engels", "English"),
+                    FlashCard("Nederlands", "Dutch"),
                 )
-            ),
+            )
+        )
+        val viewModel = CarouselViewModel(
+            LoadUseCase(repository),
+            SubmitQuizUseCase(repository),
         )
         viewModel.loadFlashCards()
 
@@ -45,17 +46,17 @@ class CarouselViewModelTest {
 
     @Test
     fun whenDataIsFetchedSuccessfully_thenTheStateContainsData() {
-        val viewModel = CarouselViewModel(
-            LoadUseCase(
-                FlashCardRepositoryImpl(
-                    FakeFlashCardDao(
-                        listOf(
-                            FlashCard("Engels", "English"),
-                            FlashCard("Nederlands", "Dutch"),
-                        )
-                    )
+        val repository = FlashCardRepositoryImpl(
+            FakeFlashCardDao(
+                listOf(
+                    FlashCard("Engels", "English"),
+                    FlashCard("Nederlands", "Dutch"),
                 )
-            ),
+            )
+        )
+        val viewModel = CarouselViewModel(
+            LoadUseCase(repository),
+            SubmitQuizUseCase(repository),
         )
 
         viewModel.loadFlashCards()
@@ -73,17 +74,17 @@ class CarouselViewModelTest {
 
     @Test
     fun whenSubmittingWrongGuess_thenShowErrorWithNextFlashCardToPlay() {
-        val viewModel = CarouselViewModel(
-            LoadUseCase(
-                FlashCardRepositoryImpl(
-                    FakeFlashCardDao(
-                        listOf(
-                            FlashCard("Engels", "English"),
-                            FlashCard("Nederlands", "Dutch"),
-                        )
-                    )
+        val repository = FlashCardRepositoryImpl(
+            FakeFlashCardDao(
+                listOf(
+                    FlashCard("Engels", "English"),
+                    FlashCard("Nederlands", "Dutch"),
                 )
-            ),
+            )
+        )
+        val viewModel = CarouselViewModel(
+            LoadUseCase(repository),
+            SubmitQuizUseCase(repository),
         )
         viewModel.loadFlashCards()
 
@@ -97,17 +98,17 @@ class CarouselViewModelTest {
 
     @Test
     fun whenSubmittingCorrectGuess_thenShowSuccessWithNextFlashCardToPlay() {
-        val viewModel = CarouselViewModel(
-            LoadUseCase(
-                FlashCardRepositoryImpl(
-                    FakeFlashCardDao(
-                        listOf(
-                            FlashCard("Engels", "English"),
-                            FlashCard("Nederlands", "Dutch"),
-                        )
-                    )
+        val repository = FlashCardRepositoryImpl(
+            FakeFlashCardDao(
+                listOf(
+                    FlashCard("Engels", "English"),
+                    FlashCard("Nederlands", "Dutch"),
                 )
-            ),
+            )
+        )
+        val viewModel = CarouselViewModel(
+            LoadUseCase(repository),
+            SubmitQuizUseCase(repository),
         )
         viewModel.loadFlashCards()
 
@@ -121,17 +122,17 @@ class CarouselViewModelTest {
 
     @Test
     fun whenLastFlashCardIsPlayed_thenEmitFinishedState() {
-        val viewModel = CarouselViewModel(
-            LoadUseCase(
-                FlashCardRepositoryImpl(
-                    FakeFlashCardDao(
-                        listOf(
-                            FlashCard("Engels", "English"),
-                            FlashCard("Nederlands", "Dutch"),
-                        )
-                    )
+        val repository = FlashCardRepositoryImpl(
+            FakeFlashCardDao(
+                listOf(
+                    FlashCard("Engels", "English"),
+                    FlashCard("Nederlands", "Dutch"),
                 )
-            ),
+            )
+        )
+        val viewModel = CarouselViewModel(
+            LoadUseCase(repository),
+            SubmitQuizUseCase(repository),
         )
         viewModel.loadFlashCards()
         viewModel.submit("English")
@@ -143,17 +144,17 @@ class CarouselViewModelTest {
 
     @Test
     fun whenSubmitting_thenClearGuessField() {
-        val viewModel = CarouselViewModel(
-            LoadUseCase(
-                FlashCardRepositoryImpl(
-                    FakeFlashCardDao(
-                        listOf(
-                            FlashCard("Engels", "English"),
-                            FlashCard("Nederlands", "Dutch"),
-                        )
-                    )
+        val repository = FlashCardRepositoryImpl(
+            FakeFlashCardDao(
+                listOf(
+                    FlashCard("Engels", "English"),
+                    FlashCard("Nederlands", "Dutch"),
                 )
-            ),
+            )
+        )
+        val viewModel = CarouselViewModel(
+            LoadUseCase(repository),
+            SubmitQuizUseCase(repository),
         )
         viewModel.loadFlashCards()
         viewModel.updateGuessInput(":guess:")
@@ -161,5 +162,26 @@ class CarouselViewModelTest {
         viewModel.submit(":guess:")
 
         assertEquals("", viewModel.guessInput.value)
+    }
+
+    @Test
+    fun whenFinished_allFlashCardsWereProcessed() {
+        val storedFlashCards = listOf(
+            FlashCard("Engels", "English"),
+            FlashCard("Nederlands", "Dutch"),
+            FlashCard("Italiaans", "Italian")
+        )
+        val repository = FlashCardRepositoryImpl(FakeFlashCardDao(storedFlashCards))
+        val viewModel = CarouselViewModel(
+            LoadUseCase(repository),
+            SubmitQuizUseCase(repository)
+        )
+        viewModel.loadFlashCards()
+
+        repeat(storedFlashCards.size) {
+            viewModel.submit(":guess:")
+        }
+
+        assertEquals(storedFlashCards.size, repository.getCurrentResults().size)
     }
 }

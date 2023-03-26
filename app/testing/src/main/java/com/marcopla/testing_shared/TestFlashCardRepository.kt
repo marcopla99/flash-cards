@@ -1,6 +1,7 @@
 package com.marcopla.testing_shared
 
 import com.marcopla.flashcards.data.model.FlashCard
+import com.marcopla.flashcards.data.model.QuizResult
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.flow
  * Repository used in tests to mock data retrieval.
  */
 class TestFlashCardRepository : FlashCardRepository {
+    private val currentResults: MutableList<QuizResult> = mutableListOf()
     private var flashCards: List<FlashCard> = listOf()
     private val mutableFlow = MutableSharedFlow<List<FlashCard>>()
 
@@ -33,6 +35,18 @@ class TestFlashCardRepository : FlashCardRepository {
 
     override suspend fun deleteById(flashCardId: Int) {
         TODO("Not yet implemented")
+    }
+
+    override fun addResult(quizResult: QuizResult) {
+        currentResults.add(quizResult)
+    }
+
+    override fun getCurrentResults(): List<QuizResult> {
+        return currentResults
+    }
+
+    override fun clearResults() {
+        currentResults.clear()
     }
 
     suspend fun emit(value: List<FlashCard>) {

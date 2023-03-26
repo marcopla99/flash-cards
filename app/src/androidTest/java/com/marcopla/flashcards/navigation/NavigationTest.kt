@@ -107,4 +107,18 @@ class NavigationTest {
             resultScreenIsOpen()
         }
     }
+
+    @Test
+    fun whenClosingResultsScreen_thenNavigateBackToHomeScreen() {
+        val flashCard = FlashCard("Engels", "English")
+
+        launchApp(composeRule) {
+            addNewFlashCard(flashCard)
+            clickCarouselButton()
+            clickNextButton()
+            clickDoneButton()
+        } verify {
+            homeScreenIsOpen()
+        }
+    }
 }
