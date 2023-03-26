@@ -3,6 +3,7 @@ package com.marcopla.flashcards.presentation.result
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.model.QuizResult
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
+import com.marcopla.flashcards.domain.use_case.LoadResultsUseCase
 import com.marcopla.flashcards.presentation.screen.result.ResultViewModel
 import com.marcopla.testing_shared.FakeFlashCardDao
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -19,7 +20,7 @@ class ResultViewModelTest {
         val repository = FlashCardRepositoryImpl(FakeFlashCardDao()).apply {
             storedResults.forEach { addResult(it) }
         }
-        val viewModel = ResultViewModel(repository)
+        val viewModel = ResultViewModel(LoadResultsUseCase(repository))
 
         assertEquals(storedResults, viewModel.results.value)
     }
