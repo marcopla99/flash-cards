@@ -28,22 +28,24 @@ class CarouselViewModel @Inject constructor(
     val screenState: State<CarouselScreenState> = _screenState
 
     private val isLastFlashCard: Boolean
-        get() = currentFlashCardIndex == flashCards.size - 1
+        get() = currentFlashCardIndex > flashCards.size - 1
 
     fun submit(userGuess: String) {
         _guessInput.value = ""
-        if (isLastFlashCard) {
-            _screenState.value = CarouselScreenState.Finished
-            return
-        }
-        if (submitQuiz.invoke(flashCards[currentFlashCardIndex], userGuess)) {
-            currentFlashCardIndex += 1
-            _screenState.value =
-                CarouselScreenState.Correct(flashCards[currentFlashCardIndex])
+        if (submitQuiz.invoke(flashCards[currentFlashCardIndex++], userGuess)) {
+            if (isLastFlashCard) {
+                _screenState.value = CarouselScreenState.Finished
+            } else {
+                _screenState.value =
+                    CarouselScreenState.Correct(flashCards[currentFlashCardIndex])
+            }
         } else {
-            currentFlashCardIndex += 1
-            _screenState.value =
-                CarouselScreenState.Wrong(flashCards[currentFlashCardIndex])
+            if (isLastFlashCard) {
+                _screenState.value = CarouselScreenState.Finished
+            } else {
+                _screenState.value =
+                    CarouselScreenState.Wrong(flashCards[currentFlashCardIndex])
+            }
         }
     }
 

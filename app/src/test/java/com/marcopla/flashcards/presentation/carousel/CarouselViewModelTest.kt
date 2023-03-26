@@ -163,4 +163,25 @@ class CarouselViewModelTest {
 
         assertEquals("", viewModel.guessInput.value)
     }
+
+    @Test
+    fun whenFinished_allFlashCardsWereProcessed() {
+        val storedFlashCards = listOf(
+            FlashCard("Engels", "English"),
+            FlashCard("Nederlands", "Dutch"),
+            FlashCard("Italiaans", "Italian")
+        )
+        val repository = FlashCardRepositoryImpl(FakeFlashCardDao(storedFlashCards))
+        val viewModel = CarouselViewModel(
+            LoadUseCase(repository),
+            SubmitQuizUseCase(repository)
+        )
+        viewModel.loadFlashCards()
+
+        repeat(storedFlashCards.size) {
+            viewModel.submit(":guess:")
+        }
+
+        assertEquals(storedFlashCards.size, repository.getCurrentResults().size)
+    }
 }
