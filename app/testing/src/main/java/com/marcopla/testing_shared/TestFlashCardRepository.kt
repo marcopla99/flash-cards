@@ -45,6 +45,10 @@ class TestFlashCardRepository : FlashCardRepository {
         return currentResults
     }
 
+    override fun clearResults() {
+        currentResults.clear()
+    }
+
     suspend fun emit(value: List<FlashCard>) {
         this.flashCards = value
         mutableFlow.emit(value)

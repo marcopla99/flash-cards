@@ -45,6 +45,7 @@ fun ResultsScreen(
                 modifier = modifier.semantics { contentDescription = buttonText },
                 onClick = {
                     onDoneClicked()
+                    viewModel.clearResults()
                 }
             ) {
                 Text(buttonText)

@@ -34,4 +34,8 @@ class DuplicateFlashCardRepository : FlashCardRepository {
     override fun getCurrentResults(): List<QuizResult> {
         TODO("Not yet implemented")
     }
+
+    override fun clearResults() {
+        TODO("Not yet implemented")
+    }
 }

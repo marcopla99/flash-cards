@@ -9,7 +9,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ResultViewModel @Inject constructor(repository: FlashCardRepository) : ViewModel() {
+class ResultViewModel @Inject constructor(
+    private val repository: FlashCardRepository,
+) : ViewModel() {
+    fun clearResults() {
+        repository.clearResults()
+    }
 
     private val _results = mutableStateOf(repository.getCurrentResults())
     val results: State<List<QuizResult>> = _results

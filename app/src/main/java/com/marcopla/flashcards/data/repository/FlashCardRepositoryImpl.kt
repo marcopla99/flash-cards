@@ -52,6 +52,10 @@ class FlashCardRepositoryImpl(
     override fun getCurrentResults(): List<QuizResult> {
         return currentResults
     }
+
+    override fun clearResults() {
+        currentResults.clear()
+    }
 }
 
 class DuplicateInsertionException : IllegalStateException()
