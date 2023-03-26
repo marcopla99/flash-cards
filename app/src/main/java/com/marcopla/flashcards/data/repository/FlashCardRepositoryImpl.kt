@@ -46,7 +46,7 @@ class FlashCardRepositoryImpl(
     }
 
     /**
-     * Get stored results for this session.
+     * Get the stored results for this session.
      * Note: results are currently just saved in memory.
      */
     override fun getCurrentResults(): List<QuizResult> {

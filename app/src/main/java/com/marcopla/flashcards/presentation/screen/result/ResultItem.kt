@@ -1,14 +1,15 @@
 package com.marcopla.flashcards.presentation.screen.result
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.QuizResult
 
@@ -18,7 +19,11 @@ fun ResultItem(
     quizResult: QuizResult,
 ) {
     Card {
-        Row {
+        Row(
+            modifier = modifier.fillMaxWidth().padding(4.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Column {
                 Text(text = quizResult.flashCard.frontText)
                 Text(text = quizResult.flashCard.backText)
