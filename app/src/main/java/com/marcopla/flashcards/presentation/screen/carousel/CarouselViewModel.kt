@@ -8,14 +8,14 @@ import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.domain.use_case.LoadUseCase
 import com.marcopla.flashcards.domain.use_case.SubmitQuizUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class CarouselViewModel @Inject constructor(
     private val loadUseCase: LoadUseCase,
-    private val submitQuiz: SubmitQuizUseCase
+    private val submitQuiz: SubmitQuizUseCase,
 ) : ViewModel() {
     private var flashCards: List<FlashCard> = emptyList()
 
@@ -28,26 +28,7 @@ class CarouselViewModel @Inject constructor(
     val screenState: State<CarouselScreenState> = _screenState
 
     private val isLastFlashCard: Boolean
-        get() = currentFlashCardIndex > flashCards.size - 1
-
-    fun submit(userGuess: String) {
-        _guessInput.value = ""
-        if (submitQuiz.invoke(flashCards[currentFlashCardIndex++], userGuess)) {
-            if (isLastFlashCard) {
-                _screenState.value = CarouselScreenState.Finished
-            } else {
-                _screenState.value =
-                    CarouselScreenState.Correct(flashCards[currentFlashCardIndex])
-            }
-        } else {
-            if (isLastFlashCard) {
-                _screenState.value = CarouselScreenState.Finished
-            } else {
-                _screenState.value =
-                    CarouselScreenState.Wrong(flashCards[currentFlashCardIndex])
-            }
-        }
-    }
+        get() = currentFlashCardIndex >= flashCards.size - 1
 
     fun loadFlashCards() {
         viewModelScope.launch {
@@ -58,6 +39,34 @@ class CarouselViewModel @Inject constructor(
 
     fun updateGuessInput(input: String) {
         _guessInput.value = input
+    }
+
+    fun submit(userGuess: String) {
+        resetGuessInputText()
+        val isCorrect = submitQuiz(flashCards[currentFlashCardIndex], userGuess)
+        if (isLastFlashCard) {
+            _screenState.value = CarouselScreenState.Finished
+            return
+        }
+        handleValidationState(isCorrect)
+        incrementCurrentFlashCardIndex()
+    }
+
+    private fun resetGuessInputText() {
+        _guessInput.value = ""
+    }
+
+    private fun handleValidationState(isCorrect: Boolean) {
+        val nextFlashCard = flashCards[currentFlashCardIndex + 1]
+        if (isCorrect) {
+            _screenState.value = CarouselScreenState.Correct(nextFlashCard)
+        } else {
+            _screenState.value = CarouselScreenState.Wrong(nextFlashCard)
+        }
+    }
+
+    private fun incrementCurrentFlashCardIndex() {
+        currentFlashCardIndex += 1
     }
 }
 

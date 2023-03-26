@@ -6,7 +6,7 @@ import com.marcopla.flashcards.data.repository.FlashCardRepository
 import javax.inject.Inject
 
 class SubmitQuizUseCase @Inject constructor(private val repository: FlashCardRepository) {
-    fun invoke(flashCard: FlashCard, userGuess: String): Boolean {
+    operator fun invoke(flashCard: FlashCard, userGuess: String): Boolean {
         val isCorrect = flashCard.backText == userGuess
         repository.addResult(
             QuizResult(
