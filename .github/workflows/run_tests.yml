@@ -69,11 +69,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: app-debug
+          path: app-debug
 
       - name: Download app test APK
         uses: actions/download-artifact@v3
         with:
           name: app-debug-androidTest
+          path: app-debug-androidTest
 
       - id: Auth
         uses: google-github-actions/auth@v1
