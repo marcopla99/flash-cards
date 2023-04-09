@@ -7,9 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
-import com.marcopla.flashcards.domain.use_case.AddUseCase
-import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextException
-import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
+import com.marcopla.flashcards.domain.usecase.AddUseCase
+import com.marcopla.flashcards.domain.usecase.exceptions.InvalidBackTextException
+import com.marcopla.flashcards.domain.usecase.exceptions.InvalidFrontTextException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch

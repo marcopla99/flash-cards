@@ -3,7 +3,7 @@ package com.marcopla.flashcards.presentation.result
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.model.QuizResult
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
-import com.marcopla.flashcards.domain.use_case.LoadResultsUseCase
+import com.marcopla.flashcards.domain.usecase.LoadResultsUseCase
 import com.marcopla.flashcards.presentation.screen.result.ResultViewModel
 import com.marcopla.testing_shared.FakeFlashCardDao
 import org.junit.jupiter.api.Assertions.assertEquals

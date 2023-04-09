@@ -1,4 +1,4 @@
-package com.marcopla.flashcards.domain.use_case
+package com.marcopla.flashcards.domain.usecase
 
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.model.QuizResult

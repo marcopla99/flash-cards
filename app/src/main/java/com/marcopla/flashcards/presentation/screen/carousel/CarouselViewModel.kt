@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.domain.use_case.LoadUseCase
-import com.marcopla.flashcards.domain.use_case.SubmitQuizUseCase
+import com.marcopla.flashcards.domain.usecase.LoadUseCase
+import com.marcopla.flashcards.domain.usecase.SubmitQuizUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.first

@@ -2,7 +2,7 @@ package com.marcopla.testing_shared
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.marcopla.flashcards.data.data_source.FlashCardDao
+import com.marcopla.flashcards.data.datasource.FlashCardDao
 import com.marcopla.flashcards.data.model.FlashCard
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
