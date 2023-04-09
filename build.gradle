@@ -1,9 +1,9 @@
 buildscript {
     ext {
-        jUnitVersion = '5.9.1'
+        jUnitVersion = '5.9.2'
         navigationVersion = '2.5.3'
-        hiltVersion = '2.44.2'
-        roomVersion = '2.5.0'
+        hiltVersion = '2.45'
+        roomVersion = '2.5.1'
     }
 
     dependencies {
