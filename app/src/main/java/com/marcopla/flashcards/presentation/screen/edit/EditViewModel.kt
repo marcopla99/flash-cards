@@ -8,11 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
-import com.marcopla.flashcards.domain.use_case.DeleteUseCase
-import com.marcopla.flashcards.domain.use_case.EditUseCase
-import com.marcopla.flashcards.domain.use_case.LoadUseCase
-import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextException
-import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
+import com.marcopla.flashcards.domain.usecase.DeleteUseCase
+import com.marcopla.flashcards.domain.usecase.EditUseCase
+import com.marcopla.flashcards.domain.usecase.LoadUseCase
+import com.marcopla.flashcards.domain.usecase.exceptions.InvalidBackTextException
+import com.marcopla.flashcards.domain.usecase.exceptions.InvalidFrontTextException
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

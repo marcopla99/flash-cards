@@ -1,7 +1,7 @@
 package com.marcopla.flashcards.data.repository
 
 import android.database.sqlite.SQLiteConstraintException
-import com.marcopla.flashcards.data.data_source.FlashCardDao
+import com.marcopla.flashcards.data.datasource.FlashCardDao
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.model.QuizResult
 import kotlinx.coroutines.flow.Flow

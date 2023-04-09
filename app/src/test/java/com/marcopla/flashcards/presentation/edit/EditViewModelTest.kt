@@ -5,9 +5,9 @@ import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
-import com.marcopla.flashcards.domain.use_case.DeleteUseCase
-import com.marcopla.flashcards.domain.use_case.EditUseCase
-import com.marcopla.flashcards.domain.use_case.LoadUseCase
+import com.marcopla.flashcards.domain.usecase.DeleteUseCase
+import com.marcopla.flashcards.domain.usecase.EditUseCase
+import com.marcopla.flashcards.domain.usecase.LoadUseCase
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
 import com.marcopla.flashcards.presentation.screen.edit.*
 import com.marcopla.testing_shared.DuplicateFlashCardRepository

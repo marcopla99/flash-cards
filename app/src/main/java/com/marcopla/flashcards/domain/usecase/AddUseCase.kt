@@ -1,10 +1,10 @@
-package com.marcopla.flashcards.domain.use_case
+package com.marcopla.flashcards.domain.usecase
 
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.DuplicateInsertionException
 import com.marcopla.flashcards.data.repository.FlashCardRepository
-import com.marcopla.flashcards.domain.use_case.exceptions.InvalidBackTextException
-import com.marcopla.flashcards.domain.use_case.exceptions.InvalidFrontTextException
+import com.marcopla.flashcards.domain.usecase.exceptions.InvalidBackTextException
+import com.marcopla.flashcards.domain.usecase.exceptions.InvalidFrontTextException
 import javax.inject.Inject
 
 class AddUseCase @Inject constructor(

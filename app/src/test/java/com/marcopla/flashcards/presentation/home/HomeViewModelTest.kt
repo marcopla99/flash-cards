@@ -2,7 +2,7 @@ package com.marcopla.flashcards.presentation.home
 
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.domain.use_case.LoadUseCase
+import com.marcopla.flashcards.domain.usecase.LoadUseCase
 import com.marcopla.flashcards.presentation.screen.home.HomeScreenState
 import com.marcopla.flashcards.presentation.screen.home.HomeViewModel
 import com.marcopla.testing_shared.TestFlashCardRepository

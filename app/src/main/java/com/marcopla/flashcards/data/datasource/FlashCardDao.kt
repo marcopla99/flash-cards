@@ -1,4 +1,4 @@
-package com.marcopla.flashcards.data.data_source
+package com.marcopla.flashcards.data.datasource
 
 import androidx.room.*
 import com.marcopla.flashcards.data.model.FlashCard

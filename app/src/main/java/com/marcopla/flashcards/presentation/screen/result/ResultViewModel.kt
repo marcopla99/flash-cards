@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.marcopla.flashcards.data.model.QuizResult
-import com.marcopla.flashcards.domain.use_case.LoadResultsUseCase
+import com.marcopla.flashcards.domain.usecase.LoadResultsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

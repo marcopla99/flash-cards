@@ -3,8 +3,8 @@ package com.marcopla.flashcards.presentation.carousel
 import com.marcopla.flashcards.MainDispatcherExtension
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
-import com.marcopla.flashcards.domain.use_case.LoadUseCase
-import com.marcopla.flashcards.domain.use_case.SubmitQuizUseCase
+import com.marcopla.flashcards.domain.usecase.LoadUseCase
+import com.marcopla.flashcards.domain.usecase.SubmitQuizUseCase
 import com.marcopla.flashcards.presentation.screen.carousel.CarouselScreenState
 import com.marcopla.flashcards.presentation.screen.carousel.CarouselViewModel
 import com.marcopla.testing_shared.FakeFlashCardDao

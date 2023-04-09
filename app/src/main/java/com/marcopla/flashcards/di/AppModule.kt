@@ -2,7 +2,7 @@ package com.marcopla.flashcards.di
 
 import android.app.Application
 import androidx.room.Room
-import com.marcopla.flashcards.data.data_source.FlashCardDatabase
+import com.marcopla.flashcards.data.datasource.FlashCardDatabase
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
 import dagger.Module

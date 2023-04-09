@@ -1,4 +1,4 @@
-package com.marcopla.flashcards.domain.use_case.exceptions
+package com.marcopla.flashcards.domain.usecase.exceptions
 
 class InvalidFrontTextException : IllegalStateException()
 class InvalidBackTextException : IllegalStateException()
