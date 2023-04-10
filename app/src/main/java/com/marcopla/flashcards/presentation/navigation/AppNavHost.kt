@@ -1,7 +1,6 @@
 package com.marcopla.flashcards.presentation.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -15,17 +14,14 @@ import com.marcopla.flashcards.presentation.screen.result.ResultsScreen
 
 @Composable
 fun AppNavHost(
-    navController: NavHostController,
-    modifier: Modifier = Modifier,
+    navController: NavHostController
 ) {
     NavHost(
         navController = navController,
-        startDestination = Routes.HOME_SCREEN,
-        modifier = modifier
+        startDestination = Routes.HOME_SCREEN
     ) {
         composable(Routes.HOME_SCREEN) {
             HomeScreen(
-                modifier = modifier,
                 onNavigateToAddScreen = {
                     navController.navigate(Routes.ADD_SCREEN)
                 },
@@ -38,7 +34,7 @@ fun AppNavHost(
             )
         }
         composable(Routes.ADD_SCREEN) {
-            AddScreen(modifier = modifier)
+            AddScreen()
         }
         composable(
             "${Routes.EDIT_SCREEN}/{$FLASH_CARD_ID_ARG_KEY}",
@@ -49,7 +45,6 @@ fun AppNavHost(
             )
         ) {
             EditScreen(
-                modifier = modifier,
                 onFlashCardEdited = {
                     navController.popBackStack(Routes.HOME_SCREEN, false)
                 },
@@ -60,7 +55,6 @@ fun AppNavHost(
         }
         composable(Routes.CAROUSEL_SCREEN) {
             CarouselScreen(
-                modifier = modifier,
                 onLastFlashCardPlayed = {
                     navController.navigate(Routes.RESULT_SCREEN)
                 }
@@ -68,7 +62,6 @@ fun AppNavHost(
         }
         composable(Routes.RESULT_SCREEN) {
             ResultsScreen(
-                modifier = modifier,
                 onDoneClicked = {
                     navController.popBackStack(Routes.HOME_SCREEN, false)
                 }

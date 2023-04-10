@@ -28,7 +28,7 @@ class HomeScreenTest {
         val flashCards = listOf(
             FlashCard(frontText = "front1", backText = "back1"),
             FlashCard(frontText = "front2", backText = "back2"),
-            FlashCard(frontText = "front3", backText = "back3"),
+            FlashCard(frontText = "front3", backText = "back3")
         )
 
         launchHomeScreen(composeRule, flashCards) {

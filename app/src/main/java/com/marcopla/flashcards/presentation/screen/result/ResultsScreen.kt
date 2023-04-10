@@ -21,7 +21,7 @@ import com.marcopla.flashcards.R
 fun ResultsScreen(
     modifier: Modifier = Modifier,
     viewModel: ResultViewModel = hiltViewModel(),
-    onDoneClicked: () -> Unit,
+    onDoneClicked: () -> Unit
 ) {
     Scaffold(topBar = {
         TopAppBar(title = { Text(stringResource(R.string.results)) })
@@ -30,7 +30,7 @@ fun ResultsScreen(
             modifier = modifier
                 .fillMaxWidth()
                 .padding(4.dp)
-                .consumedWindowInsets(it),
+                .consumeWindowInsets(it),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LazyColumn {
@@ -42,7 +42,7 @@ fun ResultsScreen(
             }
             val buttonText = stringResource(id = R.string.resultsDone)
             Button(
-                modifier = modifier.semantics { contentDescription = buttonText },
+                modifier = Modifier.semantics { contentDescription = buttonText },
                 onClick = {
                     onDoneClicked()
                     viewModel.clearResults()

@@ -36,7 +36,7 @@ class HomeViewModelTest {
 
         assertEquals(
             HomeScreenState.Empty,
-            viewModel.homeScreenState.value,
+            viewModel.homeScreenState.value
         )
         collectJob.cancel()
     }

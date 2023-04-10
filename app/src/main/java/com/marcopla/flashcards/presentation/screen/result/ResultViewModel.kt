@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ResultViewModel @Inject constructor(
-    private val loadResults: LoadResultsUseCase,
+    private val loadResults: LoadResultsUseCase
 ) : ViewModel() {
     private val _results = mutableStateOf(loadResults())
     val results: State<List<QuizResult>> = _results

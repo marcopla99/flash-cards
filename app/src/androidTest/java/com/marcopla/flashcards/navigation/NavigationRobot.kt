@@ -12,13 +12,13 @@ typealias ComposeTestRule =
 
 fun launchApp(
     composeRule: ComposeTestRule,
-    block: NavigationRobot.() -> Unit,
+    block: NavigationRobot.() -> Unit
 ): NavigationRobot {
     return NavigationRobot(composeRule).apply(block)
 }
 
 class NavigationRobot(
-    private val composeRule: ComposeTestRule,
+    private val composeRule: ComposeTestRule
 ) {
     fun clickAddButton() {
         val addButtonContentDescription = composeRule.activity.getString(
@@ -52,7 +52,7 @@ class NavigationRobot(
     fun clickOnFlashCard(flashCard: FlashCard) {
         val flashCardContentDescription = composeRule.activity.getString(
             R.string.flashCardItem,
-            flashCard.frontText,
+            flashCard.frontText
         )
 
         composeRule
@@ -101,7 +101,7 @@ class NavigationRobot(
 }
 
 class NavigationVerification(
-    private val composeRule: ComposeTestRule,
+    private val composeRule: ComposeTestRule
 ) {
     fun addScreenIsOpen() {
         val addScreenTitle = composeRule.activity.getString(R.string.addScreenTitle)
@@ -127,7 +127,7 @@ class NavigationVerification(
     fun carouselScreenIsOpen() {
         composeRule
             .onNodeWithText(
-                composeRule.activity.getString(R.string.carouselScreenTitle),
+                composeRule.activity.getString(R.string.carouselScreenTitle)
             )
             .assertIsDisplayed()
     }

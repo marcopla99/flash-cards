@@ -13,7 +13,7 @@ class AddUseCase @Inject constructor(
     @Throws(
         InvalidFrontTextException::class,
         InvalidBackTextException::class,
-        DuplicateInsertionException::class,
+        DuplicateInsertionException::class
     )
     suspend fun invoke(frontText: String?, backText: String?) {
         if (frontText.isNullOrBlank()) {

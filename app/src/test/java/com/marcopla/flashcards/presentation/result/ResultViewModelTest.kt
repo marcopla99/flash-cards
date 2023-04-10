@@ -15,7 +15,7 @@ class ResultViewModelTest {
         val storedResults = listOf(
             QuizResult(FlashCard("Engels", "English"), "English", true),
             QuizResult(FlashCard("Nederlands", "Dutch"), "", false),
-            QuizResult(FlashCard("Italiaans", "Italian"), "wrong", false),
+            QuizResult(FlashCard("Italiaans", "Italian"), "wrong", false)
         )
         val repository = FlashCardRepositoryImpl(FakeFlashCardDao()).apply {
             storedResults.forEach { addResult(it) }

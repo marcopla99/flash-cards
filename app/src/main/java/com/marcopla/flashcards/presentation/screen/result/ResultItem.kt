@@ -15,8 +15,8 @@ import com.marcopla.flashcards.data.model.QuizResult
 
 @Composable
 fun ResultItem(
-    modifier: Modifier = Modifier,
     quizResult: QuizResult,
+    modifier: Modifier = Modifier,
 ) {
     Card {
         Row(
@@ -33,7 +33,7 @@ fun ResultItem(
             if (!quizResult.isCorrect) {
                 Text(
                     text = quizResult.guess,
-                    modifier = modifier.semantics {
+                    modifier = Modifier.semantics {
                         contentDescription = stringResource
                     }
                 )

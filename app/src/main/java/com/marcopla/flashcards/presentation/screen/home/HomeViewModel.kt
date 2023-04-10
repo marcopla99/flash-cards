@@ -10,12 +10,12 @@ import kotlinx.coroutines.flow.*
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val loadUseCase: LoadUseCase,
+    private val loadUseCase: LoadUseCase
 ) : ViewModel() {
     val homeScreenState: StateFlow<HomeScreenState> = loadCardsStateStream().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = HomeScreenState.Loading,
+        initialValue = HomeScreenState.Loading
     )
 
     private fun loadCardsStateStream(): Flow<HomeScreenState> {

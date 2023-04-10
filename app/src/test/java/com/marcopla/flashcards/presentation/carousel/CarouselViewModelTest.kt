@@ -26,13 +26,13 @@ class CarouselViewModelTest {
             FakeFlashCardDao(
                 listOf(
                     FlashCard("Engels", "English"),
-                    FlashCard("Nederlands", "Dutch"),
+                    FlashCard("Nederlands", "Dutch")
                 )
             )
         )
         val viewModel = CarouselViewModel(
             LoadUseCase(repository),
-            SubmitQuizUseCase(repository),
+            SubmitQuizUseCase(repository)
         )
         viewModel.loadFlashCards()
 
@@ -50,13 +50,13 @@ class CarouselViewModelTest {
             FakeFlashCardDao(
                 listOf(
                     FlashCard("Engels", "English"),
-                    FlashCard("Nederlands", "Dutch"),
+                    FlashCard("Nederlands", "Dutch")
                 )
             )
         )
         val viewModel = CarouselViewModel(
             LoadUseCase(repository),
-            SubmitQuizUseCase(repository),
+            SubmitQuizUseCase(repository)
         )
 
         viewModel.loadFlashCards()
@@ -65,7 +65,7 @@ class CarouselViewModelTest {
             CarouselScreenState.Initial(
                 listOf(
                     FlashCard("Engels", "English"),
-                    FlashCard("Nederlands", "Dutch"),
+                    FlashCard("Nederlands", "Dutch")
                 )[0]
             ),
             viewModel.screenState.value
@@ -78,13 +78,13 @@ class CarouselViewModelTest {
             FakeFlashCardDao(
                 listOf(
                     FlashCard("Engels", "English"),
-                    FlashCard("Nederlands", "Dutch"),
+                    FlashCard("Nederlands", "Dutch")
                 )
             )
         )
         val viewModel = CarouselViewModel(
             LoadUseCase(repository),
-            SubmitQuizUseCase(repository),
+            SubmitQuizUseCase(repository)
         )
         viewModel.loadFlashCards()
 
@@ -102,13 +102,13 @@ class CarouselViewModelTest {
             FakeFlashCardDao(
                 listOf(
                     FlashCard("Engels", "English"),
-                    FlashCard("Nederlands", "Dutch"),
+                    FlashCard("Nederlands", "Dutch")
                 )
             )
         )
         val viewModel = CarouselViewModel(
             LoadUseCase(repository),
-            SubmitQuizUseCase(repository),
+            SubmitQuizUseCase(repository)
         )
         viewModel.loadFlashCards()
 
@@ -126,13 +126,13 @@ class CarouselViewModelTest {
             FakeFlashCardDao(
                 listOf(
                     FlashCard("Engels", "English"),
-                    FlashCard("Nederlands", "Dutch"),
+                    FlashCard("Nederlands", "Dutch")
                 )
             )
         )
         val viewModel = CarouselViewModel(
             LoadUseCase(repository),
-            SubmitQuizUseCase(repository),
+            SubmitQuizUseCase(repository)
         )
         viewModel.loadFlashCards()
         viewModel.submit("English")
@@ -148,13 +148,13 @@ class CarouselViewModelTest {
             FakeFlashCardDao(
                 listOf(
                     FlashCard("Engels", "English"),
-                    FlashCard("Nederlands", "Dutch"),
+                    FlashCard("Nederlands", "Dutch")
                 )
             )
         )
         val viewModel = CarouselViewModel(
             LoadUseCase(repository),
-            SubmitQuizUseCase(repository),
+            SubmitQuizUseCase(repository)
         )
         viewModel.loadFlashCards()
         viewModel.updateGuessInput(":guess:")

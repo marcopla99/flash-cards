@@ -1,9 +1,6 @@
 package com.marcopla.flashcards.presentation.screen.carousel
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.consumedWindowInsets
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
@@ -21,9 +18,8 @@ import com.marcopla.flashcards.R
 fun CarouselScreen(
     modifier: Modifier = Modifier,
     viewModel: CarouselViewModel = hiltViewModel(),
-    onLastFlashCardPlayed: () -> Unit,
+    onLastFlashCardPlayed: () -> Unit
 ) {
-
     LaunchedEffect(key1 = Unit) {
         viewModel.loadFlashCards()
     }
@@ -40,7 +36,7 @@ fun CarouselScreen(
             TopAppBar(
                 title = {
                     Text(text = stringResource(id = R.string.carouselScreenTitle))
-                },
+                }
             )
         },
         floatingActionButton = {
@@ -54,11 +50,10 @@ fun CarouselScreen(
         Column(
             modifier = modifier
                 .padding(4.dp)
-                .consumedWindowInsets(it)
+                .consumeWindowInsets(it)
         ) {
             Prompt(screenState.value)
             Guess(
-                modifier = modifier,
                 value = viewModel.guessInput.value,
                 onValueChange = viewModel::updateGuessInput
             )
@@ -68,9 +63,9 @@ fun CarouselScreen(
 
 @Composable
 private fun Guess(
-    modifier: Modifier,
     value: String,
-    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    onValueChange: (String) -> Unit
 ) {
     val guessFieldContentDescription = stringResource(id = R.string.guessField)
     TextField(

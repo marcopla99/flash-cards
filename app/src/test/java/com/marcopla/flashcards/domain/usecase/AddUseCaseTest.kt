@@ -37,7 +37,7 @@ class AddUseCaseTest {
         val addUseCase = AddUseCase(FlashCardRepositoryImpl(FakeFlashCardDao()))
 
         assertThrows(
-            InvalidBackTextException::class.java,
+            InvalidBackTextException::class.java
         ) {
             runBlocking {
                 addUseCase.invoke(":frontText:", blankBackText)

@@ -21,14 +21,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToAddScreen: () -> Unit,
     onItemClicked: (Int) -> Unit,
     onNavigateToCarouselScreen: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     val screenState: HomeScreenState by viewModel.homeScreenState.collectAsStateWithLifecycle()
     Scaffold(
@@ -38,13 +40,13 @@ fun HomeScreen(
                 actions = {
                     if (screenState is HomeScreenState.Cards) {
                         Icon(
-                            modifier = modifier.clickable {
+                            modifier = Modifier.clickable {
                                 onNavigateToCarouselScreen()
                             },
                             imageVector = Icons.Default.PlayArrow,
                             contentDescription = stringResource(
                                 id = R.string.carouselButton
-                            ),
+                            )
                         )
                     }
                 }
@@ -64,7 +66,7 @@ fun HomeScreen(
         ScreenContent(
             screenState,
             modifier = modifier.padding(padding),
-            onItemClicked = onItemClicked,
+            onItemClicked = onItemClicked
         )
     }
 }
@@ -73,39 +75,39 @@ fun HomeScreen(
 private fun ScreenContent(
     screenState: HomeScreenState,
     modifier: Modifier = Modifier,
-    onItemClicked: (Int) -> Unit,
+    onItemClicked: (Int) -> Unit
 ) {
     when (screenState) {
         is HomeScreenState.Loading -> LoadingIndicator(modifier = modifier)
         is HomeScreenState.Empty -> EmptyMessage(modifier = modifier)
         is HomeScreenState.Cards -> CardsList(
-            screenState.flashCards,
+            screenState.flashCards.toImmutableList(),
             modifier = modifier,
-            onItemClicked = onItemClicked,
+            onItemClicked = onItemClicked
         )
     }
 }
 
 @Composable
 private fun LoadingIndicator(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val loadingContentDescription = stringResource(
         id = R.string.loadingIndicator
     )
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
+        contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator(
-            modifier = modifier.semantics { contentDescription = loadingContentDescription }
+            modifier = Modifier.semantics { contentDescription = loadingContentDescription }
         )
     }
 }
 
 @Composable
 private fun EmptyMessage(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -121,16 +123,16 @@ private fun EmptyMessage(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun CardsList(
-    flashCards: List<FlashCard>,
+    flashCards: ImmutableList<FlashCard>,
     modifier: Modifier = Modifier,
-    onItemClicked: (Int) -> Unit,
+    onItemClicked: (Int) -> Unit
 ) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
         items(flashCards.size) { index ->
             val itemContentDescription =
                 stringResource(R.string.flashCardItem, flashCards[index].frontText)
             Card(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(4.dp)
                     .semantics {
@@ -141,7 +143,7 @@ private fun CardsList(
                     onItemClicked(flashCards[index].id)
                 }
             ) {
-                Column(modifier = modifier.padding(4.dp)) {
+                Column(modifier = Modifier.padding(4.dp)) {
                     Text(
                         text = flashCards[index].frontText,
                         style = MaterialTheme.typography.h5

@@ -8,12 +8,12 @@ import com.marcopla.flashcards.domain.usecase.exceptions.InvalidFrontTextExcepti
 import javax.inject.Inject
 
 class EditUseCase @Inject constructor(
-    private val flashCardRepository: FlashCardRepository,
+    private val flashCardRepository: FlashCardRepository
 ) {
     @Throws(
         InvalidFrontTextException::class,
         InvalidBackTextException::class,
-        DuplicateInsertionException::class,
+        DuplicateInsertionException::class
     )
     suspend fun invoke(frontText: String, backText: String, flashCardId: Int) {
         if (frontText.isBlank()) {

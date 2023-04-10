@@ -15,7 +15,7 @@ class EditScreenTest {
     fun editingFlashCard_whenIsAlreadyStored_thenShowDuplicateError() {
         val selectedFlashCard = FlashCard("Engels", "wrong").apply { id = 0 }
 
-        launchEditScreenFor(selectedFlashCard, composeRule, DuplicateFlashCardRepository(),) {
+        launchEditScreenFor(selectedFlashCard, composeRule, DuplicateFlashCardRepository()) {
             submit()
         } verify {
             duplicateErrorIsDisplayed()
@@ -47,7 +47,6 @@ class EditScreenTest {
 
     @Test
     fun selectedFlashCard_whenClickingResetButton_thenShowOriginalTextFields() {
-
         val originalFlashCard = FlashCard("Engels", "English").apply { id = 0 }
         launchEditScreenFor(originalFlashCard, composeRule) {
             editFrontText("wrong")

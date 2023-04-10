@@ -19,14 +19,14 @@ typealias ComponentActivityTestRule =
 fun launchCarouselScreen(
     composeRule: ComponentActivityTestRule,
     flashCards: List<FlashCard>,
-    block: CarouselScreenRobot.() -> Unit,
+    block: CarouselScreenRobot.() -> Unit
 ): CarouselScreenRobot {
     composeRule.setContent {
         val repository = FlashCardRepositoryImpl(FakeFlashCardDao(flashCards))
         CarouselScreen(
             viewModel = CarouselViewModel(
                 LoadUseCase(repository),
-                SubmitQuizUseCase(repository),
+                SubmitQuizUseCase(repository)
             )
         ) {}
     }

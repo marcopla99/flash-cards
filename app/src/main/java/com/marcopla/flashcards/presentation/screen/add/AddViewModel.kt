@@ -102,10 +102,10 @@ data class InfoTextState(
 
 data class FrontTextState(
     val text: String = "",
-    val showError: Boolean = false,
+    val showError: Boolean = false
 )
 
 data class BackTextState(
     val text: String = "",
-    val showError: Boolean = false,
+    val showError: Boolean = false
 )
