@@ -37,7 +37,7 @@ class EditViewModelTest {
             LoadUseCase(
                 FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
             ),
-            DeleteUseCase(TestFlashCardRepository()),
+            DeleteUseCase(TestFlashCardRepository())
         )
 
         viewModel.attemptSubmit(blankFrontText, selectedFlashCard.backText)
@@ -52,9 +52,9 @@ class EditViewModelTest {
             SavedStateHandle(mapOf(FLASH_CARD_ID_ARG_KEY to selectedFlashCard.id)),
             EditUseCase(TestFlashCardRepository()),
             LoadUseCase(
-                FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard))),
+                FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
             ),
-            DeleteUseCase(TestFlashCardRepository()),
+            DeleteUseCase(TestFlashCardRepository())
         )
 
         viewModel.attemptSubmit(selectedFlashCard.frontText, blankBackText)
@@ -70,14 +70,14 @@ class EditViewModelTest {
             LoadUseCase(
                 FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
             ),
-            DeleteUseCase(TestFlashCardRepository()),
+            DeleteUseCase(TestFlashCardRepository())
         )
 
         viewModel.attemptSubmit("Engels", "English")
 
         assertEquals(
             EditScreenState.Error(R.string.duplicateCardError),
-            viewModel.screenState.value,
+            viewModel.screenState.value
         )
     }
 
@@ -89,7 +89,7 @@ class EditViewModelTest {
             LoadUseCase(
                 FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
             ),
-            DeleteUseCase(TestFlashCardRepository()),
+            DeleteUseCase(TestFlashCardRepository())
         )
 
         viewModel.attemptSubmit("Engels", "English")

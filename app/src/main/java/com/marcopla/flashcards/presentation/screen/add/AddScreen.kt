@@ -21,7 +21,7 @@ import com.marcopla.flashcards.R
 @Composable
 fun AddScreen(
     modifier: Modifier = Modifier,
-    viewModel: AddViewModel = hiltViewModel(),
+    viewModel: AddViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberScaffoldState()
     HandleInfoTextEffect(
@@ -39,7 +39,7 @@ fun AddScreen(
                 onClick = {
                     viewModel.attemptSubmit(
                         frontText = viewModel.frontTextState.value.text,
-                        backText = viewModel.backTextState.value.text,
+                        backText = viewModel.backTextState.value.text
                     )
                 }
             ) {
@@ -50,7 +50,7 @@ fun AddScreen(
             }
         }
     ) { paddingValues: PaddingValues ->
-        Column(modifier = modifier.padding(4.dp).consumedWindowInsets(paddingValues)) {
+        Column(modifier = modifier.padding(4.dp).consumeWindowInsets(paddingValues)) {
             FontTextField(
                 value = viewModel.frontTextState.value.text,
                 isError = viewModel.frontTextState.value.showError,
@@ -118,7 +118,7 @@ private fun BackTextField(
 @Composable
 private fun HandleInfoTextEffect(
     infoTextStringRes: Int?,
-    snackbarHostState: SnackbarHostState,
+    snackbarHostState: SnackbarHostState
 ) {
     if (infoTextStringRes == null) return
     val infoText = stringResource(infoTextStringRes)

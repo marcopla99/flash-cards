@@ -14,7 +14,7 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [AppModule::class],
+    replaces = [AppModule::class]
 )
 object TestAppModule {
 
@@ -23,7 +23,7 @@ object TestAppModule {
     fun provideFlashCardDatabase(application: Application): FlashCardDatabase {
         return Room.inMemoryDatabaseBuilder(
             application,
-            FlashCardDatabase::class.java,
+            FlashCardDatabase::class.java
         ).build()
     }
 

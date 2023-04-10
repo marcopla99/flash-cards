@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class CarouselViewModel @Inject constructor(
     private val loadUseCase: LoadUseCase,
-    private val submitQuiz: SubmitQuizUseCase,
+    private val submitQuiz: SubmitQuizUseCase
 ) : ViewModel() {
     private var flashCards: List<FlashCard> = emptyList()
 

@@ -12,8 +12,8 @@ class SubmitQuizUseCase @Inject constructor(private val repository: FlashCardRep
             QuizResult(
                 flashCard = flashCard,
                 guess = userGuess,
-                isCorrect = isCorrect,
-            ),
+                isCorrect = isCorrect
+            )
         )
         return isCorrect
     }

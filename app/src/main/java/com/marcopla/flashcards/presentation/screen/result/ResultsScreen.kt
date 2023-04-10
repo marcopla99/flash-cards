@@ -30,7 +30,7 @@ fun ResultsScreen(
             modifier = modifier
                 .fillMaxWidth()
                 .padding(4.dp)
-                .consumedWindowInsets(it),
+                .consumeWindowInsets(it),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LazyColumn {

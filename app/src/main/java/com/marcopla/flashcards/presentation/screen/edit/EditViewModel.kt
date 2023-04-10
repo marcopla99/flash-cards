@@ -23,7 +23,7 @@ class EditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val editUseCase: EditUseCase,
     private val loadFlashCardUseCase: LoadUseCase,
-    private val deleteUseCase: DeleteUseCase,
+    private val deleteUseCase: DeleteUseCase
 ) : ViewModel() {
 
     private val _backTextState = mutableStateOf(EditBackTextState())
@@ -93,11 +93,11 @@ class EditViewModel @Inject constructor(
             val originalFlashCard = loadFlashCardUseCase.loadById(flashCardId)
             _frontTextState.value = _frontTextState.value.copy(
                 text = originalFlashCard.frontText,
-                showError = false,
+                showError = false
             )
             _backTextState.value = _backTextState.value.copy(
                 text = originalFlashCard.backText,
-                showError = false,
+                showError = false
             )
             _screenState.value = EditScreenState.Initial
         }
@@ -106,12 +106,12 @@ class EditViewModel @Inject constructor(
 
 data class EditFrontTextState(
     val text: String = "",
-    val showError: Boolean = false,
+    val showError: Boolean = false
 )
 
 data class EditBackTextState(
     val text: String = "",
-    val showError: Boolean = false,
+    val showError: Boolean = false
 )
 
 sealed interface EditScreenState {

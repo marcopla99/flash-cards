@@ -40,7 +40,7 @@ fun EditScreen(
             modifier = modifier,
             onConfirmationClick = { viewModel.delete() },
             onCancelClick = { viewModel.hideDeleteConfirmationDialog() },
-            onDismissRequest = { viewModel.hideDeleteConfirmationDialog() },
+            onDismissRequest = { viewModel.hideDeleteConfirmationDialog() }
         )
     }
 
@@ -64,7 +64,7 @@ fun EditScreen(
                                 viewModel.showDeleteConfirmationDialog()
                             },
                             imageVector = Icons.Default.Delete,
-                            contentDescription = stringResource(R.string.deleteButton),
+                            contentDescription = stringResource(R.string.deleteButton)
                         )
                     }
                 }
@@ -74,7 +74,7 @@ fun EditScreen(
             FloatingActionButton(onClick = {
                 viewModel.attemptSubmit(
                     viewModel.frontTextState.value.text,
-                    viewModel.backTextState.value.text,
+                    viewModel.backTextState.value.text
                 )
             }) {
                 Icon(
@@ -92,7 +92,7 @@ fun EditScreen(
         Column(
             modifier = modifier
                 .padding(4.dp)
-                .consumedWindowInsets(it)
+                .consumeWindowInsets(it)
         ) {
             val frontTextContentDescription = stringResource(R.string.frontTextField)
             TextField(
@@ -104,7 +104,7 @@ fun EditScreen(
                 value = viewModel.frontTextState.value.text,
                 label = { Text(stringResource(R.string.frontTextFieldLabel)) },
                 isError = viewModel.frontTextState.value.showError,
-                onValueChange = viewModel::updateFrontText,
+                onValueChange = viewModel::updateFrontText
             )
 
             Spacer(modifier = modifier.height(8.dp))
@@ -130,7 +130,7 @@ private fun HandleScreenState(
     screenState: EditScreenState,
     scaffoldState: ScaffoldState,
     onFlashCardEdited: () -> Unit,
-    onFlashCardDeleted: () -> Unit,
+    onFlashCardDeleted: () -> Unit
 ) {
     when (screenState) {
         is EditScreenState.Error -> {
@@ -156,7 +156,7 @@ private fun DeleteConfirmationDialog(
     modifier: Modifier = Modifier,
     onConfirmationClick: () -> Unit,
     onCancelClick: () -> Unit,
-    onDismissRequest: () -> Unit,
+    onDismissRequest: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
@@ -178,6 +178,6 @@ private fun DeleteConfirmationDialog(
                     Text(stringResource(R.string.cancel))
                 }
             }
-        },
+        }
     )
 }

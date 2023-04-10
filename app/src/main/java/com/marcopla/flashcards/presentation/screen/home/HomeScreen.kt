@@ -28,7 +28,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToAddScreen: () -> Unit,
     onItemClicked: (Int) -> Unit,
-    onNavigateToCarouselScreen: () -> Unit,
+    onNavigateToCarouselScreen: () -> Unit
 ) {
     val screenState: HomeScreenState by viewModel.homeScreenState.collectAsStateWithLifecycle()
     Scaffold(
@@ -44,7 +44,7 @@ fun HomeScreen(
                             imageVector = Icons.Default.PlayArrow,
                             contentDescription = stringResource(
                                 id = R.string.carouselButton
-                            ),
+                            )
                         )
                     }
                 }
@@ -64,7 +64,7 @@ fun HomeScreen(
         ScreenContent(
             screenState,
             modifier = modifier.padding(padding),
-            onItemClicked = onItemClicked,
+            onItemClicked = onItemClicked
         )
     }
 }
@@ -73,7 +73,7 @@ fun HomeScreen(
 private fun ScreenContent(
     screenState: HomeScreenState,
     modifier: Modifier = Modifier,
-    onItemClicked: (Int) -> Unit,
+    onItemClicked: (Int) -> Unit
 ) {
     when (screenState) {
         is HomeScreenState.Loading -> LoadingIndicator(modifier = modifier)
@@ -81,21 +81,21 @@ private fun ScreenContent(
         is HomeScreenState.Cards -> CardsList(
             screenState.flashCards,
             modifier = modifier,
-            onItemClicked = onItemClicked,
+            onItemClicked = onItemClicked
         )
     }
 }
 
 @Composable
 private fun LoadingIndicator(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val loadingContentDescription = stringResource(
         id = R.string.loadingIndicator
     )
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
+        contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator(
             modifier = modifier.semantics { contentDescription = loadingContentDescription }
@@ -105,7 +105,7 @@ private fun LoadingIndicator(
 
 @Composable
 private fun EmptyMessage(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -123,7 +123,7 @@ private fun EmptyMessage(
 private fun CardsList(
     flashCards: List<FlashCard>,
     modifier: Modifier = Modifier,
-    onItemClicked: (Int) -> Unit,
+    onItemClicked: (Int) -> Unit
 ) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
         items(flashCards.size) { index ->

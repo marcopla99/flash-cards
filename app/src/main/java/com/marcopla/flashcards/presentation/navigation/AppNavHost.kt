@@ -16,7 +16,7 @@ import com.marcopla.flashcards.presentation.screen.result.ResultsScreen
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,

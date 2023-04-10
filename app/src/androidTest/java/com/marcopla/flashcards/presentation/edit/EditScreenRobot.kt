@@ -25,7 +25,7 @@ fun launchEditScreenFor(
     selectedFlashCard: FlashCard,
     composeRule: ComponentActivityTestRule,
     flashCardRepository: FlashCardRepository = TestFlashCardRepository(),
-    block: EditScreenRobot.() -> Unit,
+    block: EditScreenRobot.() -> Unit
 ): EditScreenRobot {
     composeRule.setContent {
         EditScreen(
@@ -35,7 +35,7 @@ fun launchEditScreenFor(
                 LoadUseCase(
                     FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
                 ),
-                DeleteUseCase(TestFlashCardRepository()),
+                DeleteUseCase(TestFlashCardRepository())
             ),
             onFlashCardEdited = {}
         ) {}
@@ -97,7 +97,7 @@ class EditScreenVerification(private val composeRule: ComponentActivityTestRule)
     fun deleteButtonIsNotDisplayed() {
         composeRule
             .onNodeWithContentDescription(
-                composeRule.activity.getString(R.string.deleteButton),
+                composeRule.activity.getString(R.string.deleteButton)
             )
             .assertDoesNotExist()
     }

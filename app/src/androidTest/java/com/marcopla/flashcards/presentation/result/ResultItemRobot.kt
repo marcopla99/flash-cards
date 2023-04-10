@@ -17,7 +17,7 @@ typealias ComponentActivityTestRule =
 fun launchResultItem(
     composeRule: ComponentActivityTestRule,
     quizResult: QuizResult,
-    block: ResultItemRobot.() -> Unit,
+    block: ResultItemRobot.() -> Unit
 ): ResultItemRobot {
     composeRule.setContent {
         ResultItem(quizResult = quizResult)

@@ -16,7 +16,8 @@ class SubmitQuizUseCaseTest {
         val submitQuizUseCase = SubmitQuizUseCase(repository)
 
         val isValidationCorrect = submitQuizUseCase.invoke(
-            FlashCard("Engels", "English"), blankGuess
+            FlashCard("Engels", "English"),
+            blankGuess
         )
 
         val quizResult = repository.getCurrentResults().first()
@@ -30,7 +31,8 @@ class SubmitQuizUseCaseTest {
         val submitQuizUseCase = SubmitQuizUseCase(repository)
 
         val isValidationCorrect = submitQuizUseCase.invoke(
-            FlashCard("Engels", "English"), ":wrongGuess:"
+            FlashCard("Engels", "English"),
+            ":wrongGuess:"
         )
 
         val quizResult = repository.getCurrentResults().first()
@@ -44,7 +46,8 @@ class SubmitQuizUseCaseTest {
         val submitQuizUseCase = SubmitQuizUseCase(repository)
 
         val isValidationCorrect = submitQuizUseCase.invoke(
-            FlashCard("Engels", "English"), "English"
+            FlashCard("Engels", "English"),
+            "English"
         )
 
         val quizResult = repository.getCurrentResults().first()
