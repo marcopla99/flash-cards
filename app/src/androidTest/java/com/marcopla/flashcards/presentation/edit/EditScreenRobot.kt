@@ -37,8 +37,9 @@ fun launchEditScreenFor(
                 ),
                 DeleteUseCase(TestFlashCardRepository())
             ),
-            onFlashCardEdited = {}
-        ) {}
+            onFlashCardEdited = {},
+            onFlashCardDeleted = {}
+        )
     }
     return EditScreenRobot(composeRule).apply(block)
 }

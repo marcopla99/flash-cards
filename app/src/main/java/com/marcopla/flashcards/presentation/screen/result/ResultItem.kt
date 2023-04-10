@@ -33,7 +33,7 @@ fun ResultItem(
             if (!quizResult.isCorrect) {
                 Text(
                     text = quizResult.guess,
-                    modifier = modifier.semantics {
+                    modifier = Modifier.semantics {
                         contentDescription = stringResource
                     }
                 )

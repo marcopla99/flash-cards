@@ -55,14 +55,12 @@ fun AddScreen(
                 value = viewModel.frontTextState.value.text,
                 isError = viewModel.frontTextState.value.showError,
                 isFocused = viewModel.addScreenState.value == AddScreenState.SUCCESSFUL_SAVE,
-                modifier = modifier,
                 onValueChange = { frontInput -> viewModel.updateFrontText(frontInput) }
             )
-            Spacer(modifier = modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             BackTextField(
                 value = viewModel.backTextState.value.text,
                 isError = viewModel.backTextState.value.showError,
-                modifier = modifier,
                 onValueChange = { backInput -> viewModel.updateBackText(backInput) }
             )
         }

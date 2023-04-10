@@ -54,7 +54,6 @@ fun CarouselScreen(
         ) {
             Prompt(screenState.value)
             Guess(
-                modifier = modifier,
                 value = viewModel.guessInput.value,
                 onValueChange = viewModel::updateGuessInput
             )
@@ -64,8 +63,8 @@ fun CarouselScreen(
 
 @Composable
 private fun Guess(
-    modifier: Modifier,
     value: String,
+    modifier: Modifier = Modifier,
     onValueChange: (String) -> Unit
 ) {
     val guessFieldContentDescription = stringResource(id = R.string.guessField)

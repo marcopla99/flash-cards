@@ -19,10 +19,10 @@ import com.marcopla.flashcards.R
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun EditScreen(
-    modifier: Modifier = Modifier,
-    viewModel: EditViewModel = hiltViewModel(),
     onFlashCardEdited: () -> Unit,
-    onFlashCardDeleted: () -> Unit
+    onFlashCardDeleted: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: EditViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberScaffoldState()
     HandleScreenState(
@@ -37,7 +37,6 @@ fun EditScreen(
 
     if (viewModel.shouldShowDeleteConfirmation.value) {
         DeleteConfirmationDialog(
-            modifier = modifier,
             onConfirmationClick = { viewModel.delete() },
             onCancelClick = { viewModel.hideDeleteConfirmationDialog() },
             onDismissRequest = { viewModel.hideDeleteConfirmationDialog() }
@@ -54,13 +53,13 @@ fun EditScreen(
                 actions = {
                     if (viewModel.screenState.value == EditScreenState.Editing) {
                         Icon(
-                            modifier = modifier.clickable(onClick = viewModel::reset),
+                            modifier = Modifier.clickable(onClick = viewModel::reset),
                             imageVector = Icons.Default.Refresh,
                             contentDescription = stringResource(id = R.string.resetButton)
                         )
                     } else {
                         Icon(
-                            modifier = modifier.clickable {
+                            modifier = Modifier.clickable {
                                 viewModel.showDeleteConfirmationDialog()
                             },
                             imageVector = Icons.Default.Delete,
@@ -96,7 +95,7 @@ fun EditScreen(
         ) {
             val frontTextContentDescription = stringResource(R.string.frontTextField)
             TextField(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .semantics {
                         contentDescription = frontTextContentDescription
@@ -107,11 +106,11 @@ fun EditScreen(
                 onValueChange = viewModel::updateFrontText
             )
 
-            Spacer(modifier = modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             val backTextContentDescription = stringResource(R.string.backTextField)
             TextField(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .semantics {
                         contentDescription = backTextContentDescription
@@ -153,10 +152,10 @@ private fun HandleScreenState(
 
 @Composable
 private fun DeleteConfirmationDialog(
-    modifier: Modifier = Modifier,
     onConfirmationClick: () -> Unit,
     onCancelClick: () -> Unit,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
