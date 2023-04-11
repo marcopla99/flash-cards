@@ -8,24 +8,20 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
-import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
-import com.marcopla.flashcards.domain.usecase.LoadUseCase
 import com.marcopla.flashcards.presentation.screen.home.HomeScreen
-import com.marcopla.flashcards.presentation.screen.home.HomeViewModel
-import com.marcopla.testing_shared.FakeFlashCardDao
+import com.marcopla.flashcards.presentation.screen.home.HomeScreenState
 
 typealias ComponentActivityTestRule =
     AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
 
 suspend fun launchHomeScreen(
     rule: ComponentActivityTestRule,
-    flashCards: List<FlashCard> = emptyList(),
+    screenState: HomeScreenState,
     block: suspend HomeScreenRobot.() -> Unit
 ): HomeScreenRobot {
-    val repository = FlashCardRepositoryImpl(FakeFlashCardDao(flashCards))
     rule.setContent {
         HomeScreen(
-            viewModel = HomeViewModel(LoadUseCase(repository)),
+            screenState = screenState,
             onNavigateToAddScreen = {},
             onItemClicked = {},
             onNavigateToCarouselScreen = {}

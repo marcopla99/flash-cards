@@ -1,6 +1,9 @@
 package com.marcopla.flashcards.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -10,18 +13,24 @@ import com.marcopla.flashcards.presentation.screen.add.AddScreen
 import com.marcopla.flashcards.presentation.screen.carousel.CarouselScreen
 import com.marcopla.flashcards.presentation.screen.edit.EditScreen
 import com.marcopla.flashcards.presentation.screen.home.HomeScreen
+import com.marcopla.flashcards.presentation.screen.home.HomeScreenState
+import com.marcopla.flashcards.presentation.screen.home.HomeViewModel
 import com.marcopla.flashcards.presentation.screen.result.ResultsScreen
 
 @Composable
 fun AppNavHost(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     NavHost(
         navController = navController,
         startDestination = Routes.HOME_SCREEN
     ) {
         composable(Routes.HOME_SCREEN) {
+            val screenState: HomeScreenState
+                by viewModel.homeScreenState.collectAsStateWithLifecycle()
             HomeScreen(
+                screenState = screenState,
                 onNavigateToAddScreen = {
                     navController.navigate(Routes.ADD_SCREEN)
                 },

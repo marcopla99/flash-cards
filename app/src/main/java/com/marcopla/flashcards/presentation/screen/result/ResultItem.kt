@@ -16,7 +16,7 @@ import com.marcopla.flashcards.data.model.QuizResult
 @Composable
 fun ResultItem(
     quizResult: QuizResult,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Card {
         Row(
