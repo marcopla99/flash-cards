@@ -19,18 +19,14 @@ import com.marcopla.flashcards.presentation.screen.result.ResultsScreen
 
 @Composable
 fun AppNavHost(
-    navController: NavHostController,
-    viewModel: HomeViewModel = hiltViewModel()
+    navController: NavHostController
 ) {
     NavHost(
         navController = navController,
         startDestination = Routes.HOME_SCREEN
     ) {
         composable(Routes.HOME_SCREEN) {
-            val screenState: HomeScreenState
-                by viewModel.homeScreenState.collectAsStateWithLifecycle()
-            HomeScreen(
-                screenState = screenState,
+            HomeRoute(
                 onNavigateToAddScreen = {
                     navController.navigate(Routes.ADD_SCREEN)
                 },
@@ -77,6 +73,22 @@ fun AppNavHost(
             )
         }
     }
+}
+
+@Composable
+private fun HomeRoute(
+    onNavigateToAddScreen: () -> Unit,
+    onItemClicked: (Int) -> Unit,
+    onNavigateToCarouselScreen: () -> Unit,
+    viewModel: HomeViewModel = hiltViewModel()
+) {
+    val screenState: HomeScreenState by viewModel.homeScreenState.collectAsStateWithLifecycle()
+    HomeScreen(
+        screenState = screenState,
+        onNavigateToAddScreen = onNavigateToAddScreen,
+        onItemClicked = onItemClicked,
+        onNavigateToCarouselScreen = onNavigateToCarouselScreen
+    )
 }
 
 object Routes {
