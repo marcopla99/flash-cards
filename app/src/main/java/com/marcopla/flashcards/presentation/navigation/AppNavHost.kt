@@ -20,8 +20,7 @@ import com.marcopla.flashcards.presentation.screen.result.ResultsScreen
 
 @Composable
 fun AppNavHost(
-    navController: NavHostController,
-    addViewModel: AddViewModel = hiltViewModel()
+    navController: NavHostController
 ) {
     NavHost(
         navController = navController,
@@ -41,20 +40,7 @@ fun AppNavHost(
             )
         }
         composable(Routes.ADD_SCREEN) {
-            AddScreen(
-                infoTextState = addViewModel.infoTextState.value,
-                frontTextState = addViewModel.frontTextState.value,
-                backTextState = addViewModel.backTextState.value,
-                addScreenState = addViewModel.addScreenState.value,
-                onSubmitClick = {
-                    addViewModel.attemptSubmit(
-                        frontText = addViewModel.frontTextState.value.text,
-                        backText = addViewModel.backTextState.value.text
-                    )
-                },
-                onFrontTextValueChange = { frontInput -> addViewModel.updateFrontText(frontInput) },
-                onBackTextValueChange = { backInput -> addViewModel.updateBackText(backInput) }
-            )
+            AddRoute()
         }
         composable(
             route = "${Routes.EDIT_SCREEN}/{$FLASH_CARD_ID_ARG_KEY}",
@@ -103,6 +89,24 @@ private fun HomeRoute(
         onNavigateToAddScreen = onNavigateToAddScreen,
         onItemClicked = onItemClicked,
         onNavigateToCarouselScreen = onNavigateToCarouselScreen
+    )
+}
+
+@Composable
+fun AddRoute(viewModel: AddViewModel = hiltViewModel()) {
+    AddScreen(
+        infoTextState = viewModel.infoTextState.value,
+        frontTextState = viewModel.frontTextState.value,
+        backTextState = viewModel.backTextState.value,
+        addScreenState = viewModel.addScreenState.value,
+        onSubmitClick = {
+            viewModel.attemptSubmit(
+                frontText = viewModel.frontTextState.value.text,
+                backText = viewModel.backTextState.value.text
+            )
+        },
+        onFrontTextValueChange = { frontInput -> viewModel.updateFrontText(frontInput) },
+        onBackTextValueChange = { backInput -> viewModel.updateBackText(backInput) }
     )
 }
 

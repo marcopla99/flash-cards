@@ -12,7 +12,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import com.marcopla.flashcards.domain.usecase.AddUseCase
-import com.marcopla.flashcards.presentation.screen.add.AddScreen
+import com.marcopla.flashcards.presentation.navigation.AddRoute
 import com.marcopla.flashcards.presentation.screen.add.AddViewModel
 import com.marcopla.testing_shared.TestFlashCardRepository
 
@@ -25,22 +25,7 @@ fun launchAddScreen(
     block: AddScreenRobot.() -> Unit
 ): AddScreenRobot {
     val viewModel = AddViewModel(AddUseCase(repository))
-    composeRule.setContent {
-        AddScreen(
-            infoTextState = viewModel.infoTextState.value,
-            frontTextState = viewModel.frontTextState.value,
-            backTextState = viewModel.backTextState.value,
-            addScreenState = viewModel.addScreenState.value,
-            onSubmitClick = {
-                viewModel.attemptSubmit(
-                    frontText = viewModel.frontTextState.value.text,
-                    backText = viewModel.backTextState.value.text
-                )
-            },
-            onFrontTextValueChange = { frontInput -> viewModel.updateFrontText(frontInput) },
-            onBackTextValueChange = { backInput -> viewModel.updateBackText(backInput) }
-        )
-    }
+    composeRule.setContent { AddRoute(viewModel = viewModel) }
     return AddScreenRobot(composeRule).apply(block)
 }
 
