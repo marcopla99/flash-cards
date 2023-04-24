@@ -7,7 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.marcopla.flashcards.presentation.screen.add.AddRoute
-import com.marcopla.flashcards.presentation.screen.carousel.CarouselScreen
+import com.marcopla.flashcards.presentation.screen.carousel.CarouselRoute
 import com.marcopla.flashcards.presentation.screen.edit.EditRoute
 import com.marcopla.flashcards.presentation.screen.home.HomeRoute
 import com.marcopla.flashcards.presentation.screen.result.ResultsScreen
@@ -51,7 +51,7 @@ fun AppNavHost(
             )
         }
         composable(Routes.CAROUSEL_SCREEN) {
-            CarouselScreen(
+            CarouselRoute(
                 onLastFlashCardPlayed = {
                     navController.navigate(Routes.RESULT_SCREEN)
                 }

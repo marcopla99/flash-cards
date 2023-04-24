@@ -13,10 +13,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marcopla.flashcards.R
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CarouselScreen(
-    modifier: Modifier = Modifier,
+fun CarouselRoute(
     viewModel: CarouselViewModel = hiltViewModel(),
     onLastFlashCardPlayed: () -> Unit
 ) {
@@ -24,13 +22,32 @@ fun CarouselScreen(
         viewModel.loadFlashCards()
     }
 
-    val screenState = viewModel.screenState
-    if (screenState.value == CarouselScreenState.Finished) {
+    val screenState = viewModel.screenState.value
+    if (screenState == CarouselScreenState.Finished) {
         LaunchedEffect(key1 = Unit) {
             onLastFlashCardPlayed()
         }
     }
 
+    CarouselScreen(
+        screenState = screenState,
+        onSubmitClicked = {
+            viewModel.submit(viewModel.guessInput.value)
+        },
+        guessInputState = viewModel.guessInput.value,
+        onGuessInputChange = viewModel::updateGuessInput
+    )
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun CarouselScreen(
+    screenState: CarouselScreenState,
+    onSubmitClicked: () -> Unit,
+    guessInputState: String,
+    onGuessInputChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -40,9 +57,7 @@ fun CarouselScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                viewModel.submit(viewModel.guessInput.value)
-            }) {
+            FloatingActionButton(onClick = onSubmitClicked) {
                 Icon(imageVector = Icons.Default.Done, stringResource(id = R.string.nextButton))
             }
         }
@@ -52,10 +67,10 @@ fun CarouselScreen(
                 .padding(4.dp)
                 .consumeWindowInsets(it)
         ) {
-            Prompt(screenState.value)
+            Prompt(screenState)
             Guess(
-                value = viewModel.guessInput.value,
-                onValueChange = viewModel::updateGuessInput
+                value = guessInputState,
+                onValueChange = onGuessInputChange
             )
         }
     }
