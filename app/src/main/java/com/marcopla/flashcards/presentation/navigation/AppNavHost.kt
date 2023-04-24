@@ -1,5 +1,6 @@
 package com.marcopla.flashcards.presentation.navigation
 
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -11,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.marcopla.flashcards.presentation.screen.add.AddScreen
 import com.marcopla.flashcards.presentation.screen.add.AddViewModel
+import com.marcopla.flashcards.presentation.screen.add.HandleInfoTextEffect
 import com.marcopla.flashcards.presentation.screen.carousel.CarouselScreen
 import com.marcopla.flashcards.presentation.screen.edit.DeleteConfirmationDialog
 import com.marcopla.flashcards.presentation.screen.edit.EditScreen
@@ -93,8 +95,14 @@ private fun HomeRoute(
 
 @Composable
 fun AddRoute(viewModel: AddViewModel = hiltViewModel()) {
+    val infoTextState = viewModel.infoTextState.value
+    val scaffoldState = rememberScaffoldState()
+    HandleInfoTextEffect(
+        infoTextState.messageStringRes,
+        scaffoldState.snackbarHostState
+    )
+
     AddScreen(
-        infoTextState = viewModel.infoTextState.value,
         frontTextState = viewModel.frontTextState.value,
         backTextState = viewModel.backTextState.value,
         addScreenState = viewModel.addScreenState.value,
@@ -105,7 +113,8 @@ fun AddRoute(viewModel: AddViewModel = hiltViewModel()) {
             )
         },
         onFrontTextValueChange = { frontInput -> viewModel.updateFrontText(frontInput) },
-        onBackTextValueChange = { backInput -> viewModel.updateBackText(backInput) }
+        onBackTextValueChange = { backInput -> viewModel.updateBackText(backInput) },
+        scaffoldState = scaffoldState
     )
 }
 

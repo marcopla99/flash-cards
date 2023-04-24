@@ -19,21 +19,15 @@ import com.marcopla.flashcards.R
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun AddScreen(
-    infoTextState: InfoTextState,
     frontTextState: FrontTextState,
     backTextState: BackTextState,
     addScreenState: AddScreenState,
     onSubmitClick: () -> Unit,
     onFrontTextValueChange: (String) -> Unit,
     onBackTextValueChange: (String) -> Unit,
+    scaffoldState: ScaffoldState,
     modifier: Modifier = Modifier
 ) {
-    val scaffoldState = rememberScaffoldState()
-    HandleInfoTextEffect(
-        infoTextState.messageStringRes,
-        scaffoldState.snackbarHostState
-    )
-
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -112,7 +106,7 @@ private fun BackTextField(
 }
 
 @Composable
-private fun HandleInfoTextEffect(
+fun HandleInfoTextEffect(
     infoTextStringRes: Int?,
     snackbarHostState: SnackbarHostState
 ) {
