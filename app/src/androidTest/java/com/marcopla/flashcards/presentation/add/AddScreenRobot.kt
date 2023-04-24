@@ -12,7 +12,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.repository.FlashCardRepository
 import com.marcopla.flashcards.domain.usecase.AddUseCase
-import com.marcopla.flashcards.presentation.navigation.AddRoute
+import com.marcopla.flashcards.presentation.screen.add.AddRoute
 import com.marcopla.flashcards.presentation.screen.add.AddViewModel
 import com.marcopla.testing_shared.TestFlashCardRepository
 

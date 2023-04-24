@@ -13,7 +13,44 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.marcopla.flashcards.R
+
+@Composable
+fun EditRoute(
+    viewModel: EditViewModel = hiltViewModel(),
+    onPopBackStack: () -> Unit
+) {
+    if (viewModel.shouldShowDeleteConfirmation.value) {
+        DeleteConfirmationDialog(
+            onConfirmationClick = viewModel::delete,
+            onCancelClick = viewModel::hideDeleteConfirmationDialog,
+            onDismissRequest = viewModel::hideDeleteConfirmationDialog
+        )
+    }
+
+    EditScreen(
+        onFlashCardEdited = onPopBackStack,
+        onFlashCardDeleted = {
+            viewModel.hideDeleteConfirmationDialog()
+            onPopBackStack()
+        },
+        editScreenState = viewModel.screenState.value,
+        onReset = viewModel::reset,
+        onShowDeleteConfirmationDialog = viewModel::showDeleteConfirmationDialog,
+        onSubmit = {
+            viewModel.attemptSubmit(
+                viewModel.frontTextState.value.text,
+                viewModel.backTextState.value.text
+            )
+        },
+        onInitState = viewModel::initState,
+        frontTextState = viewModel.frontTextState.value,
+        onFrontTextValueChange = viewModel::updateFrontText,
+        backTextState = viewModel.backTextState.value,
+        onBackTextValueChange = viewModel::updateBackText
+    )
+}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable

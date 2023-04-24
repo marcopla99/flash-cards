@@ -14,7 +14,33 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.marcopla.flashcards.R
+
+@Composable
+fun AddRoute(viewModel: AddViewModel = hiltViewModel()) {
+    val infoTextState = viewModel.infoTextState.value
+    val scaffoldState = rememberScaffoldState()
+    HandleInfoTextEffect(
+        infoTextState.messageStringRes,
+        scaffoldState.snackbarHostState
+    )
+
+    AddScreen(
+        frontTextState = viewModel.frontTextState.value,
+        backTextState = viewModel.backTextState.value,
+        addScreenState = viewModel.addScreenState.value,
+        onSubmitClick = {
+            viewModel.attemptSubmit(
+                frontText = viewModel.frontTextState.value.text,
+                backText = viewModel.backTextState.value.text
+            )
+        },
+        onFrontTextValueChange = { frontInput -> viewModel.updateFrontText(frontInput) },
+        onBackTextValueChange = { backInput -> viewModel.updateBackText(backInput) },
+        scaffoldState = scaffoldState
+    )
+}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
