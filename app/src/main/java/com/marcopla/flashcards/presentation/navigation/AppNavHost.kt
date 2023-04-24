@@ -12,6 +12,7 @@ import androidx.navigation.navArgument
 import com.marcopla.flashcards.presentation.screen.add.AddScreen
 import com.marcopla.flashcards.presentation.screen.add.AddViewModel
 import com.marcopla.flashcards.presentation.screen.carousel.CarouselScreen
+import com.marcopla.flashcards.presentation.screen.edit.DeleteConfirmationDialog
 import com.marcopla.flashcards.presentation.screen.edit.EditScreen
 import com.marcopla.flashcards.presentation.screen.edit.EditViewModel
 import com.marcopla.flashcards.presentation.screen.home.HomeScreen
@@ -21,7 +22,7 @@ import com.marcopla.flashcards.presentation.screen.result.ResultsScreen
 
 @Composable
 fun AppNavHost(
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     NavHost(
         navController = navController,
@@ -79,7 +80,7 @@ private fun HomeRoute(
     onNavigateToAddScreen: () -> Unit,
     onItemClicked: (Int) -> Unit,
     onNavigateToCarouselScreen: () -> Unit,
-    viewModel: HomeViewModel = hiltViewModel(),
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     val screenState: HomeScreenState by viewModel.homeScreenState.collectAsStateWithLifecycle()
     HomeScreen(
@@ -111,8 +112,16 @@ fun AddRoute(viewModel: AddViewModel = hiltViewModel()) {
 @Composable
 fun EditRoute(
     viewModel: EditViewModel = hiltViewModel(),
-    onPopBackStack: () -> Unit,
+    onPopBackStack: () -> Unit
 ) {
+    if (viewModel.shouldShowDeleteConfirmation.value) {
+        DeleteConfirmationDialog(
+            onConfirmationClick = viewModel::delete,
+            onCancelClick = viewModel::hideDeleteConfirmationDialog,
+            onDismissRequest = viewModel::hideDeleteConfirmationDialog
+        )
+    }
+
     EditScreen(
         onFlashCardEdited = onPopBackStack,
         onFlashCardDeleted = {
@@ -120,22 +129,15 @@ fun EditRoute(
             onPopBackStack()
         },
         editScreenState = viewModel.screenState.value,
-        shouldShowDeleteConfirmationDialog = viewModel.shouldShowDeleteConfirmation.value,
-        onConfirmationClick = { viewModel.delete() },
-        onDismissClick = { viewModel.hideDeleteConfirmationDialog() },
         onReset = viewModel::reset,
-        onShowDeleteConfirmationDialog = {
-            viewModel.showDeleteConfirmationDialog()
-        },
+        onShowDeleteConfirmationDialog = viewModel::showDeleteConfirmationDialog,
         onSubmit = {
             viewModel.attemptSubmit(
                 viewModel.frontTextState.value.text,
                 viewModel.backTextState.value.text
             )
         },
-        onInitState = {
-            viewModel.initState()
-        },
+        onInitState = viewModel::initState,
         frontTextState = viewModel.frontTextState.value,
         onFrontTextValueChange = viewModel::updateFrontText,
         backTextState = viewModel.backTextState.value,

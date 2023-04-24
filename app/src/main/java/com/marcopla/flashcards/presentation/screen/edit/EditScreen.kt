@@ -21,9 +21,6 @@ fun EditScreen(
     onFlashCardEdited: () -> Unit,
     onFlashCardDeleted: () -> Unit,
     editScreenState: EditScreenState,
-    shouldShowDeleteConfirmationDialog: Boolean,
-    onConfirmationClick: () -> Unit,
-    onDismissClick: () -> Unit,
     onReset: () -> Unit,
     onShowDeleteConfirmationDialog: () -> Unit,
     onSubmit: () -> Unit,
@@ -41,14 +38,6 @@ fun EditScreen(
         onFlashCardEdited,
         onFlashCardDeleted
     )
-
-    if (shouldShowDeleteConfirmationDialog) {
-        DeleteConfirmationDialog(
-            onConfirmationClick = onConfirmationClick,
-            onCancelClick = onDismissClick,
-            onDismissRequest = onDismissClick
-        )
-    }
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -149,7 +138,7 @@ private fun HandleScreenState(
 }
 
 @Composable
-private fun DeleteConfirmationDialog(
+fun DeleteConfirmationDialog(
     onConfirmationClick: () -> Unit,
     onCancelClick: () -> Unit,
     onDismissRequest: () -> Unit,
