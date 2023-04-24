@@ -13,6 +13,7 @@ import com.marcopla.flashcards.presentation.screen.add.AddScreen
 import com.marcopla.flashcards.presentation.screen.add.AddViewModel
 import com.marcopla.flashcards.presentation.screen.carousel.CarouselScreen
 import com.marcopla.flashcards.presentation.screen.edit.EditScreen
+import com.marcopla.flashcards.presentation.screen.edit.EditViewModel
 import com.marcopla.flashcards.presentation.screen.home.HomeScreen
 import com.marcopla.flashcards.presentation.screen.home.HomeScreenState
 import com.marcopla.flashcards.presentation.screen.home.HomeViewModel
@@ -20,7 +21,7 @@ import com.marcopla.flashcards.presentation.screen.result.ResultsScreen
 
 @Composable
 fun AppNavHost(
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     NavHost(
         navController = navController,
@@ -50,11 +51,8 @@ fun AppNavHost(
                 }
             )
         ) {
-            EditScreen(
-                onFlashCardEdited = {
-                    navController.popBackStack(Routes.HOME_SCREEN, false)
-                },
-                onFlashCardDeleted = {
+            EditRoute(
+                onPopBackStack = {
                     navController.popBackStack(Routes.HOME_SCREEN, false)
                 }
             )
@@ -81,7 +79,7 @@ private fun HomeRoute(
     onNavigateToAddScreen: () -> Unit,
     onItemClicked: (Int) -> Unit,
     onNavigateToCarouselScreen: () -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val screenState: HomeScreenState by viewModel.homeScreenState.collectAsStateWithLifecycle()
     HomeScreen(
@@ -107,6 +105,41 @@ fun AddRoute(viewModel: AddViewModel = hiltViewModel()) {
         },
         onFrontTextValueChange = { frontInput -> viewModel.updateFrontText(frontInput) },
         onBackTextValueChange = { backInput -> viewModel.updateBackText(backInput) }
+    )
+}
+
+@Composable
+fun EditRoute(
+    viewModel: EditViewModel = hiltViewModel(),
+    onPopBackStack: () -> Unit,
+) {
+    EditScreen(
+        onFlashCardEdited = onPopBackStack,
+        onFlashCardDeleted = {
+            viewModel.hideDeleteConfirmationDialog()
+            onPopBackStack()
+        },
+        editScreenState = viewModel.screenState.value,
+        shouldShowDeleteConfirmationDialog = viewModel.shouldShowDeleteConfirmation.value,
+        onConfirmationClick = { viewModel.delete() },
+        onDismissClick = { viewModel.hideDeleteConfirmationDialog() },
+        onReset = viewModel::reset,
+        onShowDeleteConfirmationDialog = {
+            viewModel.showDeleteConfirmationDialog()
+        },
+        onSubmit = {
+            viewModel.attemptSubmit(
+                viewModel.frontTextState.value.text,
+                viewModel.backTextState.value.text
+            )
+        },
+        onInitState = {
+            viewModel.initState()
+        },
+        frontTextState = viewModel.frontTextState.value,
+        onFrontTextValueChange = viewModel::updateFrontText,
+        backTextState = viewModel.backTextState.value,
+        onBackTextValueChange = viewModel::updateBackText
     )
 }
 

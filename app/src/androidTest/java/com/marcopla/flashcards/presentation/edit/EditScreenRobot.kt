@@ -1,8 +1,12 @@
 package com.marcopla.flashcards.presentation.edit
 
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import androidx.lifecycle.SavedStateHandle
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
@@ -12,8 +16,8 @@ import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
 import com.marcopla.flashcards.domain.usecase.DeleteUseCase
 import com.marcopla.flashcards.domain.usecase.EditUseCase
 import com.marcopla.flashcards.domain.usecase.LoadUseCase
+import com.marcopla.flashcards.presentation.navigation.EditRoute
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
-import com.marcopla.flashcards.presentation.screen.edit.EditScreen
 import com.marcopla.flashcards.presentation.screen.edit.EditViewModel
 import com.marcopla.testing_shared.FakeFlashCardDao
 import com.marcopla.testing_shared.TestFlashCardRepository
@@ -27,19 +31,16 @@ fun launchEditScreenFor(
     flashCardRepository: FlashCardRepository = TestFlashCardRepository(),
     block: EditScreenRobot.() -> Unit
 ): EditScreenRobot {
+    val viewModel = EditViewModel(
+        SavedStateHandle(mapOf(FLASH_CARD_ID_ARG_KEY to selectedFlashCard.id)),
+        EditUseCase(flashCardRepository),
+        LoadUseCase(
+            FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
+        ),
+        DeleteUseCase(TestFlashCardRepository())
+    )
     composeRule.setContent {
-        EditScreen(
-            viewModel = EditViewModel(
-                SavedStateHandle(mapOf(FLASH_CARD_ID_ARG_KEY to selectedFlashCard.id)),
-                EditUseCase(flashCardRepository),
-                LoadUseCase(
-                    FlashCardRepositoryImpl(FakeFlashCardDao(listOf(selectedFlashCard)))
-                ),
-                DeleteUseCase(TestFlashCardRepository())
-            ),
-            onFlashCardEdited = {},
-            onFlashCardDeleted = {}
-        )
+        EditRoute(viewModel) {}
     }
     return EditScreenRobot(composeRule).apply(block)
 }

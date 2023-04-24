@@ -13,7 +13,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.marcopla.flashcards.R
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -21,25 +20,33 @@ import com.marcopla.flashcards.R
 fun EditScreen(
     onFlashCardEdited: () -> Unit,
     onFlashCardDeleted: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: EditViewModel = hiltViewModel()
+    editScreenState: EditScreenState,
+    shouldShowDeleteConfirmationDialog: Boolean,
+    onConfirmationClick: () -> Unit,
+    onDismissClick: () -> Unit,
+    onReset: () -> Unit,
+    onShowDeleteConfirmationDialog: () -> Unit,
+    onSubmit: () -> Unit,
+    onInitState: () -> Unit,
+    frontTextState: EditFrontTextState,
+    onFrontTextValueChange: (String) -> Unit,
+    backTextState: EditBackTextState,
+    onBackTextValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val scaffoldState = rememberScaffoldState()
     HandleScreenState(
-        viewModel.screenState.value,
+        editScreenState,
         scaffoldState,
         onFlashCardEdited,
-        onFlashCardDeleted = {
-            viewModel.hideDeleteConfirmationDialog()
-            onFlashCardDeleted()
-        }
+        onFlashCardDeleted
     )
 
-    if (viewModel.shouldShowDeleteConfirmation.value) {
+    if (shouldShowDeleteConfirmationDialog) {
         DeleteConfirmationDialog(
-            onConfirmationClick = { viewModel.delete() },
-            onCancelClick = { viewModel.hideDeleteConfirmationDialog() },
-            onDismissRequest = { viewModel.hideDeleteConfirmationDialog() }
+            onConfirmationClick = onConfirmationClick,
+            onCancelClick = onDismissClick,
+            onDismissRequest = onDismissClick
         )
     }
 
@@ -51,17 +58,15 @@ fun EditScreen(
                     Text(text = stringResource(R.string.editScreenTitle))
                 },
                 actions = {
-                    if (viewModel.screenState.value == EditScreenState.Editing) {
+                    if (editScreenState == EditScreenState.Editing) {
                         Icon(
-                            modifier = Modifier.clickable(onClick = viewModel::reset),
+                            modifier = Modifier.clickable(onClick = onReset),
                             imageVector = Icons.Default.Refresh,
                             contentDescription = stringResource(id = R.string.resetButton)
                         )
                     } else {
                         Icon(
-                            modifier = Modifier.clickable {
-                                viewModel.showDeleteConfirmationDialog()
-                            },
+                            modifier = Modifier.clickable(onClick = onShowDeleteConfirmationDialog),
                             imageVector = Icons.Default.Delete,
                             contentDescription = stringResource(R.string.deleteButton)
                         )
@@ -70,12 +75,7 @@ fun EditScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                viewModel.attemptSubmit(
-                    viewModel.frontTextState.value.text,
-                    viewModel.backTextState.value.text
-                )
-            }) {
+            FloatingActionButton(onClick = onSubmit) {
                 Icon(
                     imageVector = Icons.Default.Edit,
                     contentDescription = stringResource(R.string.editButton)
@@ -84,9 +84,7 @@ fun EditScreen(
         }
     ) {
         // TODO: Consider using Flows and call collectAsStateWithLifecycle here.
-        LaunchedEffect(key1 = Unit) {
-            viewModel.initState()
-        }
+        LaunchedEffect(key1 = Unit, block = { onInitState() })
 
         Column(
             modifier = modifier
@@ -100,10 +98,10 @@ fun EditScreen(
                     .semantics {
                         contentDescription = frontTextContentDescription
                     },
-                value = viewModel.frontTextState.value.text,
+                value = frontTextState.text,
                 label = { Text(stringResource(R.string.frontTextFieldLabel)) },
-                isError = viewModel.frontTextState.value.showError,
-                onValueChange = viewModel::updateFrontText
+                isError = frontTextState.showError,
+                onValueChange = onFrontTextValueChange
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -115,10 +113,10 @@ fun EditScreen(
                     .semantics {
                         contentDescription = backTextContentDescription
                     },
-                value = viewModel.backTextState.value.text,
+                value = backTextState.text,
                 label = { Text(stringResource(R.string.backTextFieldLabel)) },
-                isError = viewModel.backTextState.value.showError,
-                onValueChange = viewModel::updateBackText
+                isError = backTextState.showError,
+                onValueChange = onBackTextValueChange
             )
         }
     }
