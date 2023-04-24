@@ -15,13 +15,29 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marcopla.flashcards.R
+import com.marcopla.flashcards.data.model.QuizResult
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
+
+@Composable
+fun ResultsRoute(
+    onDoneClicked: () -> Unit,
+    viewModel: ResultViewModel = hiltViewModel()
+) {
+    ResultsScreen(
+        onDoneClicked = onDoneClicked,
+        results = viewModel.results.value.toImmutableList(),
+        clearResults = { viewModel.clearResults() }
+    )
+}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ResultsScreen(
-    modifier: Modifier = Modifier,
-    viewModel: ResultViewModel = hiltViewModel(),
-    onDoneClicked: () -> Unit
+    onDoneClicked: () -> Unit,
+    results: ImmutableList<QuizResult>,
+    clearResults: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Scaffold(topBar = {
         TopAppBar(title = { Text(stringResource(R.string.results)) })
@@ -34,9 +50,9 @@ fun ResultsScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LazyColumn {
-                items(viewModel.results.value.size) { index ->
+                items(results.size) { index ->
                     ResultItem(
-                        quizResult = viewModel.results.value[index]
+                        quizResult = results[index]
                     )
                 }
             }
@@ -45,7 +61,7 @@ fun ResultsScreen(
                 modifier = Modifier.semantics { contentDescription = buttonText },
                 onClick = {
                     onDoneClicked()
-                    viewModel.clearResults()
+                    clearResults()
                 }
             ) {
                 Text(buttonText)

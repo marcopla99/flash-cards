@@ -10,7 +10,7 @@ import com.marcopla.flashcards.presentation.screen.add.AddRoute
 import com.marcopla.flashcards.presentation.screen.carousel.CarouselRoute
 import com.marcopla.flashcards.presentation.screen.edit.EditRoute
 import com.marcopla.flashcards.presentation.screen.home.HomeRoute
-import com.marcopla.flashcards.presentation.screen.result.ResultsScreen
+import com.marcopla.flashcards.presentation.screen.result.ResultsRoute
 
 @Composable
 fun AppNavHost(
@@ -58,7 +58,7 @@ fun AppNavHost(
             )
         }
         composable(Routes.RESULT_SCREEN) {
-            ResultsScreen(
+            ResultsRoute(
                 onDoneClicked = {
                     navController.popBackStack(Routes.HOME_SCREEN, false)
                 }
