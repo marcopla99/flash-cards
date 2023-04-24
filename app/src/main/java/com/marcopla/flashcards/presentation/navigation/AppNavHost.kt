@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.marcopla.flashcards.presentation.screen.add.AddScreen
+import com.marcopla.flashcards.presentation.screen.add.AddViewModel
 import com.marcopla.flashcards.presentation.screen.carousel.CarouselScreen
 import com.marcopla.flashcards.presentation.screen.edit.EditScreen
 import com.marcopla.flashcards.presentation.screen.home.HomeScreen
@@ -19,7 +20,8 @@ import com.marcopla.flashcards.presentation.screen.result.ResultsScreen
 
 @Composable
 fun AppNavHost(
-    navController: NavHostController
+    navController: NavHostController,
+    addViewModel: AddViewModel = hiltViewModel()
 ) {
     NavHost(
         navController = navController,
@@ -39,10 +41,23 @@ fun AppNavHost(
             )
         }
         composable(Routes.ADD_SCREEN) {
-            AddScreen()
+            AddScreen(
+                infoTextState = addViewModel.infoTextState.value,
+                frontTextState = addViewModel.frontTextState.value,
+                backTextState = addViewModel.backTextState.value,
+                addScreenState = addViewModel.addScreenState.value,
+                onSubmitClick = {
+                    addViewModel.attemptSubmit(
+                        frontText = addViewModel.frontTextState.value.text,
+                        backText = addViewModel.backTextState.value.text
+                    )
+                },
+                onFrontTextValueChange = { frontInput -> addViewModel.updateFrontText(frontInput) },
+                onBackTextValueChange = { backInput -> addViewModel.updateBackText(backInput) }
+            )
         }
         composable(
-            "${Routes.EDIT_SCREEN}/{$FLASH_CARD_ID_ARG_KEY}",
+            route = "${Routes.EDIT_SCREEN}/{$FLASH_CARD_ID_ARG_KEY}",
             arguments = listOf(
                 navArgument(FLASH_CARD_ID_ARG_KEY) {
                     type = NavType.IntType

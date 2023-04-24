@@ -1,8 +1,13 @@
 package com.marcopla.flashcards.presentation.add
 
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.repository.FlashCardRepository
@@ -19,8 +24,22 @@ fun launchAddScreen(
     repository: FlashCardRepository = TestFlashCardRepository(),
     block: AddScreenRobot.() -> Unit
 ): AddScreenRobot {
+    val viewModel = AddViewModel(AddUseCase(repository))
     composeRule.setContent {
-        AddScreen(viewModel = AddViewModel(AddUseCase(repository)))
+        AddScreen(
+            infoTextState = viewModel.infoTextState.value,
+            frontTextState = viewModel.frontTextState.value,
+            backTextState = viewModel.backTextState.value,
+            addScreenState = viewModel.addScreenState.value,
+            onSubmitClick = {
+                viewModel.attemptSubmit(
+                    frontText = viewModel.frontTextState.value.text,
+                    backText = viewModel.backTextState.value.text
+                )
+            },
+            onFrontTextValueChange = { frontInput -> viewModel.updateFrontText(frontInput) },
+            onBackTextValueChange = { backInput -> viewModel.updateBackText(backInput) }
+        )
     }
     return AddScreenRobot(composeRule).apply(block)
 }
