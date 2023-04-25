@@ -15,8 +15,8 @@ import com.marcopla.flashcards.domain.usecase.exceptions.InvalidBackTextExceptio
 import com.marcopla.flashcards.domain.usecase.exceptions.InvalidFrontTextException
 import com.marcopla.flashcards.presentation.navigation.FLASH_CARD_ID_ARG_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class EditViewModel @Inject constructor(
@@ -40,7 +40,11 @@ class EditViewModel @Inject constructor(
 
     private val flashCardId: Int by lazy { checkNotNull(savedStateHandle[FLASH_CARD_ID_ARG_KEY]) }
 
-    fun initState() {
+    init {
+        initializeFlashCard()
+    }
+
+    private fun initializeFlashCard() {
         viewModelScope.launch {
             val flashCard = loadFlashCardUseCase.loadById(flashCardId)
             _frontTextState.value = _frontTextState.value.copy(text = flashCard.frontText)

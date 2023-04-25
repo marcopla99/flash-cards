@@ -44,7 +44,6 @@ fun EditRoute(
                 viewModel.backTextState.value.text
             )
         },
-        onInitState = viewModel::initState,
         frontTextState = viewModel.frontTextState.value,
         onFrontTextValueChange = viewModel::updateFrontText,
         backTextState = viewModel.backTextState.value,
@@ -61,7 +60,6 @@ fun EditScreen(
     onReset: () -> Unit,
     onShowDeleteConfirmationDialog: () -> Unit,
     onSubmit: () -> Unit,
-    onInitState: () -> Unit,
     frontTextState: EditFrontTextState,
     onFrontTextValueChange: (String) -> Unit,
     backTextState: EditBackTextState,
@@ -109,9 +107,6 @@ fun EditScreen(
             }
         }
     ) {
-        // TODO: Consider using Flows and call collectAsStateWithLifecycle here.
-        LaunchedEffect(key1 = Unit, block = { onInitState() })
-
         Column(
             modifier = modifier
                 .padding(4.dp)
