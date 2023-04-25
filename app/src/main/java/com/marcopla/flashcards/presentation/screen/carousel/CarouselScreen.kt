@@ -18,10 +18,6 @@ fun CarouselRoute(
     viewModel: CarouselViewModel = hiltViewModel(),
     onLastFlashCardPlayed: () -> Unit
 ) {
-    LaunchedEffect(key1 = Unit) {
-        viewModel.loadFlashCards()
-    }
-
     val screenState = viewModel.screenState.value
     if (screenState == CarouselScreenState.Finished) {
         LaunchedEffect(key1 = Unit) {

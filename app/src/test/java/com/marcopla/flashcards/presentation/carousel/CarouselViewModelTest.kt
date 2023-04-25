@@ -34,7 +34,6 @@ class CarouselViewModelTest {
             LoadUseCase(repository),
             SubmitQuizUseCase(repository)
         )
-        viewModel.loadFlashCards()
 
         viewModel.submit(emptyUserGuess)
 
@@ -58,8 +57,6 @@ class CarouselViewModelTest {
             LoadUseCase(repository),
             SubmitQuizUseCase(repository)
         )
-
-        viewModel.loadFlashCards()
 
         assertEquals(
             CarouselScreenState.Initial(
@@ -86,7 +83,6 @@ class CarouselViewModelTest {
             LoadUseCase(repository),
             SubmitQuizUseCase(repository)
         )
-        viewModel.loadFlashCards()
 
         viewModel.submit("wrong guess")
 
@@ -110,7 +106,6 @@ class CarouselViewModelTest {
             LoadUseCase(repository),
             SubmitQuizUseCase(repository)
         )
-        viewModel.loadFlashCards()
 
         viewModel.submit("English")
 
@@ -134,7 +129,6 @@ class CarouselViewModelTest {
             LoadUseCase(repository),
             SubmitQuizUseCase(repository)
         )
-        viewModel.loadFlashCards()
         viewModel.submit("English")
 
         viewModel.submit("Dutch")
@@ -156,7 +150,6 @@ class CarouselViewModelTest {
             LoadUseCase(repository),
             SubmitQuizUseCase(repository)
         )
-        viewModel.loadFlashCards()
         viewModel.updateGuessInput(":guess:")
 
         viewModel.submit(":guess:")
@@ -176,7 +169,6 @@ class CarouselViewModelTest {
             LoadUseCase(repository),
             SubmitQuizUseCase(repository)
         )
-        viewModel.loadFlashCards()
 
         repeat(storedFlashCards.size) {
             viewModel.submit(":guess:")
