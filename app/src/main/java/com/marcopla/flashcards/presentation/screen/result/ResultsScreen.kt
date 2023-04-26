@@ -7,6 +7,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -14,6 +15,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.QuizResult
 import kotlinx.collections.immutable.ImmutableList
@@ -24,9 +26,10 @@ fun ResultsRoute(
     onDoneClicked: () -> Unit,
     viewModel: ResultViewModel = hiltViewModel()
 ) {
+    val results: List<QuizResult> by viewModel.results.collectAsStateWithLifecycle()
     ResultsScreen(
         onDoneClicked = onDoneClicked,
-        results = viewModel.results.value.toImmutableList(),
+        results = results.toImmutableList(),
         clearResults = { viewModel.clearResults() }
     )
 }

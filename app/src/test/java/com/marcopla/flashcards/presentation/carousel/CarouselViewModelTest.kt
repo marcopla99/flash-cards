@@ -9,6 +9,8 @@ import com.marcopla.flashcards.presentation.screen.carousel.CarouselScreenState
 import com.marcopla.flashcards.presentation.screen.carousel.CarouselViewModel
 import com.marcopla.testing_shared.FakeFlashCardDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -158,7 +160,7 @@ class CarouselViewModelTest {
     }
 
     @Test
-    fun whenFinished_allFlashCardsWereProcessed() {
+    fun whenFinished_allFlashCardsWereProcessed() = runTest {
         val storedFlashCards = listOf(
             FlashCard("Engels", "English"),
             FlashCard("Nederlands", "Dutch"),
@@ -174,6 +176,6 @@ class CarouselViewModelTest {
             viewModel.submit(":guess:")
         }
 
-        assertEquals(storedFlashCards.size, repository.getCurrentResults().size)
+        assertEquals(storedFlashCards.size, repository.getCurrentResults().first().size)
     }
 }

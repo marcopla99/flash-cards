@@ -121,7 +121,7 @@ class FlashCardRepositoryTest {
     }
 
     @Test
-    fun whenAddingResult_thenIsSaved() {
+    fun whenAddingResult_thenIsSaved() = runTest {
         val quizResult = QuizResult(
             FlashCard("Engels", "English"),
             "Dutch",
@@ -130,7 +130,7 @@ class FlashCardRepositoryTest {
 
         repository.addResult(quizResult)
 
-        val currentResults = repository.getCurrentResults()
+        val currentResults = repository.getCurrentResults().first()
         assertEquals(listOf(quizResult), currentResults)
     }
 }
