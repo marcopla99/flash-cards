@@ -31,7 +31,7 @@ class DuplicateFlashCardRepository : FlashCardRepository {
         TODO("Not yet implemented")
     }
 
-    override fun getCurrentResults(): List<QuizResult> {
+    override fun getCurrentResults(): Flow<List<QuizResult>> {
         TODO("Not yet implemented")
     }
 

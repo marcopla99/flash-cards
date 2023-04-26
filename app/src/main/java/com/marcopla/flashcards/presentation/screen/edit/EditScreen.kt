@@ -16,32 +16,63 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marcopla.flashcards.R
 
+@Composable
+fun EditRoute(
+    viewModel: EditViewModel = hiltViewModel(),
+    onPopBackStack: () -> Unit
+) {
+    if (viewModel.shouldShowDeleteConfirmation.value) {
+        DeleteConfirmationDialog(
+            onConfirmationClick = viewModel::delete,
+            onCancelClick = viewModel::hideDeleteConfirmationDialog,
+            onDismissRequest = viewModel::hideDeleteConfirmationDialog
+        )
+    }
+
+    EditScreen(
+        onFlashCardEdited = onPopBackStack,
+        onFlashCardDeleted = {
+            viewModel.hideDeleteConfirmationDialog()
+            onPopBackStack()
+        },
+        editScreenState = viewModel.screenState.value,
+        onReset = viewModel::reset,
+        onShowDeleteConfirmationDialog = viewModel::showDeleteConfirmationDialog,
+        onSubmit = {
+            viewModel.attemptSubmit(
+                viewModel.frontTextState.value.text,
+                viewModel.backTextState.value.text
+            )
+        },
+        frontTextState = viewModel.frontTextState.value,
+        onFrontTextValueChange = viewModel::updateFrontText,
+        backTextState = viewModel.backTextState.value,
+        onBackTextValueChange = viewModel::updateBackText
+    )
+}
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun EditScreen(
     onFlashCardEdited: () -> Unit,
     onFlashCardDeleted: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: EditViewModel = hiltViewModel()
+    editScreenState: EditScreenState,
+    onReset: () -> Unit,
+    onShowDeleteConfirmationDialog: () -> Unit,
+    onSubmit: () -> Unit,
+    frontTextState: EditFrontTextState,
+    onFrontTextValueChange: (String) -> Unit,
+    backTextState: EditBackTextState,
+    onBackTextValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val scaffoldState = rememberScaffoldState()
     HandleScreenState(
-        viewModel.screenState.value,
+        editScreenState,
         scaffoldState,
         onFlashCardEdited,
-        onFlashCardDeleted = {
-            viewModel.hideDeleteConfirmationDialog()
-            onFlashCardDeleted()
-        }
+        onFlashCardDeleted
     )
-
-    if (viewModel.shouldShowDeleteConfirmation.value) {
-        DeleteConfirmationDialog(
-            onConfirmationClick = { viewModel.delete() },
-            onCancelClick = { viewModel.hideDeleteConfirmationDialog() },
-            onDismissRequest = { viewModel.hideDeleteConfirmationDialog() }
-        )
-    }
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -51,17 +82,15 @@ fun EditScreen(
                     Text(text = stringResource(R.string.editScreenTitle))
                 },
                 actions = {
-                    if (viewModel.screenState.value == EditScreenState.Editing) {
+                    if (editScreenState == EditScreenState.Editing) {
                         Icon(
-                            modifier = Modifier.clickable(onClick = viewModel::reset),
+                            modifier = Modifier.clickable(onClick = onReset),
                             imageVector = Icons.Default.Refresh,
                             contentDescription = stringResource(id = R.string.resetButton)
                         )
                     } else {
                         Icon(
-                            modifier = Modifier.clickable {
-                                viewModel.showDeleteConfirmationDialog()
-                            },
+                            modifier = Modifier.clickable(onClick = onShowDeleteConfirmationDialog),
                             imageVector = Icons.Default.Delete,
                             contentDescription = stringResource(R.string.deleteButton)
                         )
@@ -70,12 +99,7 @@ fun EditScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                viewModel.attemptSubmit(
-                    viewModel.frontTextState.value.text,
-                    viewModel.backTextState.value.text
-                )
-            }) {
+            FloatingActionButton(onClick = onSubmit) {
                 Icon(
                     imageVector = Icons.Default.Edit,
                     contentDescription = stringResource(R.string.editButton)
@@ -83,11 +107,6 @@ fun EditScreen(
             }
         }
     ) {
-        // TODO: Consider using Flows and call collectAsStateWithLifecycle here.
-        LaunchedEffect(key1 = Unit) {
-            viewModel.initState()
-        }
-
         Column(
             modifier = modifier
                 .padding(4.dp)
@@ -100,10 +119,10 @@ fun EditScreen(
                     .semantics {
                         contentDescription = frontTextContentDescription
                     },
-                value = viewModel.frontTextState.value.text,
+                value = frontTextState.text,
                 label = { Text(stringResource(R.string.frontTextFieldLabel)) },
-                isError = viewModel.frontTextState.value.showError,
-                onValueChange = viewModel::updateFrontText
+                isError = frontTextState.showError,
+                onValueChange = onFrontTextValueChange
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -115,10 +134,10 @@ fun EditScreen(
                     .semantics {
                         contentDescription = backTextContentDescription
                     },
-                value = viewModel.backTextState.value.text,
+                value = backTextState.text,
                 label = { Text(stringResource(R.string.backTextFieldLabel)) },
-                isError = viewModel.backTextState.value.showError,
-                onValueChange = viewModel::updateBackText
+                isError = backTextState.showError,
+                onValueChange = onBackTextValueChange
             )
         }
     }
@@ -151,7 +170,7 @@ private fun HandleScreenState(
 }
 
 @Composable
-private fun DeleteConfirmationDialog(
+fun DeleteConfirmationDialog(
     onConfirmationClick: () -> Unit,
     onCancelClick: () -> Unit,
     onDismissRequest: () -> Unit,

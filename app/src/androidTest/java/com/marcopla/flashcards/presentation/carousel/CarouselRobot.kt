@@ -1,15 +1,19 @@
 package com.marcopla.flashcards.presentation.carousel
 
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.marcopla.flashcards.R
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.repository.FlashCardRepositoryImpl
 import com.marcopla.flashcards.domain.usecase.LoadUseCase
 import com.marcopla.flashcards.domain.usecase.SubmitQuizUseCase
-import com.marcopla.flashcards.presentation.screen.carousel.CarouselScreen
+import com.marcopla.flashcards.presentation.screen.carousel.CarouselRoute
 import com.marcopla.flashcards.presentation.screen.carousel.CarouselViewModel
 import com.marcopla.testing_shared.FakeFlashCardDao
 
@@ -21,15 +25,12 @@ fun launchCarouselScreen(
     flashCards: List<FlashCard>,
     block: CarouselScreenRobot.() -> Unit
 ): CarouselScreenRobot {
-    composeRule.setContent {
-        val repository = FlashCardRepositoryImpl(FakeFlashCardDao(flashCards))
-        CarouselScreen(
-            viewModel = CarouselViewModel(
-                LoadUseCase(repository),
-                SubmitQuizUseCase(repository)
-            )
-        ) {}
-    }
+    val repository = FlashCardRepositoryImpl(FakeFlashCardDao(flashCards))
+    val viewModel = CarouselViewModel(
+        LoadUseCase(repository),
+        SubmitQuizUseCase(repository)
+    )
+    composeRule.setContent { CarouselRoute(viewModel) {} }
     return CarouselScreenRobot(composeRule).apply(block)
 }
 

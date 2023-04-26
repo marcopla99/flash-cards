@@ -25,14 +25,29 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun HomeScreen(
+fun HomeRoute(
     onNavigateToAddScreen: () -> Unit,
     onItemClicked: (Int) -> Unit,
     onNavigateToCarouselScreen: () -> Unit,
-    modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val screenState: HomeScreenState by viewModel.homeScreenState.collectAsStateWithLifecycle()
+    HomeScreen(
+        screenState = screenState,
+        onNavigateToAddScreen = onNavigateToAddScreen,
+        onItemClicked = onItemClicked,
+        onNavigateToCarouselScreen = onNavigateToCarouselScreen
+    )
+}
+
+@Composable
+fun HomeScreen(
+    screenState: HomeScreenState,
+    onNavigateToAddScreen: () -> Unit,
+    onItemClicked: (Int) -> Unit,
+    onNavigateToCarouselScreen: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Scaffold(
         topBar = {
             TopAppBar(

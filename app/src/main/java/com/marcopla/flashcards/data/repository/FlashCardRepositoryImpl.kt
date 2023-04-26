@@ -5,6 +5,7 @@ import com.marcopla.flashcards.data.datasource.FlashCardDao
 import com.marcopla.flashcards.data.model.FlashCard
 import com.marcopla.flashcards.data.model.QuizResult
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class FlashCardRepositoryImpl(
     private val flashCardDao: FlashCardDao
@@ -49,8 +50,8 @@ class FlashCardRepositoryImpl(
      * Get the stored results for this session.
      * Note: results are currently just saved in memory.
      */
-    override fun getCurrentResults(): List<QuizResult> {
-        return currentResults
+    override fun getCurrentResults(): Flow<List<QuizResult>> {
+        return flow { emit(currentResults) }
     }
 
     override fun clearResults() {

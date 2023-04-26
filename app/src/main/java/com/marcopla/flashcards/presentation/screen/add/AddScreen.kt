@@ -17,32 +17,50 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marcopla.flashcards.R
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun AddScreen(
-    modifier: Modifier = Modifier,
-    viewModel: AddViewModel = hiltViewModel()
-) {
+fun AddRoute(viewModel: AddViewModel = hiltViewModel()) {
+    val infoTextState = viewModel.infoTextState.value
     val scaffoldState = rememberScaffoldState()
     HandleInfoTextEffect(
-        viewModel.infoTextState.value.messageStringRes,
+        infoTextState.messageStringRes,
         scaffoldState.snackbarHostState
     )
 
+    AddScreen(
+        frontTextState = viewModel.frontTextState.value,
+        backTextState = viewModel.backTextState.value,
+        addScreenState = viewModel.addScreenState.value,
+        onSubmitClick = {
+            viewModel.attemptSubmit(
+                frontText = viewModel.frontTextState.value.text,
+                backText = viewModel.backTextState.value.text
+            )
+        },
+        onFrontTextValueChange = { frontInput -> viewModel.updateFrontText(frontInput) },
+        onBackTextValueChange = { backInput -> viewModel.updateBackText(backInput) },
+        scaffoldState = scaffoldState
+    )
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun AddScreen(
+    frontTextState: FrontTextState,
+    backTextState: BackTextState,
+    addScreenState: AddScreenState,
+    onSubmitClick: () -> Unit,
+    onFrontTextValueChange: (String) -> Unit,
+    onBackTextValueChange: (String) -> Unit,
+    scaffoldState: ScaffoldState,
+    modifier: Modifier = Modifier
+) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(title = { Text(stringResource(R.string.addScreenTitle)) })
         },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    viewModel.attemptSubmit(
-                        frontText = viewModel.frontTextState.value.text,
-                        backText = viewModel.backTextState.value.text
-                    )
-                }
-            ) {
+            FloatingActionButton(onClick = onSubmitClick) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = stringResource(R.string.addCardButton)
@@ -52,16 +70,16 @@ fun AddScreen(
     ) { paddingValues: PaddingValues ->
         Column(modifier = modifier.padding(4.dp).consumeWindowInsets(paddingValues)) {
             FontTextField(
-                value = viewModel.frontTextState.value.text,
-                isError = viewModel.frontTextState.value.showError,
-                isFocused = viewModel.addScreenState.value == AddScreenState.SUCCESSFUL_SAVE,
-                onValueChange = { frontInput -> viewModel.updateFrontText(frontInput) }
+                value = frontTextState.text,
+                isError = frontTextState.showError,
+                isFocused = addScreenState == AddScreenState.SUCCESSFUL_SAVE,
+                onValueChange = onFrontTextValueChange
             )
             Spacer(modifier = Modifier.height(8.dp))
             BackTextField(
-                value = viewModel.backTextState.value.text,
-                isError = viewModel.backTextState.value.showError,
-                onValueChange = { backInput -> viewModel.updateBackText(backInput) }
+                value = backTextState.text,
+                isError = backTextState.showError,
+                onValueChange = onBackTextValueChange
             )
         }
     }
@@ -114,7 +132,7 @@ private fun BackTextField(
 }
 
 @Composable
-private fun HandleInfoTextEffect(
+fun HandleInfoTextEffect(
     infoTextStringRes: Int?,
     snackbarHostState: SnackbarHostState
 ) {

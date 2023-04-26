@@ -3,6 +3,7 @@ package com.marcopla.flashcards.presentation.home
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.marcopla.flashcards.data.model.FlashCard
+import com.marcopla.flashcards.presentation.screen.home.HomeScreenState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
@@ -16,7 +17,7 @@ class HomeScreenTest {
 
     @Test
     fun homeScreen_whenGettingEmptyState_thenShowEmptyMessage() = runTest {
-        launchHomeScreen(composeRule, emptyList()) {
+        launchHomeScreen(composeRule, HomeScreenState.Empty) {
             // Do nothing
         } verify {
             emptyMessageIsDisplayed()
@@ -31,7 +32,7 @@ class HomeScreenTest {
             FlashCard(frontText = "front3", backText = "back3")
         )
 
-        launchHomeScreen(composeRule, flashCards) {
+        launchHomeScreen(composeRule, HomeScreenState.Cards(flashCards)) {
             // Do nothing
         } verify {
             listOfFlashCardsIsDisplayed(flashCards)
@@ -40,7 +41,7 @@ class HomeScreenTest {
 
     @Test
     fun homeScreen_whenNoFlashCards_thenDoNotShowCarouselButton() = runTest {
-        launchHomeScreen(composeRule, emptyList()) {
+        launchHomeScreen(composeRule, HomeScreenState.Empty) {
             // Empty
         } verify {
             carouselButtonIsNotDisplayed()

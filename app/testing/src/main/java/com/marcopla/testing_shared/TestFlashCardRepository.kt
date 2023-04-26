@@ -41,8 +41,8 @@ class TestFlashCardRepository : FlashCardRepository {
         currentResults.add(quizResult)
     }
 
-    override fun getCurrentResults(): List<QuizResult> {
-        return currentResults
+    override fun getCurrentResults(): Flow<List<QuizResult>> {
+        return flow { emit(currentResults) }
     }
 
     override fun clearResults() {

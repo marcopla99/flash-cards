@@ -19,7 +19,7 @@ interface FlashCardRepository {
 
     fun addResult(quizResult: QuizResult)
 
-    fun getCurrentResults(): List<QuizResult>
+    fun getCurrentResults(): Flow<List<QuizResult>>
 
     fun clearResults()
 }

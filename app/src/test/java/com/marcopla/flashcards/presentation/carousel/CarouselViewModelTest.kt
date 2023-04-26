@@ -9,6 +9,8 @@ import com.marcopla.flashcards.presentation.screen.carousel.CarouselScreenState
 import com.marcopla.flashcards.presentation.screen.carousel.CarouselViewModel
 import com.marcopla.testing_shared.FakeFlashCardDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -34,7 +36,6 @@ class CarouselViewModelTest {
             LoadUseCase(repository),
             SubmitQuizUseCase(repository)
         )
-        viewModel.loadFlashCards()
 
         viewModel.submit(emptyUserGuess)
 
@@ -58,8 +59,6 @@ class CarouselViewModelTest {
             LoadUseCase(repository),
             SubmitQuizUseCase(repository)
         )
-
-        viewModel.loadFlashCards()
 
         assertEquals(
             CarouselScreenState.Initial(
@@ -86,7 +85,6 @@ class CarouselViewModelTest {
             LoadUseCase(repository),
             SubmitQuizUseCase(repository)
         )
-        viewModel.loadFlashCards()
 
         viewModel.submit("wrong guess")
 
@@ -110,7 +108,6 @@ class CarouselViewModelTest {
             LoadUseCase(repository),
             SubmitQuizUseCase(repository)
         )
-        viewModel.loadFlashCards()
 
         viewModel.submit("English")
 
@@ -134,7 +131,6 @@ class CarouselViewModelTest {
             LoadUseCase(repository),
             SubmitQuizUseCase(repository)
         )
-        viewModel.loadFlashCards()
         viewModel.submit("English")
 
         viewModel.submit("Dutch")
@@ -156,7 +152,6 @@ class CarouselViewModelTest {
             LoadUseCase(repository),
             SubmitQuizUseCase(repository)
         )
-        viewModel.loadFlashCards()
         viewModel.updateGuessInput(":guess:")
 
         viewModel.submit(":guess:")
@@ -165,7 +160,7 @@ class CarouselViewModelTest {
     }
 
     @Test
-    fun whenFinished_allFlashCardsWereProcessed() {
+    fun whenFinished_allFlashCardsWereProcessed() = runTest {
         val storedFlashCards = listOf(
             FlashCard("Engels", "English"),
             FlashCard("Nederlands", "Dutch"),
@@ -176,12 +171,11 @@ class CarouselViewModelTest {
             LoadUseCase(repository),
             SubmitQuizUseCase(repository)
         )
-        viewModel.loadFlashCards()
 
         repeat(storedFlashCards.size) {
             viewModel.submit(":guess:")
         }
 
-        assertEquals(storedFlashCards.size, repository.getCurrentResults().size)
+        assertEquals(storedFlashCards.size, repository.getCurrentResults().first().size)
     }
 }

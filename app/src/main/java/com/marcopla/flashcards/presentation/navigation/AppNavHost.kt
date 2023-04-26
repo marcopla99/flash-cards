@@ -6,11 +6,11 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.marcopla.flashcards.presentation.screen.add.AddScreen
-import com.marcopla.flashcards.presentation.screen.carousel.CarouselScreen
-import com.marcopla.flashcards.presentation.screen.edit.EditScreen
-import com.marcopla.flashcards.presentation.screen.home.HomeScreen
-import com.marcopla.flashcards.presentation.screen.result.ResultsScreen
+import com.marcopla.flashcards.presentation.screen.add.AddRoute
+import com.marcopla.flashcards.presentation.screen.carousel.CarouselRoute
+import com.marcopla.flashcards.presentation.screen.edit.EditRoute
+import com.marcopla.flashcards.presentation.screen.home.HomeRoute
+import com.marcopla.flashcards.presentation.screen.result.ResultsRoute
 
 @Composable
 fun AppNavHost(
@@ -21,7 +21,7 @@ fun AppNavHost(
         startDestination = Routes.HOME_SCREEN
     ) {
         composable(Routes.HOME_SCREEN) {
-            HomeScreen(
+            HomeRoute(
                 onNavigateToAddScreen = {
                     navController.navigate(Routes.ADD_SCREEN)
                 },
@@ -34,34 +34,31 @@ fun AppNavHost(
             )
         }
         composable(Routes.ADD_SCREEN) {
-            AddScreen()
+            AddRoute()
         }
         composable(
-            "${Routes.EDIT_SCREEN}/{$FLASH_CARD_ID_ARG_KEY}",
+            route = "${Routes.EDIT_SCREEN}/{$FLASH_CARD_ID_ARG_KEY}",
             arguments = listOf(
                 navArgument(FLASH_CARD_ID_ARG_KEY) {
                     type = NavType.IntType
                 }
             )
         ) {
-            EditScreen(
-                onFlashCardEdited = {
-                    navController.popBackStack(Routes.HOME_SCREEN, false)
-                },
-                onFlashCardDeleted = {
+            EditRoute(
+                onPopBackStack = {
                     navController.popBackStack(Routes.HOME_SCREEN, false)
                 }
             )
         }
         composable(Routes.CAROUSEL_SCREEN) {
-            CarouselScreen(
+            CarouselRoute(
                 onLastFlashCardPlayed = {
                     navController.navigate(Routes.RESULT_SCREEN)
                 }
             )
         }
         composable(Routes.RESULT_SCREEN) {
-            ResultsScreen(
+            ResultsRoute(
                 onDoneClicked = {
                     navController.popBackStack(Routes.HOME_SCREEN, false)
                 }

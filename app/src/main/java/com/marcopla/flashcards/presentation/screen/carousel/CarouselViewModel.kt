@@ -30,7 +30,11 @@ class CarouselViewModel @Inject constructor(
     private val isLastFlashCard: Boolean
         get() = currentFlashCardIndex >= flashCards.size - 1
 
-    fun loadFlashCards() {
+    init {
+        loadFlashCards()
+    }
+
+    private fun loadFlashCards() {
         viewModelScope.launch {
             flashCards = loadUseCase.loadAll().first()
             _screenState.value = CarouselScreenState.Initial(flashCards[0])
